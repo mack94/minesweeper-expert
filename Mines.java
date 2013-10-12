@@ -12,8 +12,8 @@ public class Mines extends JFrame {
 
     private JLabel statusbar;
     private JMenuBar menuBar;
-    private JMenu file, view;
-    private JMenuItem save, load, exit;
+    private JMenu file, view, help;
+    private JMenuItem save, load, exit, newGame, beginner, intermediate, expert, custom, pause, resolve;
 
     public Mines() {
 
@@ -32,10 +32,28 @@ public class Mines extends JFrame {
         file.add(load);
         file.add(exit);
 
-        view = new JMenu("View");
+        view = new JMenu("Game");
+        newGame = new JMenuItem("New Game");
+        beginner = new JMenuItem("Beginner");
+        intermediate = new JMenuItem("Intermediate");
+        expert = new JMenuItem("Expert");
+        custom = new JMenuItem("Custom...");
+        pause = new JMenuItem("Pause");
+        resolve = new JMenuItem("Resolve");
+        view.add(newGame);
+        view.add(beginner);
+        view.add(intermediate);
+        view.add(expert);
+        view.add(custom);
+        view.add(pause);
+        view.add(resolve);
+        
+        help = new JMenu("Help");
+
         menuBar.add(file);
         menuBar.add(view);
-        
+        menuBar.add(help);
+
         statusbar = new JLabel("");
         add(statusbar, BorderLayout.SOUTH);
         add(menuBar, BorderLayout.NORTH);
