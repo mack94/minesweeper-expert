@@ -39,16 +39,18 @@ public class Board extends JPanel {
     private int all_cells;
     private JLabel statusbar;
 
-
-    public Board(JLabel statusbar) {
-
+    //Constructor
+    public Board(JLabel statusbar)
+    {
         this.statusbar = statusbar;
-
+        
+        //Declare image array
         img = new Image[NUM_IMAGES];
-
-        for (int i = 0; i < NUM_IMAGES; i++) {
-            img[i] =
-                    (new ImageIcon(this.getClass().getResource((i)
+        
+        //Load images into img
+        for (int i = 0; i < NUM_IMAGES; i++)
+        {
+            img[i] = (new ImageIcon(this.getClass().getResource((i)
                         + ".png"))).getImage();
         }
 
@@ -71,40 +73,48 @@ public class Board extends JPanel {
         random = new Random();
         inGame = true;
         mines_left = mines;
-
+        
+        //Assign the amount of cells there are to all_cells
         all_cells = rows * cols;
+        
+        //Create an array called 'field' and give it the size of all_cells
         field = new int[all_cells];
         
+        //Assign cover cell image to all cells on the board
         for (i = 0; i < all_cells; i++)
             field[i] = COVER_FOR_CELL;
-
+        
+        //Set the text for the status bar
         statusbar.setText(Integer.toString(mines_left));
 
-
+        //Reset i to 0
         i = 0;
         while (i < mines) {
-
+            //Select a random cell on the board and place a mine in it
             position = (int) (all_cells * random.nextDouble());
 
-            if ((position < all_cells) &&
-                (field[position] != COVERED_MINE_CELL)) {
-
-
+            if ((position < all_cells) && (field[position] != COVERED_MINE_CELL))
+            {
+                
                 current_col = position % cols;
                 field[position] = COVERED_MINE_CELL;
                 i++;
 
-                if (current_col > 0) { 
+                if (current_col > 0)
+                { 
                     cell = position - 1 - cols;
                     if (cell >= 0)
                         if (field[cell] != COVERED_MINE_CELL)
                             field[cell] += 1;
+                    
                     cell = position - 1;
+                    
                     if (cell >= 0)
                         if (field[cell] != COVERED_MINE_CELL)
                             field[cell] += 1;
 
                     cell = position + cols - 1;
+                    
                     if (cell < all_cells)
                         if (field[cell] != COVERED_MINE_CELL)
                             field[cell] += 1;
@@ -114,21 +124,29 @@ public class Board extends JPanel {
                 if (cell >= 0)
                     if (field[cell] != COVERED_MINE_CELL)
                         field[cell] += 1;
+                
                 cell = position + cols;
+                
                 if (cell < all_cells)
                     if (field[cell] != COVERED_MINE_CELL)
                         field[cell] += 1;
 
-                if (current_col < (cols - 1)) {
+                if (current_col < (cols - 1))
+                {
                     cell = position - cols + 1;
+                    
                     if (cell >= 0)
                         if (field[cell] != COVERED_MINE_CELL)
                             field[cell] += 1;
+                    
                     cell = position + cols + 1;
+                    
                     if (cell < all_cells)
                         if (field[cell] != COVERED_MINE_CELL)
                             field[cell] += 1;
+                    
                     cell = position + 1;
+                    
                     if (cell < all_cells)
                         if (field[cell] != COVERED_MINE_CELL)
                             field[cell] += 1;

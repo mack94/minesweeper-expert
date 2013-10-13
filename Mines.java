@@ -5,10 +5,9 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-
 public class Mines extends JFrame {
 
-    private final int WIDTH = 250;
+    private final int WIDTH = 500;
     private final int HEIGHT = 290;
 
     private JLabel statusbar;
@@ -23,8 +22,11 @@ public class Mines extends JFrame {
         statusbar = new JLabel("");
         add(statusbar, BorderLayout.SOUTH);
 
-        add(new Board(statusbar));
+        add(new Board(statusbar));        
 
+        //Add the Option panel to the frame
+        add(new OptionPanel(), BorderLayout.EAST);
+          
         setResizable(false);
         setVisible(true);
     }
