@@ -1,25 +1,18 @@
 package mines;
 
 //Java libraries
-import java.awt.event.*;
-
 import javax.swing.*;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-
 import java.awt.event.*;
-import javax.swing.JOptionPane;
 
 
-public class OptionPanel extends JPanel
+public class OptionPanel_RED extends JPanel
 {
     //Fields for this class
     protected JButton saveButton;
     private ButtonListener listener = new ButtonListener();
     
     //Constructor
-    public OptionPanel()
+    public OptionPanel_RED()
     {
       saveButton = new JButton("Save");
       saveButton.addActionListener(listener);
