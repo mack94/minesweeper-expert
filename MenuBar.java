@@ -19,9 +19,9 @@ public class MenuBar extends JMenuBar
     helpMenu = new JMenu("Help");
 
     //Add File, View and Help to the JMenuBar
-    menuBar.add(fileMenu);
-    menuBar.add(viewMenu);
-    menuBar.add(helpMenu);
+    add(fileMenu); //seb
+    add(viewMenu); //seb
+    add(helpMenu); //seb
   }
   
   private void buildFileMenu()
