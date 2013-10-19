@@ -4,8 +4,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import mines.MainPanel.buttonListener;
-
 public class MenuBar extends JMenuBar
 {
   private JMenuBar menuBar = new JMenuBar();
@@ -32,6 +30,7 @@ public class MenuBar extends JMenuBar
     //Create menu items to add to File
     fileMenu = new JMenu("File");
     saveItem = new JMenuItem("Save");
+    loadItem.addActionListener (new saveListener());
     loadItem = new JMenuItem("Load");
     loadItem.addActionListener (new loadListener());
     exitItem = new JMenuItem("Exit");
