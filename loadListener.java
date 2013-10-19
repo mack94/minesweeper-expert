@@ -13,7 +13,7 @@ public class LoadListener implements ActionListener {
 	private JFileChooser fileChooser = new JFileChooser();
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		// create new Panel
 	      class FileChooserPanel extends JPanel
 	      {
