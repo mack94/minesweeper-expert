@@ -1,7 +1,11 @@
 package mines;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 //import java.awt.BorderLayout;
 
 public class Mines extends JFrame {

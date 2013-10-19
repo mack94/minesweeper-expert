@@ -1,7 +1,10 @@
 package mines;
 
-import javax.swing.*;
 import java.awt.event.*;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 public class MenuBar extends JMenuBar
 {
