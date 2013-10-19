@@ -9,7 +9,7 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
-public class saveListener implements ActionListener {
+public class SaveListener implements ActionListener {
 	private JFileChooser fileChooser = new JFileChooser();
 
 	@Override

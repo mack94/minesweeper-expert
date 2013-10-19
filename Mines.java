@@ -19,7 +19,7 @@ public class Mines extends JFrame {
     
     public Mines()
     {
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //DISPOSE_ON_CLOSE which one should we use?
       setPreferredSize(new Dimension(WIDTH, HEIGHT));
       setLocationRelativeTo(null);
       setTitle("Minesweeper");
