@@ -30,7 +30,7 @@ public class MenuBar extends JMenuBar
     //Create menu items to add to File
     fileMenu = new JMenu("File");
     saveItem = new JMenuItem("Save");
-    loadItem.addActionListener (new saveListener());
+    saveItem.addActionListener (new saveListener());
     loadItem = new JMenuItem("Load");
     loadItem.addActionListener (new loadListener());
     exitItem = new JMenuItem("Exit");
