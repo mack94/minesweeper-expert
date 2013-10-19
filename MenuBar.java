@@ -1,10 +1,10 @@
 package mines;
 
-import java.awt.event.*;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import mines.MainPanel.buttonListener;
 
 public class MenuBar extends JMenuBar
 {
@@ -22,9 +22,9 @@ public class MenuBar extends JMenuBar
     helpMenu = new JMenu("Help");
 
     //Add File, View and Help to the JMenuBar
-    add(fileMenu); //seb
-    add(viewMenu); //seb
-    add(helpMenu); //seb
+    add(fileMenu);
+    add(viewMenu);
+    add(helpMenu);
   }
   
   private void buildFileMenu()
@@ -33,6 +33,7 @@ public class MenuBar extends JMenuBar
     fileMenu = new JMenu("File");
     saveItem = new JMenuItem("Save");
     loadItem = new JMenuItem("Load");
+    loadItem.addActionListener (new loadListener());
     exitItem = new JMenuItem("Exit");
     fileMenu.add(saveItem);
     fileMenu.add(loadItem);
