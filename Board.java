@@ -33,33 +33,53 @@ public class Board extends JPanel {
     private boolean inGame;
     private int mines_left;
     private Image[] img;
-    private int mines = 40;
-    private int rows = 16;
-    private int cols = 16;
+    private int mines;
+    private int rows;
+    private int cols;
     private int all_cells;
     private JLabel statusbar;
-
+    
     //Constructor
     public Board(JLabel statusbar)
     {
-        this.statusbar = statusbar;
+      //Using the accessors don't return the values supposedly passed in
+      mines = getMines();
+      rows = getRows();
+      cols = getCols();
+      
+      this.statusbar = statusbar;
         
-        //Declare image array
-        img = new Image[NUM_IMAGES];
-        
-        //Load images into img
-        for (int i = 0; i < NUM_IMAGES; i++)
-        {
-            img[i] = (new ImageIcon(this.getClass().getResource((i)
-                        + ".png"))).getImage();
-        }
+      //Declare image array
+      img = new Image[NUM_IMAGES];
+      
+      //Load images into img
+      for (int i = 0; i < NUM_IMAGES; i++)
+      {
+          img[i] = (new ImageIcon(this.getClass().getResource((i)
+                      + ".png"))).getImage();
+      }
 
-        setDoubleBuffered(true);
+      setDoubleBuffered(true);
 
-        addMouseListener(new MinesAdapter());
-        newGame();
+      addMouseListener(new MinesAdapter());
+      newGame();
     }
-
+    
+    //Accessors and Mutators for mines, rows & cols
+    public int getMines()
+    {return mines;}
+    public void setMines(int mines)
+    {this.mines = mines;}
+    
+    public int getRows()
+    {return rows;}
+    public void setRows(int rows)
+    {this.rows = rows;}
+    
+    public int getCols()
+    {return cols;}
+    public void setCols(int cols)
+    {this.cols = cols;}
 
     public void newGame() {
 
