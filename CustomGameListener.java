@@ -10,9 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class CustomGameListener implements ActionListener
 {
+	private int minesCount;
+	private int width;
+	private int height;
 
 	@Override
 	public void actionPerformed(ActionEvent e)
@@ -35,7 +40,6 @@ public class CustomGameListener implements ActionListener
 		private int max = 200;
 		private int min = 20;
 
-		private int minesCount, width, height;
 		private JButton saveBtn, cancelBtn;
 		private JLabel noOfMinesLabel, boardWidthLabel, boardHeightLabel;
 		private JSlider noOfMines, boardWidth, boardHeight;
@@ -96,10 +100,54 @@ public class CustomGameListener implements ActionListener
 
 			setPreferredSize(new Dimension(330, 220));
 
-			// actions
-			noOfMines.addChangeListener(null);
-			boardWidth.addChangeListener(null);
-			boardHeight.addChangeListener(null);
+			// initialising actions
+			noOfMines.addChangeListener(new noOfMinesListener());
+			boardWidth.addChangeListener(new boardWidthListener());
+			boardHeight.addChangeListener(new boardHeightListener());
+
+		}
+	}
+
+	// Change Listener Classes
+	class noOfMinesListener implements ChangeListener
+	{
+		@Override
+		public void stateChanged(ChangeEvent e)
+		{
+			JSlider source = (JSlider) e.getSource();
+			if (!source.getValueIsAdjusting())
+			{
+				minesCount = source.getValue();
+				System.out.println(minesCount);
+			}
+		}
+	}
+
+	class boardWidthListener implements ChangeListener
+	{
+		@Override
+		public void stateChanged(ChangeEvent e)
+		{
+			JSlider source = (JSlider) e.getSource();
+			if (!source.getValueIsAdjusting())
+			{
+				width = source.getValue();
+				System.out.println(width);
+			}
+		}
+	}
+
+	class boardHeightListener implements ChangeListener
+	{
+		@Override
+		public void stateChanged(ChangeEvent e)
+		{
+			JSlider source = (JSlider) e.getSource();
+			if (!source.getValueIsAdjusting())
+			{
+				height = source.getValue();
+				System.out.println(height);
+			}
 		}
 	}
 }
