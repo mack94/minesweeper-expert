@@ -18,32 +18,25 @@ public class DifficultyListener implements ActionListener
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    //Throws an exception when you try to change the difficulty
     if(beginnerItem.isSelected())
     {
-//      gameBoard.setMines(20);
-//      gameBoard.setRows(10);
-//      gameBoard.setCols(10);
-//      gameBoard.newGame();
-      gameBoard.resizeBoard(20, 10, 10);
+      Board.difficultyFactor = (int)0.5;
+      gameBoard.newGame();
+      //gameBoard.resizeBoard(20, 10, 10);
     }
     
-    if(intermediateItem.isSelected())
+    else if(intermediateItem.isSelected())
     {
-//      gameBoard.setMines(40);
-//      gameBoard.setRows(16);
-//      gameBoard.setCols(16);
-//      gameBoard.newGame();
-      gameBoard.resizeBoard(40, 16, 16);
+      Board.difficultyFactor = 1;
+      gameBoard.newGame();
+      //gameBoard.resizeBoard(40, 16, 16);
     }
     
-    if(expertItem.isSelected())
+    else if(expertItem.isSelected())
     {
-//      gameBoard.setMines(60);
-//      gameBoard.setRows(24);
-//      gameBoard.setCols(24);
-//      gameBoard.newGame();
-      gameBoard.resizeBoard(60, 24, 24);
+      Board.difficultyFactor = 2;
+      gameBoard.newGame();
+      //gameBoard.resizeBoard(60, 24, 24);
     }
   }
 }

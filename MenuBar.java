@@ -56,8 +56,10 @@ public class MenuBar extends JMenuBar
   beginnerItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
   intermediateItem = new JRadioButtonMenuItem("Intermediate", true);
+  intermediateItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
   expertItem = new JRadioButtonMenuItem("Expert");
+  expertItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
   customItem = new JRadioButtonMenuItem("Custom...");
   customItem.addActionListener(new CustomGameListener());
@@ -82,6 +84,7 @@ public class MenuBar extends JMenuBar
   //Create menu items to add to Help
   helpMenu = new JMenu("Help");
   resolveItem = new JMenuItem("Solve");
+  resolveItem.addActionListener(new Resolver());
   helpItem = new JMenuItem("Help");
   aboutItem = new JMenuItem("About");
   helpMenu.add(resolveItem);

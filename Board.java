@@ -38,12 +38,39 @@ public class Board extends JPanel
  private int all_cells;
  private JLabel statusbar;
 
+ public static int difficultyFactor = 1;
+
+ public int getMines()
+ {return mines;}
+ public void setMines(int mines)
+ {this.mines = mines;}
+ 
+ public int getRows()
+ {return rows;}
+ public void setRows(int rows)
+ {this.rows = rows;}
+ 
+ public int getCols()
+ {return cols;}
+ public void setCols(int cols)
+ {this.cols = cols;}
+ 
+ public int[] getField()
+ {return field;}
+ public void setField(int[] newField)
+ {field = newField;}
+ 
+ 
  //Constructor
  public Board(JLabel statusbar)
  {
    setMines(40);
    setRows(16);
    setCols(16);
+   
+   mines *= difficultyFactor;
+   rows *= difficultyFactor;
+   cols *= difficultyFactor;
    
   this.statusbar = statusbar;
 
@@ -63,23 +90,6 @@ public class Board extends JPanel
   newGame();
  }
 
- public int getMines()
- {return mines;}
- public void setMines(int mines)
- {this.mines = mines;}
- 
- public int getRows()
- {return rows;}
- public void setRows(int rows)
- {this.rows = rows;}
- 
- public int getCols()
- {return cols;}
- public void setCols(int cols)
- {this.cols = cols;}
- 
- 
- 
  public void newGame()
  {
   Random random;
@@ -293,17 +303,8 @@ public class Board extends JPanel
      }
     }
   }
-
  }
  
- public void resizeBoard(int mines, int rows, int cols)
- {
-   this.mines = mines;
-   this.rows = rows;
-   this.cols = cols;
-   newGame();
- }
-
  @Override
  public void paint(Graphics g)
  {
