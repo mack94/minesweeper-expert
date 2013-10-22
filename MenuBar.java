@@ -4,143 +4,93 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
 public class MenuBar extends JMenuBar
 {
-  private JMenuBar menuBar = new JMenuBar();
-  private JMenu fileMenu, viewMenu, helpMenu;
-  private JMenuItem saveItem, loadItem, exitItem, newGameItem, pauseItem, resolveItem;
-  private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem, customItem;
-  
-  private JLabel nullLabel = new JLabel("");
-  Board gameBoard = new Board(nullLabel);
-  
-  public MenuBar()
-  {
-    //Call methods to build the File and Game menus
-    buildFileMenu();
-    buildGameMenu();
-      
-    //Add Help to the JMenu
-    helpMenu = new JMenu("Help");
+ private JMenuBar menuBar = new JMenuBar();
+ private JMenu fileMenu, viewMenu, helpMenu, highscore;
+ private JMenuItem saveItem, loadItem, exitItem, newGameItem, pauseItem, resolveItem,
+   helpItem, aboutItem;
+ protected JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem, customItem;
 
-    //Add File, View and Help to the JMenuBar
-    add(fileMenu);
-    add(viewMenu);
-    add(helpMenu);
-    
-    gameBoard.setMines(40);
-    gameBoard.setRows(16);
-    gameBoard.setCols(16);
-  }
-    
-  private void buildFileMenu()
-  {
-    //Create menu items to add to File
-    fileMenu = new JMenu("File");
-    saveItem = new JMenuItem("Save");
-    loadItem = new JMenuItem("Load");
-    exitItem = new JMenuItem("Exit");
-    exitItem.addActionListener(new ExitListener());
-    
-    fileMenu.add(saveItem);
-    fileMenu.add(loadItem);
-    fileMenu.add(exitItem);
-  }
+ public MenuBar()
+ {
+  buildFileMenu();
+  buildGameMenu();
+  buildHighscoreMenu();
+  buildHelpMenu();
+
+  //Add File, View and Help to the JMenuBar
+  add(fileMenu);
+  add(viewMenu);
+  add(highscore);
+  add(helpMenu);
+ }
+
+ private void buildFileMenu()
+ {
+  //Create menu items to add to File
+  fileMenu = new JMenu("File");
+  saveItem = new JMenuItem("Save");
+  saveItem.addActionListener(new SaveListener());
+  loadItem = new JMenuItem("Load");
+  loadItem.addActionListener(new LoadListener());
+  exitItem = new JMenuItem("Exit");
+  exitItem.addActionListener(new ExitListener());
+  fileMenu.add(saveItem);
+  fileMenu.add(loadItem);
+  fileMenu.add(exitItem);
+ }
+
+ private void buildGameMenu()
+ {
+  //Create menu items to add to View
+  viewMenu = new JMenu("Game");
+  pauseItem = new JMenuItem("Pause");
+  newGameItem = new JMenuItem("New Game");
   
-  private void buildGameMenu()
-  {
-    //Create the JMenu
-    viewMenu = new JMenu("Game");
-    //Add the 'New Game' option to the JMenu
-    newGameItem = new JMenuItem("New Game");
-    newGameItem.addActionListener(new NewGameListener());
-    
-    //Add radio button menu items to the JMenu for difficulty and assign an ActionListener
-    beginnerItem = new JRadioButtonMenuItem("Beginner");
-    beginnerItem.addActionListener(new DifficultyListener());
-    
-    intermediateItem = new JRadioButtonMenuItem("Intermediate", true);
-    intermediateItem.addActionListener(new DifficultyListener());
-    
-    expertItem = new JRadioButtonMenuItem("Expert");
-    expertItem.addActionListener(new DifficultyListener());
-    
-    customItem = new JRadioButtonMenuItem("Custom...");
-    customItem.addActionListener(new DifficultyListener());
-    
-    pauseItem = new JMenuItem("Pause");
-    resolveItem = new JMenuItem("Resolve");
-    
-    //Group the difficulty radio buttons together
-    ButtonGroup difficultyGroup = new ButtonGroup();
-    
-    difficultyGroup.add(beginnerItem);
-    difficultyGroup.add(intermediateItem);
-    difficultyGroup.add(expertItem);
-    difficultyGroup.add(customItem);
-    
-    //Add all of the JMenu items to the JMenu
-    viewMenu.add(newGameItem);
-    viewMenu.add(beginnerItem);
-    viewMenu.add(intermediateItem);
-    viewMenu.add(expertItem);
-    viewMenu.add(customItem);
-    viewMenu.add(pauseItem);
-    viewMenu.add(resolveItem);
-  }
+  beginnerItem = new JRadioButtonMenuItem("Beginner");
+  beginnerItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
-  //Private class to handle when the 'Exit' option is clicked
-  private class ExitListener implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      System.exit(0);
-    }
-  }
+  intermediateItem = new JRadioButtonMenuItem("Intermediate", true);
   
-  //Private class to generate a new game
-  private class NewGameListener implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      gameBoard.newGame();
-      gameBoard.repaint();
-    }
-  }
+  expertItem = new JRadioButtonMenuItem("Expert");
   
-  //Private class to handle difficulty changes
-  private class DifficultyListener implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      if(beginnerItem.isSelected())
-      {
-        //Set the number of mines, rows and cols then call the newGame method and repaint the board
-        gameBoard.setMines(20);
-        gameBoard.setRows(10);
-        gameBoard.setCols(10);
-        gameBoard.newGame();
-        repaint();
-      }
-      if(intermediateItem.isSelected())
-      {
-        gameBoard.setMines(40);
-        gameBoard.setRows(16);
-        gameBoard.setCols(16);
-        gameBoard.newGame();
-        repaint();
-      }
-      if(expertItem.isSelected())
-      {
-        gameBoard.setMines(60);
-        gameBoard.setRows(24);
-        gameBoard.setCols(24);
-        gameBoard.newGame();
-      }
-      if(customItem.isSelected())
-      {
-        //Open a JOptionPane that prompts the user for the number of rows and cols and gives a mine density of; rows * cols / 12
-      }
-    }
-  }
+  customItem = new JRadioButtonMenuItem("Custom...");
+  customItem.addActionListener(new CustomGameListener());
+
+  ButtonGroup difficultyGroup = new ButtonGroup();
+  
+  difficultyGroup.add(beginnerItem);
+  difficultyGroup.add(intermediateItem);
+  difficultyGroup.add(expertItem);
+  difficultyGroup.add(customItem);
+  
+  viewMenu.add(pauseItem);
+  viewMenu.add(newGameItem);
+  viewMenu.add(beginnerItem);
+  viewMenu.add(intermediateItem);
+  viewMenu.add(expertItem);
+  viewMenu.add(customItem);
+ }
+
+ private void buildHelpMenu()
+ {
+  //Create menu items to add to Help
+  helpMenu = new JMenu("Help");
+  resolveItem = new JMenuItem("Solve");
+  helpItem = new JMenuItem("Help");
+  aboutItem = new JMenuItem("About");
+  helpMenu.add(resolveItem);
+  helpMenu.add(helpItem);
+  helpMenu.add(aboutItem);
+ }
+
+ private void buildHighscoreMenu()
+ {
+  highscore = new JMenu("Highscore");
+ }
 }

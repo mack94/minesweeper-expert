@@ -1,47 +1,46 @@
 package mines;
 
 import java.awt.*;
-import javax.swing.*;
 import java.awt.BorderLayout;
 
-public class Mines extends JFrame {
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
-    private final int WIDTH = 280;
-    private final int HEIGHT = 320;
+public class Mines extends JFrame
+{
 
-    private JLabel statusbar;
-    private MenuBar menu = new MenuBar();
-    
-    private JLabel rowLabel;
-    Board board;
-    
-    public Mines()
-    {
-      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      setPreferredSize(new Dimension(WIDTH, HEIGHT));
-      setLocationRelativeTo(null);
-      setTitle("Minesweeper");
-      
-      //Create the Menu bar
-      setJMenuBar(menu);
-      
-      
-      statusbar = new JLabel("");
-      add(statusbar, BorderLayout.SOUTH);
-      
-      //Creates a new instance of board
-      add(board = new Board(statusbar)); 
-      rowLabel = new JLabel(Integer.toString(board.getRows()));
-      add(rowLabel, BorderLayout.EAST);
-      
-      pack();
-      setResizable(true);
-      setVisible(true);
-    }
-    
-    //Creates new instance on mines
-    public static void main(String[] args)
-    {
-        new Mines();
-    }
+ private final int WIDTH = 260;
+ private final int HEIGHT = 320;
+
+ private JLabel statusbar;
+
+ private MenuBar menu = new MenuBar();
+
+ public Mines()
+ {
+  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+  setPreferredSize(new Dimension(WIDTH, HEIGHT));
+  setLocationRelativeTo(null);
+  setTitle("Minesweeper");
+
+  statusbar = new JLabel("");
+  add(statusbar, BorderLayout.SOUTH);
+
+  //Create the Menu bar
+  setJMenuBar(menu);
+
+  //Creates new instance of board
+  add(new Board(statusbar));
+
+  pack();
+  setLocationRelativeTo(null); // centers the frame
+  setResizable(true);
+  setVisible(true);
+ }
+
+ //Creates new instance on mines
+ public static void main(String[] args)
+ {
+  new Mines();
+ }
 }
