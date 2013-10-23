@@ -1,14 +1,16 @@
 package mines;
 
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
+
 
 public class Board extends JPanel
 {
@@ -39,6 +41,7 @@ public class Board extends JPanel
  private JLabel statusbar;
  
  private int difficulty;
+ private String mineStr = "Mines left: ";
 
  
  //Constructor
@@ -64,11 +67,12 @@ public class Board extends JPanel
   newGame();
  }
  
+ //This method determines what size the board will be by looking at the variable difficulty
  public void setMines()
  {
    if(difficulty == 0)
    {
-     mines = 20;
+     mines = 0;
      rows = 12;
      cols = 12;
    }
@@ -112,7 +116,7 @@ public class Board extends JPanel
   }
 
   //Set the text for the status bar
-  statusbar.setText(Integer.toString(mines_left));
+  statusbar.setText(mineStr + Integer.toString(mines_left));
 
   //Reset i to 0
   i = 0;
@@ -304,7 +308,6 @@ public class Board extends JPanel
  @Override
  public void paint(Graphics g)
  {
-
   int cell = 0;
   int uncover = 0;
 
@@ -359,8 +362,9 @@ public class Board extends JPanel
 
   if (uncover == 0 && inGame)
   {
-   inGame = false;
-   statusbar.setText("Game won");
+    new SaveUser(difficulty);
+    inGame = false;
+    statusbar.setText("Game won");
   }
   else if (!inGame)
   {
@@ -374,7 +378,6 @@ public class Board extends JPanel
   @Override
   public void mousePressed(MouseEvent e)
   {
-
    int x = e.getX();
    int y = e.getY();
 
@@ -389,7 +392,7 @@ public class Board extends JPanel
     repaint();
    }
 
-   if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE))
+   if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
    {
 
     if (e.getButton() == MouseEvent.BUTTON3)
@@ -405,7 +408,7 @@ public class Board extends JPanel
        {
         field[(cRow * cols) + cCol] += MARK_FOR_CELL;
         mines_left--;
-        statusbar.setText(Integer.toString(mines_left));
+        statusbar.setText(mineStr + Integer.toString(mines_left));
        }
        else
        {
@@ -417,7 +420,7 @@ public class Board extends JPanel
 
        field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
        mines_left++;
-       statusbar.setText(Integer.toString(mines_left));
+       statusbar.setText(mineStr + Integer.toString(mines_left));
       }
      }
 
@@ -450,7 +453,6 @@ public class Board extends JPanel
     {
      repaint();
     }
-
    }
   }
  }

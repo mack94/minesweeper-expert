@@ -1,0 +1,44 @@
+package mines;
+
+import java.io.*;
+
+import javax.swing.JOptionPane;
+
+public class SaveUser extends MineFrame
+{
+  String difficultyStr;//Create an empty string to hold difficulty
+  
+  public SaveUser(int difficulty)
+  {
+    String user = JOptionPane.showInputDialog("Enter your name: ");//Ask the user to input their name
+    
+    if(user != null)
+    {
+      PrintWriter outfile = null;//Make an empty PrintWriter
+      String file = "users.txt";//File name
+      
+      switch (difficulty)
+      {
+        case 1: difficultyStr = "Beginner";
+          break;
+        case 2: difficultyStr = "Intermediate";
+          break;
+        case 3: difficultyStr = "Expert";
+          break;
+      }
+    
+      try
+      {
+        outfile = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));//Create a new print writer that appends to the end of the file
+      
+        outfile.println(user.trim() + " " + difficultyStr);//Supposedly writes to the file
+        System.out.print("User saved to users.txt");
+        outfile.close();
+      }
+      catch(IOException ex)
+      {
+        ex.printStackTrace();
+      }
+    }
+  }
+}

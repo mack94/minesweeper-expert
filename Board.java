@@ -41,6 +41,7 @@ public class Board extends JPanel
  private JLabel statusbar;
  
  private int difficulty;
+ private String mineStr = "Mines left: ";
 
  
  //Constructor
@@ -115,7 +116,7 @@ public class Board extends JPanel
   }
 
   //Set the text for the status bar
-  statusbar.setText("Mine markers left: " + Integer.toString(mines_left));
+  statusbar.setText(mineStr + Integer.toString(mines_left));
 
   //Reset i to 0
   i = 0;
@@ -307,7 +308,6 @@ public class Board extends JPanel
  @Override
  public void paint(Graphics g)
  {
-
   int cell = 0;
   int uncover = 0;
 
@@ -362,8 +362,9 @@ public class Board extends JPanel
 
   if (uncover == 0 && inGame)
   {
-   inGame = false;
-   statusbar.setText("Game won");
+    inGame = false;
+    statusbar.setText("Game won");
+    new SaveUser(difficulty);
   }
   else if (!inGame)
   {
@@ -407,7 +408,7 @@ public class Board extends JPanel
        {
         field[(cRow * cols) + cCol] += MARK_FOR_CELL;
         mines_left--;
-        statusbar.setText("Mines markers left: " + Integer.toString(mines_left));
+        statusbar.setText(mineStr + Integer.toString(mines_left));
        }
        else
        {
@@ -419,7 +420,7 @@ public class Board extends JPanel
 
        field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
        mines_left++;
-       statusbar.setText("Mines markers left: " + Integer.toString(mines_left));
+       statusbar.setText(mineStr + Integer.toString(mines_left));
       }
      }
 
@@ -452,7 +453,6 @@ public class Board extends JPanel
     {
      repaint();
     }
-
    }
   }
  }

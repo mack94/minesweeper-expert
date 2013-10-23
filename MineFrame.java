@@ -51,7 +51,7 @@ public class MineFrame
     
     gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
     
-    frame.setJMenuBar(buildMenuBar());//Build the menu bar and set it as the JMenuBar
+    frame.setJMenuBar(buildMenuBar());//Build the menu bar and set it as the JMenuBar    
     
     frame.add(gamePanel);//Add gamePanel to the frame
     startNewGame();
