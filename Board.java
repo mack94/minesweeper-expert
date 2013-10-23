@@ -364,7 +364,7 @@ public class Board extends JPanel
   {
     inGame = false;
     statusbar.setText("Game won");
-    new SaveUser(difficulty);
+    new SaveUser(difficulty);//This makes a new JFrame be created
   }
   else if (!inGame)
   {

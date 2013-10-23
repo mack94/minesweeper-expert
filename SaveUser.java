@@ -1,12 +1,15 @@
 package mines;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.BufferedWriter;
 
 import javax.swing.JOptionPane;
 
-public class SaveUser extends MineFrame
+public class SaveUser
 {
-  String difficultyStr;//Create an empty string to hold difficulty
+  private String difficultyStr;//Create an empty string to hold difficulty
   
   public SaveUser(int difficulty)
   {

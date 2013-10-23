@@ -4,9 +4,9 @@ import java.io.*;
 
 import javax.swing.JOptionPane;
 
-public class SaveUser extends MineFrame
+public class SaveUser
 {
-  String difficultyStr;//Create an empty string to hold difficulty
+  private String difficultyStr;//Create an empty string to hold difficulty
   
   public SaveUser(int difficulty)
   {
@@ -15,24 +15,23 @@ public class SaveUser extends MineFrame
     if(user != null)
     {
       PrintWriter outfile = null;//Make an empty PrintWriter
-      String file = "users.txt";//File name
+      String file = "mines/users.txt";//File name
       
       switch (difficulty)
       {
-        case 1: difficultyStr = "Beginner";
+        case 0: difficultyStr = "Beginner";
           break;
-        case 2: difficultyStr = "Intermediate";
+        case 1: difficultyStr = "Intermediate";
           break;
-        case 3: difficultyStr = "Expert";
+        case 2: difficultyStr = "Expert";
           break;
+        default: difficultyStr = "Error";
       }
-    
+      
       try
       {
-        outfile = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));//Create a new print writer that appends to the end of the file
-      
-        outfile.println(user.trim() + " " + difficultyStr);//Supposedly writes to the file
-        System.out.print("User saved to users.txt");
+        outfile = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));//Create a new PrintWriter that appends to the end of the file
+        outfile.println(user.trim() + " " + difficultyStr);//Write to the file
         outfile.close();
       }
       catch(IOException ex)
