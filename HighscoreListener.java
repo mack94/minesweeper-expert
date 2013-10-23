@@ -1,5 +1,6 @@
 package mines;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,13 +13,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
-public class HighscoreListener implements ActionListener
+public class HighscoreListener implements MenuListener
 {
     private JFrame HighscoreFrame = new JFrame("Highscore");
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void menuSelected(MenuEvent e)
     {
         HighscoreFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         HighscoreFrame.getContentPane().add(new HighscoreFrame());
@@ -39,9 +42,11 @@ public class HighscoreListener implements ActionListener
             okBtn.addActionListener(new FrameDispose());
 
             list = new JTextArea("");
+            list.setEditable(false);
+            list.setBackground(Color.decode("#eeeeee"));
 
             loadHighscoreFile();
-            
+
             add(list);
             add(okBtn);
             setPreferredSize(new Dimension(330, 220));
@@ -50,27 +55,28 @@ public class HighscoreListener implements ActionListener
 
         public void loadHighscoreFile()
         {
-            File file = new File("highscore.txt");
-            // open the file.
-            System.out.println("Opening: " + file.getName());
+          //this is for eclipse
+            String path = System.getProperty("user.dir")+"/bin/mines/highscore.txt"; 
+         // for JPL & co
+            //String path = System.getProperty("user.dir")+ "/mines/highscore.txt"; 
+            File file = new File(path);
+            Scanner diskf = null;
             try
             {
-                Scanner diskf = new Scanner(file);
-                String fileText = "";
-                
-                while(diskf.hasNextLine())
-                {
-                  String line = diskf.nextLine();
-                  fileText += line + "\n";
-                }
-                list.setText(fileText);
-                
+                diskf = new Scanner(file);
             }
-
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException e)
             {
-                ex.printStackTrace();
+                e.printStackTrace();
             }
+            String fileText = "";
+
+            while (diskf.hasNextLine())
+            {
+                String line = diskf.nextLine();
+                fileText += line + "\n";
+            }
+            list.setText(fileText);
         }
     }
 
@@ -81,5 +87,19 @@ public class HighscoreListener implements ActionListener
         {
             HighscoreFrame.dispose();
         }
+    }
+
+    @Override
+    public void menuCanceled(MenuEvent e)
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void menuDeselected(MenuEvent e)
+    {
+        // TODO Auto-generated method stub
+
     }
 }
