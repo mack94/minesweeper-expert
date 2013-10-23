@@ -4,8 +4,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -29,7 +29,7 @@ public class Board extends JPanel
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    private int[] field;
+    private static int[] field;
     private boolean inGame;
     private int mines_left;
     private Image[] img;
@@ -43,7 +43,7 @@ public class Board extends JPanel
 
     private static ArrayList<int[]> undoRedoArray = new ArrayList<int[]>();
     private static int undoRedoIndex = 0;
-
+    
     //Constructor
     public Board(JLabel statusbar, int difficulty)
     {
@@ -66,6 +66,7 @@ public class Board extends JPanel
         newGame();
     }
 
+    //This method determines what size the board will be by looking at the variable difficulty
     public void setMines()
     {
         if (difficulty == 0)
@@ -90,6 +91,7 @@ public class Board extends JPanel
 
     public static int getUndoRedoIndex()
     {
+        field = undoRedoArray.get(undoRedoIndex-1);
         //int[] newfield = undoRedoArray.get(undoRedoIndex);
         return undoRedoIndex;
     }
@@ -97,9 +99,10 @@ public class Board extends JPanel
     public static void setUndoRedoIndex(int value)
     {
         undoRedoIndex = value;
+        field = undoRedoArray.get(undoRedoIndex);
         //int[] newfield = undoRedoArray.get(undoRedoIndex);
     }
-
+    
     public void newGame()
     {
         Random random;
@@ -126,7 +129,7 @@ public class Board extends JPanel
         }
 
         //Set the text for the status bar
-        statusbar.setText(Integer.toString(mines_left));
+        statusbar.setText("Mine markers left: " + Integer.toString(mines_left));
 
         //Reset i to 0
         i = 0;
@@ -386,7 +389,6 @@ public class Board extends JPanel
         @Override
         public void mousePressed(MouseEvent e)
         {
-
             int x = e.getX();
             int y = e.getY();
 
@@ -401,7 +403,7 @@ public class Board extends JPanel
                 repaint();
             }
 
-            if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE))
+            if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
             {
                 undoRedoArray.add(field);
                 undoRedoIndex++;
@@ -419,7 +421,7 @@ public class Board extends JPanel
                             {
                                 field[(cRow * cols) + cCol] += MARK_FOR_CELL;
                                 mines_left--;
-                                statusbar.setText(Integer.toString(mines_left));
+                                statusbar.setText("Mines markers left: " + Integer.toString(mines_left));
                             }
                             else
                             {
@@ -431,7 +433,7 @@ public class Board extends JPanel
 
                             field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
                             mines_left++;
-                            statusbar.setText(Integer.toString(mines_left));
+                            statusbar.setText("Mines markers left: " + Integer.toString(mines_left));
                         }
                     }
 
