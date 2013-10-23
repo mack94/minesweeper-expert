@@ -1,16 +1,14 @@
 package mines;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import java.awt.Image;
-import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-
 
 public class Board extends JPanel
 {
@@ -66,7 +64,6 @@ public class Board extends JPanel
   newGame();
  }
  
- //This method determines what size the board will be by looking at the variable difficulty
  public void setMines()
  {
    if(difficulty == 0)
@@ -115,7 +112,7 @@ public class Board extends JPanel
   }
 
   //Set the text for the status bar
-  statusbar.setText("Mine markers left: " + Integer.toString(mines_left));
+  statusbar.setText(Integer.toString(mines_left));
 
   //Reset i to 0
   i = 0;
@@ -377,6 +374,7 @@ public class Board extends JPanel
   @Override
   public void mousePressed(MouseEvent e)
   {
+
    int x = e.getX();
    int y = e.getY();
 
@@ -391,7 +389,7 @@ public class Board extends JPanel
     repaint();
    }
 
-   if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
+   if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE))
    {
 
     if (e.getButton() == MouseEvent.BUTTON3)
@@ -407,7 +405,7 @@ public class Board extends JPanel
        {
         field[(cRow * cols) + cCol] += MARK_FOR_CELL;
         mines_left--;
-        statusbar.setText("Mines markers left: " + Integer.toString(mines_left));
+        statusbar.setText(Integer.toString(mines_left));
        }
        else
        {
@@ -419,7 +417,7 @@ public class Board extends JPanel
 
        field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
        mines_left++;
-       statusbar.setText("Mines markers left: " + Integer.toString(mines_left));
+       statusbar.setText(Integer.toString(mines_left));
       }
      }
 

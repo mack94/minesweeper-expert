@@ -1,19 +1,14 @@
 package mines;
 
-import java.awt.Dimension;
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
 
-import javax.swing.Timer;
 import javax.swing.JMenu;
-import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 
@@ -21,19 +16,15 @@ public class MineFrame
 {
   private JFrame frame;
   private JPanel gamePanel;
-  
+  private JMenuBar menu;
   private JLabel statusbar;
   private Board mineBoard;
+  private int difficulty = 1;
   
-  private int difficulty = 1;//Use an integer to define difficulty levels
-  private Timer timer;//Declare a Timer object
-  private final int DELAY = 20;//Delay on the timer
-  public static boolean playingGame;//Static boolean to be accessed across all classes
+  private int height = 440, width = 377;
   
-  private int height = 440, width = 377;//Default width and height for the frame
-  
-  private JMenu fileMenu, viewMenu, helpMenu, highscore;
   private JMenuBar menuBar = new JMenuBar();
+  private JMenu fileMenu, viewMenu, helpMenu, highscore;
   private JMenuItem saveItem, loadItem, exitItem, newGameItem, pauseItem, resolveItem,
     helpItem, aboutItem;
   private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem, customItem;
@@ -50,9 +41,8 @@ public class MineFrame
     statusbar = new JLabel("");//Set the passed in status bar
     
     gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
-    
-    frame.setJMenuBar(buildMenuBar());//Build the menu bar and set it as the JMenuBar
-    
+    menu = buildMenuBar();//Set menu to be a new MenuBar
+    frame.setJMenuBar(menu);//Set the MenuBar as the JMenuBar
     frame.add(gamePanel);//Add gamePanel to the frame
     startNewGame();
     
@@ -67,14 +57,8 @@ public class MineFrame
   {
     gamePanel.removeAll();
     gamePanel.add(statusbar, BorderLayout.SOUTH);
-    
-    playingGame = true;//Set to true so the user may make actions
-    timer = new Timer(DELAY, new TimerListener());//Initialise a timer object
-    timer.start();//Start the timer
-    
     gamePanel.add(new Board(statusbar, difficulty));
     frame.setPreferredSize(new Dimension(width, height));
-    
                            
     frame.validate();
     frame.repaint();
@@ -99,12 +83,9 @@ public class MineFrame
     
     //Create menu items to add to View
     viewMenu = new JMenu("Game");
+    pauseItem = new JMenuItem("Pause");
     newGameItem = new JMenuItem("New Game");
-    newGameItem.addActionListener(new GameListener());
-    pauseItem = new JCheckBoxMenuItem("Pause");
-    pauseItem.addActionListener(new TimerListener());
-    
-    //Difficulty radio buttons
+      
     beginnerItem = new JRadioButtonMenuItem("Beginner");
     beginnerItem.addActionListener(new DifficultyListener());
       
@@ -125,8 +106,8 @@ public class MineFrame
     difficultyGroup.add(customItem);
       
     //Add all items to viewMenu
-    viewMenu.add(newGameItem);
     viewMenu.add(pauseItem);
+    viewMenu.add(newGameItem);
     viewMenu.add(beginnerItem);
     viewMenu.add(intermediateItem);
     viewMenu.add(expertItem);
@@ -184,33 +165,4 @@ public class MineFrame
         }
       }
     }
-  
-  private class GameListener implements ActionListener
-  {
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-      if(e.getSource() == newGameItem)
-      {
-        startNewGame();
-      }
-    }
-  }
-  
-  private class TimerListener implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      if(!pauseItem.isSelected())
-      {
-          playingGame = false;
-          timer.stop();
-      }
-      if(pauseItem.isSelected())
-      {
-        playingGame = true;
-        timer.start();
-      }
-    }
-  } 
 }
