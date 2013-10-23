@@ -16,13 +16,14 @@ import javax.swing.JRadioButtonMenuItem;
 
 public class MineFrame
 {
-    private JFrame frame;
-    private JPanel gamePanel;
+    private static JFrame frame;
+    private static JPanel gamePanel;
     private JMenuBar menu;
-    private JLabel statusbar;
-    private int difficulty = 1;
+    private static JLabel statusbar;
+    private static int difficulty = 1;
 
-    private int height = 440, width = 377;
+    private static  int height = 440;
+    private static  int width = 377;
 
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
@@ -55,7 +56,7 @@ public class MineFrame
     }
 
     //Function to start/restart the game
-    public void startNewGame()
+    public static void startNewGame()
     {
         gamePanel.removeAll();
         gamePanel.add(statusbar, BorderLayout.SOUTH);
@@ -109,6 +110,7 @@ public class MineFrame
         pauseItem.setMnemonic('P');
         newGameItem = new JMenuItem("New Game");
         newGameItem.setMnemonic('N');
+        newGameItem.addActionListener(new newGameListener());
 
         beginnerItem = new JRadioButtonMenuItem("Beginner");
         beginnerItem.setMnemonic('B');
