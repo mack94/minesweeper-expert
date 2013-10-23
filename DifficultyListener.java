@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 public class DifficultyListener implements ActionListener
 {
-  private Board gameBoard = new Board(new JLabel(""));
   private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem;
+  private Board gameBoard = new Board(new JLabel(""));
   
   public DifficultyListener(JRadioButtonMenuItem easy, JRadioButtonMenuItem medium, JRadioButtonMenuItem hard)
   {
@@ -20,23 +20,23 @@ public class DifficultyListener implements ActionListener
   {
     if(beginnerItem.isSelected())
     {
-      Board.difficultyFactor = (int)0.5;
-      gameBoard.newGame();
-      //gameBoard.resizeBoard(20, 10, 10);
+      gameBoard.setMines(20);
+      gameBoard.setRows(10);
+      gameBoard.setCols(10);
     }
     
     else if(intermediateItem.isSelected())
     {
-      Board.difficultyFactor = 1;
-      gameBoard.newGame();
-      //gameBoard.resizeBoard(40, 16, 16);
+      gameBoard.setMines(40);
+      gameBoard.setRows(16);
+      gameBoard.setCols(16);
     }
     
     else if(expertItem.isSelected())
     {
-      Board.difficultyFactor = 2;
-      gameBoard.newGame();
-      //gameBoard.resizeBoard(60, 24, 24);
+      gameBoard.setMines(60);
+      gameBoard.setRows(24);
+      gameBoard.setCols(24);
     }
   }
 }

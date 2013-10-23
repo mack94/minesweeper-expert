@@ -32,14 +32,13 @@ public class Board extends JPanel
  private boolean inGame;
  private int mines_left;
  private Image[] img;
- private int mines;
- private int rows;
- private int cols;
+ private int mines = 40;
+ private int rows = 16;
+ private int cols = 16;
  private int all_cells;
  private JLabel statusbar;
 
- public static int difficultyFactor = 1;
-
+ //Accessors and mutators
  public int getMines()
  {return mines;}
  public void setMines(int mines)
@@ -53,25 +52,12 @@ public class Board extends JPanel
  public int getCols()
  {return cols;}
  public void setCols(int cols)
- {this.cols = cols;}
- 
- public int[] getField()
- {return field;}
- public void setField(int[] newField)
- {field = newField;}
+ {this.cols = cols;} 
  
  
  //Constructor
  public Board(JLabel statusbar)
  {
-   setMines(40);
-   setRows(16);
-   setCols(16);
-   
-   mines *= difficultyFactor;
-   rows *= difficultyFactor;
-   cols *= difficultyFactor;
-   
   this.statusbar = statusbar;
 
   //Declare image array

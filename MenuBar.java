@@ -18,16 +18,17 @@ public class MenuBar extends JMenuBar
 
  public MenuBar()
  {
-  buildFileMenu();
-  buildGameMenu();
-  buildHighscoreMenu();
-  buildHelpMenu();
+   //Build the JMenus
+   buildFileMenu();
+   buildGameMenu();
+   buildHighscoreMenu();
+   buildHelpMenu();
 
-  //Add File, View and Help to the JMenuBar
-  add(fileMenu);
-  add(viewMenu);
-  add(highscore);
-  add(helpMenu);
+   //Add File, View and Help to the JMenuBar
+   add(fileMenu);
+   add(viewMenu);
+   add(highscore);
+   add(helpMenu);
  }
 
  private void buildFileMenu()
@@ -40,6 +41,8 @@ public class MenuBar extends JMenuBar
   loadItem.addActionListener(new LoadListener());
   exitItem = new JMenuItem("Exit");
   exitItem.addActionListener(new ExitListener());
+  
+  //Add items to the fileMenu
   fileMenu.add(saveItem);
   fileMenu.add(loadItem);
   fileMenu.add(exitItem);
@@ -53,24 +56,25 @@ public class MenuBar extends JMenuBar
   newGameItem = new JMenuItem("New Game");
   
   beginnerItem = new JRadioButtonMenuItem("Beginner");
-  beginnerItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
+  //beginnerItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
   intermediateItem = new JRadioButtonMenuItem("Intermediate", true);
-  intermediateItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
+  //intermediateItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
   expertItem = new JRadioButtonMenuItem("Expert");
-  expertItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
+  //expertItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
   
   customItem = new JRadioButtonMenuItem("Custom...");
   customItem.addActionListener(new CustomGameListener());
 
+  //Createa button group and add the difficulty items to it
   ButtonGroup difficultyGroup = new ButtonGroup();
-  
   difficultyGroup.add(beginnerItem);
   difficultyGroup.add(intermediateItem);
   difficultyGroup.add(expertItem);
   difficultyGroup.add(customItem);
   
+  //Add all items to viewMenu
   viewMenu.add(pauseItem);
   viewMenu.add(newGameItem);
   viewMenu.add(beginnerItem);
@@ -84,9 +88,10 @@ public class MenuBar extends JMenuBar
   //Create menu items to add to Help
   helpMenu = new JMenu("Help");
   resolveItem = new JMenuItem("Solve");
-  resolveItem.addActionListener(new Resolver());
   helpItem = new JMenuItem("Help");
   aboutItem = new JMenuItem("About");
+  
+  //Add all items to helpMenu
   helpMenu.add(resolveItem);
   helpMenu.add(helpItem);
   helpMenu.add(aboutItem);
@@ -94,6 +99,6 @@ public class MenuBar extends JMenuBar
 
  private void buildHighscoreMenu()
  {
-  highscore = new JMenu("Highscore");
+   highscore = new JMenu("Highscore");
  }
 }
