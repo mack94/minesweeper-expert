@@ -32,33 +32,20 @@ public class Board extends JPanel
  private boolean inGame;
  private int mines_left;
  private Image[] img;
- private int mines = 40;
- private int rows = 16;
- private int cols = 16;
+ private int mines;
+ private int rows;
+ private int cols;
  private int all_cells;
  private JLabel statusbar;
+ 
+ private int difficulty;
 
- //Accessors and mutators
- public int getMines()
- {return mines;}
- public void setMines(int mines)
- {this.mines = mines;}
- 
- public int getRows()
- {return rows;}
- public void setRows(int rows)
- {this.rows = rows;}
- 
- public int getCols()
- {return cols;}
- public void setCols(int cols)
- {this.cols = cols;} 
- 
  
  //Constructor
- public Board(JLabel statusbar)
+ public Board(JLabel statusbar, int difficulty)
  {
   this.statusbar = statusbar;
+  this.difficulty = difficulty;
 
   //Declare image array
   img = new Image[NUM_IMAGES];
@@ -71,9 +58,32 @@ public class Board extends JPanel
   }
 
   setDoubleBuffered(true);
-
+  setMines();
+  
   addMouseListener(new MinesAdapter());
   newGame();
+ }
+ 
+ public void setMines()
+ {
+   if(difficulty == 0)
+   {
+     mines = 20;
+     rows = 12;
+     cols = 12;
+   }
+   if(difficulty == 1)
+   {
+     mines = 40;
+     rows = 24;
+     cols = 24;
+   }
+   if(difficulty == 2)
+   {
+     mines = 60;
+     rows = 30;
+     cols = 30;
+   }
  }
 
  public void newGame()
