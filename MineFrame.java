@@ -20,30 +20,38 @@ import javax.swing.JRadioButtonMenuItem;
 
 public class MineFrame
 {
-  private JFrame frame;
-  private JPanel gamePanel;
+  private static JFrame frame;
+  private static JPanel gamePanel;
   
-  private JLabel statusbar;
+  private static JLabel statusbar;
   private Board mineBoard;
   
-  private int difficulty = 1;//Use an integer to define difficulty levels
-  private Timer timer;//Declare a Timer object
-  private final int DELAY = 20;//Delay on the timer
+  private static int noOfMines = 40;
+  private static int noOfRows = 24;
+  private static int noOfCols = 24;
+  private static Timer timer;//Declare a Timer object
+  private final static int DELAY = 20;//Delay on the timer
   public static boolean playingGame;//Static boolean to be accessed across all classes
   
-  private int height = 440, width = 377;//Default width and height for the frame
+  private static int height = 440;//Default width and height for the frame
+private static int width = 377;
   
   private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
   private JMenuBar menuBar = new JMenuBar();
-  private JMenuItem saveItem, loadItem, exitItem, newGameItem, pauseItem, resolveItem,
-    helpItem, aboutItem, undoItem, redoItem;
+  private JMenuItem saveItem, loadItem, exitItem, newGameItem;
+private static JMenuItem pauseItem;
+private JMenuItem resolveItem;
+private JMenuItem helpItem;
+private JMenuItem aboutItem;
+private JMenuItem undoItem;
+private JMenuItem redoItem;
   private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem, customItem;
   
   public MineFrame()
   {
     frame = new JFrame();//Create the frame for the GUI
     
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Have the applcation exit when closed
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Have the application exit when closed
     frame.setPreferredSize(new Dimension(width, height));//Set the preferred frame size
     frame.setLocationRelativeTo(null);//Centre the frame
     frame.setTitle("Minesweeper");//Title of the frame
@@ -65,7 +73,7 @@ public class MineFrame
   }
   
   //Function to start/restart the game
-  public void startNewGame()
+  public static void startNewGame()
   {
     gamePanel.removeAll();
     gamePanel.add(statusbar, BorderLayout.SOUTH);
@@ -74,7 +82,7 @@ public class MineFrame
     timer = new Timer(DELAY, new TimerListener());//Initialise a timer object
     timer.start();//Start the timer
     
-    gamePanel.add(new Board(statusbar, difficulty));
+    gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
     frame.setPreferredSize(new Dimension(width, height));
     
                            
@@ -188,14 +196,46 @@ public class MineFrame
       
       return menuBar;
   }
-  private class DifficultyListener implements ActionListener
+
+public static int getNoOfMines()
+{
+    return noOfMines;
+}
+
+public static void setNoOfMines(int noOfMines)
+{
+    MineFrame.noOfMines = noOfMines;
+}
+
+public static int getNoOfCols()
+{
+    return noOfCols;
+}
+
+public static void setNoOfCols(int noOfCols)
+{
+    MineFrame.noOfCols = noOfCols;
+}
+
+public static int getNoOfRows()
+{
+    return noOfRows;
+}
+
+public static void setNoOfRows(int noOfRows)
+{
+    MineFrame.noOfRows = noOfRows;
+}
+private class DifficultyListener implements ActionListener
     {  
       @Override
       public void actionPerformed(ActionEvent e)
       {
         if(beginnerItem.isSelected())
         {
-          difficulty = 0;
+          setNoOfMines(20);
+          setNoOfRows(12);
+          setNoOfCols(12);
           width = 196;
           height = 258;
           startNewGame();
@@ -203,7 +243,9 @@ public class MineFrame
         
         else if(intermediateItem.isSelected())
         {
-          difficulty = 1;
+          setNoOfMines(40);
+          setNoOfRows(24);
+          setNoOfCols(24);
           height = 440;
           width = 377;
           startNewGame();
@@ -211,7 +253,9 @@ public class MineFrame
         
         else if(expertItem.isSelected())
         {
-          difficulty = 2;
+          setNoOfMines(60);
+          setNoOfRows(30);
+          setNoOfCols(30);
           height = 529;
           width = 466;
           startNewGame();
@@ -231,7 +275,7 @@ public class MineFrame
     }
   }
   
-  private class TimerListener implements ActionListener
+  public static class TimerListener implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
     {

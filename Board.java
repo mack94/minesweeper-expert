@@ -45,10 +45,12 @@ public class Board extends JPanel
     private static int undoRedoIndex = 0;
     
     //Constructor
-    public Board(JLabel statusbar, int difficulty)
+    public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
     {
         this.statusbar = statusbar;
-        this.difficulty = difficulty;
+        mines = noOfMines;
+        rows = noOfRows;
+        cols = noOfCols;
 
         //Declare image array
         img = new Image[NUM_IMAGES];
@@ -60,34 +62,11 @@ public class Board extends JPanel
         }
 
         setDoubleBuffered(true);
-        setMines();
 
         addMouseListener(new MinesAdapter());
         newGame();
     }
 
-    //This method determines what size the board will be by looking at the variable difficulty
-    public void setMines()
-    {
-        if (difficulty == 0)
-        {
-            mines = 20;
-            rows = 12;
-            cols = 12;
-        }
-        if (difficulty == 1)
-        {
-            mines = 40;
-            rows = 24;
-            cols = 24;
-        }
-        if (difficulty == 2)
-        {
-            mines = 60;
-            rows = 30;
-            cols = 30;
-        }
-    }
 
     public static int getUndoRedoIndex()
     {

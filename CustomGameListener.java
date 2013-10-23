@@ -105,6 +105,7 @@ public class CustomGameListener implements ActionListener
             boardHeight.addChangeListener(new boardHeightListener());
 
             cancelBtn.addActionListener(new FrameDispose());
+            saveBtn.addActionListener(new createCustomGameListener());
         }
     }
 
@@ -157,6 +158,19 @@ public class CustomGameListener implements ActionListener
         public void actionPerformed(ActionEvent e)
         {
             CustomGameFrame.dispose();
+        }
+    }
+    class createCustomGameListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            MineFrame.setNoOfMines(minesCount);
+            MineFrame.setNoOfCols(width);
+            MineFrame.setNoOfRows(height);
+            MineFrame.startNewGame();
+            CustomGameFrame.dispose();
+            
         }
     }
 }

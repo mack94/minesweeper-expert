@@ -14,7 +14,7 @@ public class newGameListener implements ActionListener
         int ask = JOptionPane.showConfirmDialog(null, "Are you sure?");
         if (ask == 0)
         {
-            //MineFrame.startNewGame();
+            MineFrame.startNewGame();
         }
     }
 
