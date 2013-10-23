@@ -29,7 +29,7 @@ public class Board extends JPanel
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    private static int[] field;
+    private int[] field;
     private boolean inGame;
     private int mines_left;
     private Image[] img;
@@ -90,14 +90,14 @@ public class Board extends JPanel
 
     public static int getUndoRedoIndex()
     {
-        field = undoRedoArray.get(undoRedoIndex-1);
+        //int[] newfield = undoRedoArray.get(undoRedoIndex);
         return undoRedoIndex;
     }
 
     public static void setUndoRedoIndex(int value)
     {
         undoRedoIndex = value;
-        field = undoRedoArray.get(undoRedoIndex);
+        //int[] newfield = undoRedoArray.get(undoRedoIndex);
     }
 
     public void newGame()
