@@ -118,8 +118,9 @@ public class MineFrame
       //Create menu items to add to View
       viewMenu = new JMenu("Game");
       viewMenu.setMnemonic('G');
-      pauseItem = new JMenuItem("Pause");
+      pauseItem = new JCheckBoxMenuItem("Pause");
       pauseItem.setMnemonic('P');
+      pauseItem.addActionListener(new TimerListener());
       newGameItem = new JMenuItem("New Game");
       newGameItem.setMnemonic('N');
       newGameItem.addActionListener(new newGameListener());
