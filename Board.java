@@ -135,8 +135,7 @@ public class Board extends JPanel
             //Select a random cell on the board and place a mine in it
             position = (int) (all_cells * random.nextDouble());
 
-            if ((position < all_cells)
-                    && (field[position] != COVERED_MINE_CELL))
+            if ((position < all_cells) && (field[position] != COVERED_MINE_CELL))
             {
 
                 current_col = position % cols;
@@ -443,8 +442,7 @@ public class Board extends JPanel
                     if (field[(cRow * cols) + cCol] > COVERED_MINE_CELL)
                         return;
 
-                    if ((field[(cRow * cols) + cCol] > MINE_CELL)
-                            && (field[(cRow * cols) + cCol] < MARKED_MINE_CELL))
+                    if ((field[(cRow * cols) + cCol] > MINE_CELL) && (field[(cRow * cols) + cCol] < MARKED_MINE_CELL))
                     {
 
                         field[(cRow * cols) + cCol] -= COVER_FOR_CELL;

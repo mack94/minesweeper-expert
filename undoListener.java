@@ -14,7 +14,7 @@ public class undoListener implements ActionListener
         Board.setUndoRedoIndex(undoRedo);
         //Board.repaint();
         System.out.println(undoRedo);
-        
+
     }
 
 }
