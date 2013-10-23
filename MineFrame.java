@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.JMenu;
 import javax.swing.JLabel;
@@ -21,7 +22,6 @@ public class MineFrame
   private JPanel gamePanel;
   private JMenuBar menu;
   private JLabel statusbar;
-  private Board mineBoard;
   private int difficulty = 1;
   
   private int height = 440, width = 377;
@@ -36,7 +36,7 @@ public class MineFrame
   {
     frame = new JFrame();//Create the frame for the GUI
     
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Have the applcation exit when closed
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Have the application exit when closed
     frame.setPreferredSize(new Dimension(width, height));//Set the preferred frame size
     frame.setLocationRelativeTo(null);//Centre the frame
     frame.setTitle("Minesweeper");//Title of the frame
@@ -94,8 +94,10 @@ public class MineFrame
     editMenu.setMnemonic('d');
     undoItem = new JMenuItem("Undo");
     undoItem.setMnemonic('Z');
+    undoItem.addActionListener(new undoListener());
     redoItem = new JMenuItem("Redo");
     redoItem.setMnemonic('Y');
+    redoItem.addActionListener(new redoListener());
     
     //Add items to the editMenu
     editMenu.add(undoItem);
@@ -158,7 +160,6 @@ public class MineFrame
     
     highscore = new JMenu("Highscore");
     highscore.setMnemonic('H');
-    //highscore.addActionListener(new HighscoreListener());
     highscore.addMenuListener(new HighscoreListener());
       
     //Add File, Edit, View and Help to the JMenuBar
