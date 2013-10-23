@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
@@ -34,10 +35,10 @@ public class CustomGameListener implements ActionListener
 
     class CustomGamePanel extends JPanel
     {
-        private int maxMines = 50;
-        private int minMines = 10;
-        private int max = 200;
-        private int min = 20;
+        private int maxMines = 300;
+        private int minMines = 12;
+        private int max = 120;
+        private int min = 12;
 
         private JButton saveBtn, cancelBtn;
         private JLabel noOfMinesLabel, boardWidthLabel, boardHeightLabel;
@@ -62,9 +63,9 @@ public class CustomGameListener implements ActionListener
             //set slider properties
             noOfMines.setMaximum(maxMines);
             noOfMines.setMinimum(minMines);
-            noOfMines.setValue(10); // need to pass in an int
-            noOfMines.setMajorTickSpacing(10);
-            noOfMines.setMinorTickSpacing(1);
+            noOfMines.setValue(20); // need to pass in an int
+            noOfMines.setMajorTickSpacing(50);
+            noOfMines.setMinorTickSpacing(5);
             noOfMines.setSnapToTicks(true);
             noOfMines.setPaintLabels(true);
             noOfMines.setPaintTicks(true);
@@ -72,7 +73,7 @@ public class CustomGameListener implements ActionListener
             boardWidth.setMaximum(max);
             boardWidth.setMinimum(min);
             boardWidth.setValue(20); // need to pass in an int
-            boardWidth.setMajorTickSpacing(30);
+            boardWidth.setMajorTickSpacing(20);
             boardWidth.setMinorTickSpacing(5);
             boardWidth.setSnapToTicks(true);
             boardWidth.setPaintLabels(true);
@@ -81,7 +82,7 @@ public class CustomGameListener implements ActionListener
             boardHeight.setMaximum(max);
             boardHeight.setMinimum(min);
             boardHeight.setValue(20); // need to pass in an int
-            boardHeight.setMajorTickSpacing(30);
+            boardHeight.setMajorTickSpacing(20);
             boardHeight.setMinorTickSpacing(5);
             boardHeight.setSnapToTicks(true);
             boardHeight.setPaintLabels(true);
@@ -165,12 +166,16 @@ public class CustomGameListener implements ActionListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
+            if(minesCount>width*height){
+                JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");
+            }
+            else{
             MineFrame.setNoOfMines(minesCount);
             MineFrame.setNoOfCols(width);
             MineFrame.setNoOfRows(height);
             MineFrame.startNewGame();
             CustomGameFrame.dispose();
-            
+            }
         }
     }
 }
