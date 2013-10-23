@@ -1,5 +1,6 @@
 package mines;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -56,6 +57,7 @@ public class MineFrame
     frame.add(gamePanel);//Add gamePanel to the frame
     startNewGame();
     
+    frame.setBackground(new Color(0xB3B3B3)); //Set Background colour
     frame.pack();//Resize the frame to occupy the smallest amount of space
     frame.setLocationRelativeTo(null); //Centres the frame
     frame.setResizable(true);//Have the frame re-sizable (useful for troubleshooting)
