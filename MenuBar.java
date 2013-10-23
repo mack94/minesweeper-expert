@@ -1,5 +1,7 @@
 package mines;
 
+import java.awt.Dimension;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -9,9 +11,9 @@ import javax.swing.JRadioButtonMenuItem;
 public class MenuBar extends JMenuBar
 {
     private JMenuBar menuBar = new JMenuBar();
-    private JMenu fileMenu, viewMenu, helpMenu;//highscore;
+    private JMenu fileMenu, viewMenu, helpMenu, editMenu;
     private JMenuItem saveItem, loadItem, exitItem, newGameItem, pauseItem,
-            resolveItem, helpItem, highscore, aboutItem;
+            resolveItem, helpItem, highscore, aboutItem, undoItem, redoItem;
     protected JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
             customItem;
 
@@ -21,9 +23,11 @@ public class MenuBar extends JMenuBar
         buildGameMenu();
         buildHighscoreMenu();
         buildHelpMenu();
+        buildEditMenu();
 
         //Add File, View and Help to the JMenuBar
         add(fileMenu);
+        add(editMenu);
         add(viewMenu);
         add(highscore);
         add(helpMenu);
@@ -34,8 +38,10 @@ public class MenuBar extends JMenuBar
         //Create menu items to add to File
         fileMenu = new JMenu("File");
         saveItem = new JMenuItem("Save");
+        saveItem.setMnemonic('s');
         saveItem.addActionListener(new SaveListener());
         loadItem = new JMenuItem("Load");
+        loadItem.setMnemonic('o');
         loadItem.addActionListener(new LoadListener());
         exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(new ExitListener());
@@ -49,7 +55,9 @@ public class MenuBar extends JMenuBar
         //Create menu items to add to View
         viewMenu = new JMenu("Game");
         pauseItem = new JMenuItem("Pause");
+        pauseItem.setMnemonic('p');
         newGameItem = new JMenuItem("New Game");
+        newGameItem.setMnemonic('n');
 
         beginnerItem = new JRadioButtonMenuItem("Beginner");
         beginnerItem.addActionListener(new DifficultyListener(beginnerItem, intermediateItem, expertItem));
@@ -78,6 +86,18 @@ public class MenuBar extends JMenuBar
         viewMenu.add(customItem);
     }
 
+    private void buildEditMenu()
+    {
+        //Create items to add to Edit
+        editMenu = new JMenu("Edit");
+        undoItem = new JMenuItem("Undo");
+        undoItem.setMnemonic('z');
+        redoItem = new JMenuItem("Redo");
+        redoItem.setMnemonic('y');
+        editMenu.add(undoItem);
+        editMenu.add(redoItem);
+    }
+
     private void buildHelpMenu()
     {
         //Create menu items to add to Help
@@ -94,6 +114,10 @@ public class MenuBar extends JMenuBar
     private void buildHighscoreMenu()
     {
         highscore = new JMenuItem("Highscore");
+        //System.out.println(highscore.getPreferredSize());
+        highscore.setPreferredSize(new Dimension(90, 19));
+        highscore.setMaximumSize(new Dimension(90, 19));
+        highscore.setMinimumSize(new Dimension(90, 19));
         highscore.addActionListener(new HighscoreListener());
     }
 }
