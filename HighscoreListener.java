@@ -77,7 +77,7 @@ public class HighscoreListener implements MenuListener
             // this is for Eclipse
             //String path = System.getProperty("user.dir") + "/bin/mines/highscore.txt";
             // for JPL & co
-            String path = System.getProperty("user.dir") + "/mines/highscore.txt"; 
+            String path = "mines/highscore.txt";; 
             File file = new File(path);
             Scanner diskf = null;
             try
@@ -98,6 +98,7 @@ public class HighscoreListener implements MenuListener
             while (diskf.hasNextLine())
             {
                 String line = diskf.nextLine();
+                
                 index = line.indexOf(':');
                 System.out.println(index);
                 index2 = line.indexOf(':', index+1);

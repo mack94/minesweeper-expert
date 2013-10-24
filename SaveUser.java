@@ -1,16 +1,19 @@
 package mines;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.BufferedWriter;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
 public class SaveUser
 {
   private PrintWriter printer = null;
-  private String difficultyString, file = "mines/users.txt";
+  private String difficultyString, file = "/mines/highscore.txt";
   
   public SaveUser(int difficulty)
   {
@@ -27,18 +30,30 @@ public class SaveUser
         case 2: difficultyString = "Expert";
         break;
       }
-      
+      String lines = "";
       try
       {
-        printer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+          Scanner highscoreFile = new Scanner(new File(file));
+          while (highscoreFile.hasNextLine());
+          {
+               lines += highscoreFile.nextLine() + "\n";
+          }
       }
-      catch(IOException ex)
+      catch (FileNotFoundException e)
       {
-        ex.printStackTrace();
+          e.printStackTrace();
       }
-      
-      System.out.print(user + " " + difficultyString);
-      printer.println(user + " " + difficultyString);
+      try
+      {
+          printer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+      }
+      catch (IOException ex)
+      {
+          ex.printStackTrace();
+      }
+
+      System.out.print(lines + user + ":" + difficultyString + ":" + 0);
+      printer.println(lines + user + ":" + difficultyString + ":" + 0);
       printer.close();
     }
   }
