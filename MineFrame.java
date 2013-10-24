@@ -232,7 +232,8 @@ public class MineFrame
         {
             if (beginnerItem.isSelected())
             {
-                setNoOfMines(20);
+                Board.difficulty = 0;
+                setNoOfMines(0);
                 setNoOfRows(15);
                 setNoOfCols(15);
                 width = 250;
@@ -242,7 +243,8 @@ public class MineFrame
 
             else if (intermediateItem.isSelected())
             {
-                setNoOfMines(40);
+                Board.difficulty = 1;
+                setNoOfMines(80);
                 setNoOfRows(24);
                 setNoOfCols(24);
                 height = 440;
@@ -252,6 +254,7 @@ public class MineFrame
 
             else if (expertItem.isSelected())
             {
+                Board.difficulty = 2;
                 setNoOfMines(200);
                 setNoOfRows(30);
                 setNoOfCols(30);
