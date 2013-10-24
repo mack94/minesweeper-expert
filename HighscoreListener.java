@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
@@ -83,6 +84,7 @@ public class HighscoreListener implements MenuListener
             }
             catch (FileNotFoundException e)
             {
+                JOptionPane.showMessageDialog(null, "The highscore.txt file could not be found!");
                 e.printStackTrace();
             }
 
@@ -96,6 +98,7 @@ public class HighscoreListener implements MenuListener
             {
                 String line = diskf.nextLine();
                 
+                try{
                 index = line.indexOf(':');
                 System.out.println(index);
                 index2 = line.indexOf(':', index+1);
@@ -103,6 +106,12 @@ public class HighscoreListener implements MenuListener
                 nameValue += line.substring(0, index) + "\n";
                 difficulyValue += line.substring(index+1, index2) + "\n";
                 scoreValue += line.substring(index2+1, line.length()) + "\n";
+                }
+                catch (IndexOutOfBoundsException e)
+                {
+                    JOptionPane.showMessageDialog(null, "The highscore.txt file is currupt");
+                    e.printStackTrace();
+                }
             }
 
             name.setText(nameValue);

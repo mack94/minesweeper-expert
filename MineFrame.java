@@ -96,7 +96,6 @@ public class MineFrame
         fileMenu.setMnemonic('F');
         saveItem = new JMenuItem("Save");
         saveItem.setMnemonic('S');
-        //saveItem.setMnemonic(KeyEvent.VK_S);
         saveItem.addActionListener(new SaveListener());
         loadItem = new JMenuItem("Load");
         loadItem.setMnemonic('L');
