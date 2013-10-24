@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class SaveUser
 {
   private PrintWriter printer = null;
-  private String difficultyString, file = "/mines/highscore.txt";
+  private String difficultyString, file = "mines/highscore.txt";
   
   public SaveUser(int difficulty)
   {
@@ -31,17 +31,20 @@ public class SaveUser
         break;
       }
       String lines = "";
-      try
+      Scanner highscoreFile = null;
+    try
+    {
+        highscoreFile = new Scanner(new File(file));
+    }
+    catch (FileNotFoundException e)
+    {
+        e.printStackTrace();
+    }
+    System.out.println("test");
+      while (highscoreFile.hasNextLine());
       {
-          Scanner highscoreFile = new Scanner(new File(file));
-          while (highscoreFile.hasNextLine());
-          {
-               lines += highscoreFile.nextLine() + "\n";
-          }
-      }
-      catch (FileNotFoundException e)
-      {
-          e.printStackTrace();
+          System.out.println("test2");
+           lines += highscoreFile.nextLine() + "\n";
       }
       try
       {
