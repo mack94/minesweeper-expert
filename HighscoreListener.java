@@ -36,7 +36,7 @@ public class HighscoreListener implements MenuListener
     class HighscoreFrame extends JPanel
     {
         private JButton okBtn;
-        private JTextArea name, score;
+        private JTextArea name, score, diff;
 
         //private JLabel heading;
 
@@ -49,6 +49,11 @@ public class HighscoreListener implements MenuListener
             name.setBackground(Color.decode("#eeeeee"));
             name.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
 
+            diff = new JTextArea("Difficulity \n \n");
+            diff.setEditable(false);
+            diff.setBackground(Color.decode("#eeeeee"));
+            diff.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
+            
             okBtn = new JButton("OK");
             okBtn.addActionListener(new FrameDispose());
 
@@ -59,8 +64,9 @@ public class HighscoreListener implements MenuListener
 
             loadHighscoreFile();
 
+            add(diff, BorderLayout.CENTER);
             add(name, BorderLayout.WEST);
-            add(score, BorderLayout.CENTER);
+            add(score, BorderLayout.EAST);
             add(okBtn, BorderLayout.SOUTH);
             setPreferredSize(new Dimension(330, 220));
 
@@ -69,9 +75,9 @@ public class HighscoreListener implements MenuListener
         public void loadHighscoreFile()
         {
             // this is for Eclipse
-            String path = System.getProperty("user.dir") + "/bin/mines/highscore.txt";
+            //String path = System.getProperty("user.dir") + "/bin/mines/highscore.txt";
             // for JPL & co
-            //String path = System.getProperty("user.dir") + "/mines/highscore.txt"; 
+            String path = System.getProperty("user.dir") + "/mines/highscore.txt"; 
             File file = new File(path);
             Scanner diskf = null;
             try
@@ -85,17 +91,24 @@ public class HighscoreListener implements MenuListener
 
             String nameValue = name.getText();
             String scoreValue = score.getText();
+            String difficulyValue = diff.getText();
             int index = 0;
+            int index2 = 0;
 
             while (diskf.hasNextLine())
             {
                 String line = diskf.nextLine();
                 index = line.indexOf(':');
+                System.out.println(index);
+                index2 = line.indexOf(':', index+1);
+                System.out.println(index2);
                 nameValue += line.substring(0, index) + "\n";
-                scoreValue += line.substring(index + 1, line.length() - 1) + "\n";
+                difficulyValue += line.substring(index+1, index2) + "\n";
+                scoreValue += line.substring(index2+1, line.length()) + "\n";
             }
 
             name.setText(nameValue);
+            diff.setText(difficulyValue);
             score.setText(scoreValue);
         }
     }
