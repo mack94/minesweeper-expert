@@ -74,9 +74,6 @@ public class HighscoreListener implements MenuListener
 
         public void loadHighscoreFile()
         {
-            // this is for Eclipse
-            //String path = System.getProperty("user.dir") + "/bin/mines/highscore.txt";
-            // for JPL & co
             String path = "mines/highscore.txt";; 
             File file = new File(path);
             Scanner diskf = null;
