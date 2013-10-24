@@ -39,8 +39,6 @@ public class HighscoreListener implements MenuListener
         private JButton okBtn;
         private JTextArea name, score, diff;
 
-        //private JLabel heading;
-
         public HighscoreFrame()
         {
             setLayout(new BorderLayout());
@@ -54,7 +52,7 @@ public class HighscoreListener implements MenuListener
             diff.setEditable(false);
             diff.setBackground(Color.decode("#eeeeee"));
             diff.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
-            
+
             okBtn = new JButton("OK");
             okBtn.addActionListener(new FrameDispose());
 
@@ -75,7 +73,7 @@ public class HighscoreListener implements MenuListener
 
         public void loadHighscoreFile()
         {
-            String path = "mines/highscore.txt";; 
+            String path = "mines/highscore.txt";;
             File file = new File(path);
             Scanner diskf = null;
             try
@@ -97,15 +95,14 @@ public class HighscoreListener implements MenuListener
             while (diskf.hasNextLine())
             {
                 String line = diskf.nextLine();
-                
-                try{
-                index = line.indexOf(':');
-                System.out.println(index);
-                index2 = line.indexOf(':', index+1);
-                System.out.println(index2);
-                nameValue += line.substring(0, index) + "\n";
-                difficulyValue += line.substring(index+1, index2) + "\n";
-                scoreValue += line.substring(index2+1, line.length()) + "\n";
+
+                try
+                {
+                    index = line.indexOf(':');
+                    index2 = line.indexOf(':', index + 1);
+                    nameValue += line.substring(0, index) + "\n";
+                    difficulyValue += line.substring(index + 1, index2) + "\n";
+                    scoreValue += line.substring(index2 + 1, line.length()) + "\n";
                 }
                 catch (IndexOutOfBoundsException e)
                 {
@@ -117,6 +114,8 @@ public class HighscoreListener implements MenuListener
             name.setText(nameValue);
             diff.setText(difficulyValue);
             score.setText(scoreValue);
+
+            diskf.reset();
         }
     }
 
