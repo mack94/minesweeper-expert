@@ -39,7 +39,7 @@ public class Board extends JPanel
     private int all_cells;
     private JLabel statusbar;
 
-    private int difficulty;
+    public static int difficulty;
     private String mineStr = "Mines left: ";
 
     private static ArrayList<int[]> undoRedoArray = new ArrayList<int[]>();

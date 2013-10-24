@@ -40,7 +40,7 @@ public class Board extends JPanel
     private JLabel statusbar;
 
     private int difficulty;
-  private String mineStr = "Mines left: ";
+    private String mineStr = "Mines left: ";
 
     private static ArrayList<int[]> undoRedoArray = new ArrayList<int[]>();
     private static int undoRedoIndex = 0;
@@ -195,7 +195,7 @@ public class Board extends JPanel
         }
     }
 
-     public void find_empty_cells(int j)
+ public void find_empty_cells(int j)
  {
 
   int current_col = j % cols;
