@@ -10,11 +10,11 @@ import javax.swing.JOptionPane;
 public class SaveUser
 {
   private PrintWriter printer = null;//Create a PrintWriter but set to null for assigning later
-  private String difficultyString, file = "mines/highscore.txt";
+  private String difficultyString, file = "mines/highscore.txt", user = "";
   
   public SaveUser(int difficulty)
   {
-    String user = JOptionPane.showInputDialog("Enter your name:");
+     user = JOptionPane.showInputDialog("Enter your name:");
     
     //If the JOptionPane returns a string
     if(user != null)
