@@ -1,6 +1,7 @@
 package mines;
 
 import java.lang.Character;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFileChooser;
 
@@ -49,7 +51,8 @@ public class LoadListener implements ActionListener
         
         // get length of array
         int n=0;
-        while (scan.hasNext()){
+        while (scan.hasNext())
+        {
         n +=1;
         scan.next();
         }
@@ -67,11 +70,21 @@ public class LoadListener implements ActionListener
           int[] arr = new int[n];
           for(int i = 0; i < arr.length; i++)
           {
+              try
+              {
               arr[i] = scan.nextInt();
+              }
+              catch(InputMismatchException ex)
+              {
+                  JOptionPane.showMessageDialog(null, "This file is not supported!");
+                  ex.printStackTrace();
+              }
           }
-          for (int i = 0; i<arr.length; i++ )
+          scan.close();
+          scan=null;
+          for (int j = 0; j < arr.length; j++ )
           {
-              System.out.println(arr[i]);
+              System.out.print(arr[j]);
           }
           
           /*
