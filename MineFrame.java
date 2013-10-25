@@ -170,6 +170,7 @@ public class MineFrame
         helpMenu.setMnemonic('H');
         resolveItem = new JMenuItem("Solve");
         resolveItem.setMnemonic('c');
+        resolveItem.addActionListener(new resolveListener());
         helpItem = new JMenuItem("Help");
         helpItem.setMnemonic('?');
         aboutItem = new JMenuItem("About");

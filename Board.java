@@ -16,7 +16,7 @@ public class Board extends JPanel
     private final int NUM_IMAGES = 13;
     private final int CELL_SIZE = 15;
 
-    private final int COVER_FOR_CELL = 10;
+    private final static int COVER_FOR_CELL = 10;
     private final int MARK_FOR_CELL = 10;
     private final int EMPTY_CELL = 0;
     private final int MINE_CELL = 9;
@@ -33,8 +33,8 @@ public class Board extends JPanel
     private int mines_left;
     private Image[] img;
     private int mines;
-    private int rows;
-    private int cols;
+    private static int rows;
+    private static int cols;
     private int all_cells;
     private JLabel statusbar;
 
@@ -95,15 +95,21 @@ public class Board extends JPanel
         }
         //repaint();
     }
-
+// gets the fields and returns them
     public static int[] getField()
     {
-        for(int i = 0; i<field.length;i++)
-        {
-            System.out.print(field[i]);
-        }
-        System.out.println("\n");
         return field;
+    }
+    public static void resolve()
+    {
+      System.out.print("resolving..");
+        for(int cCol = 0; cCol < cols; cCol++)
+        {
+            for(int cRow = 0; cRow < rows; cRow++)
+            {
+                field[(cRow * cols) + cCol] -= COVER_FOR_CELL;
+            }
+        }
     }
     public void newGame()
     {

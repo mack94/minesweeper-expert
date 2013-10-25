@@ -29,17 +29,17 @@ public class SaveListener implements ActionListener
             }
         }
         FileChooserPanel fileChooserPanel = new FileChooserPanel();
-
-        //Handle open button action.
-        int returnVal = fileChooser.showSaveDialog(fileChooserPanel);
+      //Handle save button action.
+      int returnVal = fileChooser.showSaveDialog(fileChooserPanel);
+      
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
-            // open the file.
+            //Open the file.
             System.out.println("Saving: " + file.getName());
             try
             {
-                printer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));//Have the FileWriter append to the end of the file
+                printer = new PrintWriter(new BufferedWriter(new FileWriter(file)));//Have the FileWriter overwrite a selected file
             }
             catch (FileNotFoundException ex)
             {
@@ -49,7 +49,16 @@ public class SaveListener implements ActionListener
             {
                 ex.printStackTrace();
             }
-            
+
+            int [] filed = Board.getField();
+            //Cycle through the field cells
+            for(int i = 0; i < filed.length; i++)
+            {
+              for(int j = 0; j < filed.length; j++)
+              {
+                printer.print(filed[j] + " ");//Print cell number to the file with a space to help for reading
+              }
+            }
             String save = "";
             int [] field = Board.getField();
             for(int i = 0; i < field.length;i++)
