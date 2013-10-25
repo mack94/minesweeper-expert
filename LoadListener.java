@@ -1,13 +1,12 @@
 package mines;
 
 import java.lang.Character;
-
+import java.util.Scanner;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,6 +36,45 @@ public class LoadListener implements ActionListener
           File file = fileChooser.getSelectedFile();//Set the file to the one selected by the user
           System.out.println("Opening: " + file.getName());//Check the program gets to here
           
+        // initialise scanner
+        Scanner scan = null;
+        try
+        {
+            scan = new Scanner(file);
+        }
+        catch (FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        // get length of array
+        int n=0;
+        while (scan.hasNext()){
+        n +=1;
+        scan.next();
+        }
+        scan.close();
+        
+        // fill array
+        try
+        {
+            scan = new Scanner(file);
+        }
+        catch (FileNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+          int[] arr = new int[n];
+          for(int i = 0; i < arr.length; i++)
+          {
+              arr[i] = scan.nextInt();
+          }
+          for (int i = 0; i<arr.length; i++ )
+          {
+              System.out.println(arr[i]);
+          }
+          
+          /*
           try
           {
             BufferedReader br = new BufferedReader(new FileReader(file));   
@@ -68,6 +106,7 @@ public class LoadListener implements ActionListener
           {
             ex.printStackTrace();
           }
+          */
         }
         else
         {
