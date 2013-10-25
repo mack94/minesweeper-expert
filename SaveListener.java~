@@ -35,11 +35,13 @@ public class SaveListener implements ActionListener
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
+            //Open the file.
+            System.out.println("Saving: " + file.getName());
             try
             {
                 printer = new PrintWriter(new BufferedWriter(new FileWriter(file)));//Have the FileWriter overwrite a selected file
             }
-            catch (FileNotFoundException ex)//Catch the exceptions
+            catch (FileNotFoundException ex)
             {
                 ex.printStackTrace();
             }

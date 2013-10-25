@@ -1,5 +1,8 @@
 package mines;
 
+
+import java.util.Scanner;
+
 import java.lang.Character;
 
 import java.io.File;
@@ -39,6 +42,7 @@ public class LoadListener implements ActionListener
           
           try
           {
+            Scanner reader = new Scanner(file);
             BufferedReader br = new BufferedReader(new FileReader(file));   
             
             String cellVal = "", line = br.readLine();//Create a string to hold the cell value as a string
@@ -47,15 +51,16 @@ public class LoadListener implements ActionListener
             
             for(int i = 0; i < line.length() / 4; i++)//Causes a very long read time
             {
-              cellVal += br.read();
+              cellVal += reader.next();
               
-              if(br.read() == ' ')//Check the latest char added to see if it is a space
+              if(cellVal.endsWith(" "))//Check the latest char added to see if it is a space
               {
                 cellVal.trim();//Trim the whitespace off cellVal
                 tempVal = Integer.parseInt(cellVal);//Make the string into an int so it can be added to loadedField[]
                 cellVal = "";
                 System.out.print("Testing inside the if statement");//Test if this block of code is triggered
               }
+              System.out.print("Testing outside the if statement");//Test if this block of code is triggered
             }
             br.close();
           }

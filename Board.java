@@ -28,7 +28,7 @@ public class Board extends JPanel
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    private static int[] field;
+    public static int[] field;
     private boolean inGame;
     private int mines_left;
     private Image[] img;
