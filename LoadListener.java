@@ -68,17 +68,18 @@ public class LoadListener implements ActionListener
             ex.printStackTrace();
         }
           int[] arr = new int[n];
-          for(int i = 0; i < arr.length; i++)
+          try
           {
-              try
+              for(int i = 0; i < arr.length; i++)
               {
-              arr[i] = scan.nextInt();
+              
+                  arr[i] = scan.nextInt();
               }
-              catch(InputMismatchException ex)
-              {
-                  JOptionPane.showMessageDialog(null, "This file is not supported!");
-                  ex.printStackTrace();
-              }
+          }
+          catch(InputMismatchException ex)
+          {
+              JOptionPane.showMessageDialog(null, "This file is not supported!");
+              ex.printStackTrace();
           }
           scan.close();
           scan=null;
