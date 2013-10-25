@@ -16,7 +16,7 @@ public class Board extends JPanel
     private final int NUM_IMAGES = 13;
     private final int CELL_SIZE = 15;
 
-    private final static int COVER_FOR_CELL = 10;
+    public final static int COVER_FOR_CELL = 10;
     private final int MARK_FOR_CELL = 10;
     private final int EMPTY_CELL = 0;
     private final int MINE_CELL = 9;
@@ -95,23 +95,27 @@ public class Board extends JPanel
         }
         //repaint();
     }
-// gets the fields and returns them
+    
+    //Gets the field and returns it
     public static int[] getField()
     {
         return field;
     }
-    public static void resolve()
-    {
-      System.out.print("resolving..");
-        for(int cCol = 0; cCol < cols; cCol++)
-        {
-            for(int cRow = 0; cRow < rows; cRow++)
-            {
-                field[(cRow * cols) + cCol] -= COVER_FOR_CELL; // this works when creating a new file so repaint(); has to be called
-            }
-        }
-        //repaint();
-    }
+    
+//    //Helper method to resove the board
+//    public void resolve()
+//    {
+//      System.out.print("Resolving...");
+//        for(int cCol = 0; cCol < cols; cCol++)
+//        {
+//            for(int cRow = 0; cRow < rows; cRow++)
+//            {
+//                field[(cRow * cols) + cCol] -= COVER_FOR_CELL; // this works when creating a new file so repaint() has to be called
+//            }
+//        }
+//        repaint();
+//    }
+    
     public void newGame()
     {
         Random random;
@@ -128,7 +132,7 @@ public class Board extends JPanel
         //Assign the amount of cells there are to all_cells
         all_cells = rows * cols;
 
-        //Create an array called 'field' and give it the size of all_cells
+        //Assign 'field' the size of all_cells
         field = new int[all_cells];
 
         //Assign cover cell image to all cells on the board

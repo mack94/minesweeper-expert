@@ -40,10 +40,7 @@ public class MineFrame
     private JMenuItem saveItem, loadItem, exitItem, newGameItem;
     private static JMenuItem pauseItem;
     private JMenuItem resolveItem;
-    private JMenuItem helpItem;
-    private JMenuItem aboutItem;
-    private JMenuItem undoItem;
-    private JMenuItem redoItem;
+    private JMenuItem undoItem, redoItem;
     private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
             customItem;
 
@@ -168,18 +165,13 @@ public class MineFrame
         //Create menu items to add to Help
         helpMenu = new JMenu("Help");
         helpMenu.setMnemonic('H');
+        
         resolveItem = new JMenuItem("Solve");
         resolveItem.setMnemonic('c');
-        resolveItem.addActionListener(new resolveListener());
-        helpItem = new JMenuItem("Help");
-        helpItem.setMnemonic('?');
-        aboutItem = new JMenuItem("About");
-        aboutItem.setMnemonic('A');
+        resolveItem.addActionListener(new ResolveListener());
 
-        //Add all items to helpMenu
+        //Add item to helpMenu
         helpMenu.add(resolveItem);
-        helpMenu.add(helpItem);
-        helpMenu.add(aboutItem);
 
         highscore = new JMenu("Highscore");
         highscore.setMnemonic('H');
@@ -277,6 +269,30 @@ public class MineFrame
         }
     }
 
+    
+    //Method to rotate through all field cells solve the board
+    private class ResolveListener implements ActionListener
+    {
+      @Override
+      public void actionPerformed(ActionEvent arg0)
+      {
+        for(int cCol = 0; cCol < MineFrame.getNoOfCols(); cCol++)
+        {
+            for(int cRow = 0; cRow < MineFrame.getNoOfRows(); cRow++)
+            {
+                Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] -= Board.COVER_FOR_CELL;//Remove the covers for all cells
+                
+                if(Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] == 9)//Check if a cell is a mine
+                {
+                  Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] += 11;//Turn mine cells into a marked mine cell
+                }
+            }
+        }
+        frame.repaint();
+      }
+    }
+
+    
     public static class TimerListener implements ActionListener
     {
         @Override
