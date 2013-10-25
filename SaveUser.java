@@ -9,13 +9,14 @@ import javax.swing.JOptionPane;
 
 public class SaveUser
 {
-  private PrintWriter printer = null;
-  private String difficultyString, file = "mines/users.txt";
+  private PrintWriter printer = null;//Create a PrintWriter but set to null for assigning later
+  private String difficultyString, file = "mines/highscore.txt", user = "";
   
   public SaveUser(int difficulty)
   {
-    String user = JOptionPane.showInputDialog("Enter your name:");
+     user = JOptionPane.showInputDialog("Enter your name:");
     
+    //If the JOptionPane returns a string
     if(user != null)
     {
       switch(difficulty)
@@ -27,19 +28,17 @@ public class SaveUser
         case 2: difficultyString = "Expert";
         break;
       }
-      
       try
       {
-        printer = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+          printer = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));//Have the FileWriter append to the end of the file
       }
-      catch(IOException ex)
+      catch (IOException ex)//Catch the IO exception
       {
-        ex.printStackTrace();
+          ex.printStackTrace();
       }
-      
-      System.out.print(user + " " + difficultyString);
-      printer.println(user + " " + difficultyString);
-      printer.close();
+
+      printer.println(user + ":" + difficultyString + ":" + 0);//Print to the file
+      printer.close();//Close the PrintWriter
     }
   }
 }

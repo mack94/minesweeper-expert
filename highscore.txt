@@ -1,3 +1,3 @@
-Jared:50
-John Smith:100
-Max:300
+Jared:Expert:50
+John Smith:Beginner:100
+Max:intermediate:300

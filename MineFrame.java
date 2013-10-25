@@ -96,7 +96,6 @@ public class MineFrame
         fileMenu.setMnemonic('F');
         saveItem = new JMenuItem("Save");
         saveItem.setMnemonic('S');
-        //saveItem.setMnemonic(KeyEvent.VK_S);
         saveItem.addActionListener(new SaveListener());
         loadItem = new JMenuItem("Load");
         loadItem.setMnemonic('L');
@@ -171,6 +170,7 @@ public class MineFrame
         helpMenu.setMnemonic('H');
         resolveItem = new JMenuItem("Solve");
         resolveItem.setMnemonic('c');
+        resolveItem.addActionListener(new resolveListener());
         helpItem = new JMenuItem("Help");
         helpItem.setMnemonic('?');
         aboutItem = new JMenuItem("About");
@@ -233,7 +233,7 @@ public class MineFrame
             if (beginnerItem.isSelected())
             {
                 Board.difficulty = 0;
-                setNoOfMines(0);
+                setNoOfMines(20);
                 setNoOfRows(15);
                 setNoOfCols(15);
                 width = 250;
