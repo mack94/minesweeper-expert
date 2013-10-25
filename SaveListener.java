@@ -49,7 +49,16 @@ public class SaveListener implements ActionListener
             {
                 ex.printStackTrace();
             }
-            printer.println("This is a test file");//Print to the file
+            
+            String save = "";
+            int [] field = Board.getField();
+            for(int i = 0; i < field.length;i++)
+            {
+                save += field[i];
+                save += "\n";
+            }
+            
+            printer.println(save);//Print to the file
             printer.close();//Close the PrintWriter
         }
         else

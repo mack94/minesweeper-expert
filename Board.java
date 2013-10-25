@@ -2,7 +2,6 @@ package mines;
 
 import java.util.Random;
 import java.util.ArrayList;
-
 import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -67,21 +66,44 @@ public class Board extends JPanel
         addMouseListener(new MinesAdapter());
         newGame();
     }
-
+// TO DO implement redo/undo
     public static int getUndoRedoIndex()
     {
-        field = undoRedoArray.get(undoRedoIndex-1);
-        //int[] newfield = undoRedoArray.get(undoRedoIndex);
         return undoRedoIndex;
     }
 
     public static void setUndoRedoIndex(int value)
     {
         undoRedoIndex = value;
-        field = undoRedoArray.get(undoRedoIndex);
-        //int[] newfield = undoRedoArray.get(undoRedoIndex);
     }
     
+    public static int[] getUndoRedoArray(int index)
+    {   
+        try{
+        return undoRedoArray.get(index);
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            System.out.println("ArrayIndexOutOfBoundsException");
+            return undoRedoArray.get(0);
+        }
+        
+    }
+    
+    public static void setField(int[] newfield)
+    {
+        field = newfield;
+        //repaint();
+    }
+    public static int[] getField()
+    {
+        for(int i = 0; i<field.length;i++)
+        {
+            System.out.print(field[i]);
+        }
+        System.out.println("\n");
+        return field;
+    }
     public void newGame()
     {
         Random random;
@@ -195,6 +217,7 @@ public class Board extends JPanel
         }
     }
 
+    // search & uncover cell when there isn't a mine around it
  public void find_empty_cells(int j)
  {
 
@@ -299,6 +322,7 @@ public class Board extends JPanel
  @Override
  public void paint(Graphics g)
  {
+     
         int cell = 0;
         int uncover = 0;
 
@@ -314,6 +338,7 @@ public class Board extends JPanel
                     inGame = false;
                 }
 
+                // paint mines corresponding to the images
                 if (!inGame)
                 {
                     if (cell == COVERED_MINE_CELL)
@@ -363,6 +388,7 @@ public class Board extends JPanel
         }
     }
 
+// click event when user clicked a field
 class MinesAdapter extends MouseAdapter
  {
   @Override
@@ -384,8 +410,11 @@ class MinesAdapter extends MouseAdapter
 
    if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
    {
+     // add to undoRedo array list
      undoRedoArray.add(field);
      undoRedoIndex++;
+     //getField();
+     //rightmouse button - set flag and update statusbar
     if (e.getButton() == MouseEvent.BUTTON3)
     {
 
@@ -418,7 +447,7 @@ class MinesAdapter extends MouseAdapter
     }
     else
     {
-
+// nothing happens when we click on a marked cell
      if (field[(cRow * cols) + cCol] > COVERED_MINE_CELL)
       return;
 
