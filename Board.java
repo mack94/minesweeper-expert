@@ -107,9 +107,10 @@ public class Board extends JPanel
         {
             for(int cRow = 0; cRow < rows; cRow++)
             {
-                field[(cRow * cols) + cCol] -= COVER_FOR_CELL;
+                field[(cRow * cols) + cCol] -= COVER_FOR_CELL; // this works when creating a new file so repaint(); has to be called
             }
         }
+        //repaint();
     }
     public void newGame()
     {
