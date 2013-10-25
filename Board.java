@@ -66,7 +66,17 @@ public class Board extends JPanel
         addMouseListener(new MinesAdapter());
         newGame();
     }
-// TO DO implement redo/undo
+    
+    
+    //Gets the field and returns it
+    public static int[] getField()
+    {
+        return field;
+    }
+
+    
+    
+    // TO DO implement redo/undo
     public static void undo()
     {
         undoRedoIndex--;
@@ -95,26 +105,6 @@ public class Board extends JPanel
         }
         //repaint();
     }
-    
-    //Gets the field and returns it
-    public static int[] getField()
-    {
-        return field;
-    }
-    
-//    //Helper method to resove the board
-//    public void resolve()
-//    {
-//      System.out.print("Resolving...");
-//        for(int cCol = 0; cCol < cols; cCol++)
-//        {
-//            for(int cRow = 0; cRow < rows; cRow++)
-//            {
-//                field[(cRow * cols) + cCol] -= COVER_FOR_CELL; // this works when creating a new file so repaint() has to be called
-//            }
-//        }
-//        repaint();
-//    }
     
     public void newGame()
     {

@@ -23,7 +23,6 @@ public class MineFrame
     private static JPanel gamePanel;
 
     private static JLabel statusbar;
-    private Board mineBoard;
 
     private static int noOfMines = 40;
     private static int noOfRows = 24;
@@ -280,12 +279,15 @@ public class MineFrame
         {
             for(int cRow = 0; cRow < MineFrame.getNoOfRows(); cRow++)
             {
+              if(Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] >= 10 && Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] != 20)
+              {
                 Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] -= Board.COVER_FOR_CELL;//Remove the covers for all cells
                 
                 if(Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] == 9)//Check if a cell is a mine
                 {
                   Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] += 11;//Turn mine cells into a marked mine cell
                 }
+              }
             }
         }
         frame.repaint();
