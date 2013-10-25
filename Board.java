@@ -67,34 +67,35 @@ public class Board extends JPanel
         newGame();
     }
 // TO DO implement redo/undo
-    public static int getUndoRedoIndex()
+    public static void undo()
     {
-        return undoRedoIndex;
-    }
-
-    public static void setUndoRedoIndex(int value)
-    {
-        undoRedoIndex = value;
-    }
-    
-    public static int[] getUndoRedoArray(int index)
-    {   
-        try{
-        return undoRedoArray.get(index);
+        undoRedoIndex--;
+        try
+        {
+        field = undoRedoArray.get(undoRedoIndex);
         }
         catch (ArrayIndexOutOfBoundsException ex)
         {
             System.out.println("ArrayIndexOutOfBoundsException");
-            return undoRedoArray.get(0);
+
         }
-        
-    }
-    
-    public static void setField(int[] newfield)
-    {
-        field = newfield;
         //repaint();
     }
+    
+    public static void redo()
+    {
+        undoRedoIndex++;
+        try
+        {
+        field = undoRedoArray.get(undoRedoIndex);
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            System.out.println("ArrayIndexOutOfBoundsException");
+        }
+        //repaint();
+    }
+
     public static int[] getField()
     {
         for(int i = 0; i<field.length;i++)
@@ -413,7 +414,7 @@ class MinesAdapter extends MouseAdapter
      // add to undoRedo array list
      undoRedoArray.add(field);
      undoRedoIndex++;
-     //getField();
+     
      //rightmouse button - set flag and update statusbar
     if (e.getButton() == MouseEvent.BUTTON3)
     {
