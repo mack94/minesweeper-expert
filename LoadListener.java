@@ -44,11 +44,11 @@ public class LoadListener implements ActionListener
             String cellVal = "", line = br.readLine();//Create a string to hold the cell value as a string
             int[] loadedField;//Create an array to hold the parsed integer values read from the file
             int tempVal = 0;
-            
+            //System.out.print(line);
             for(int i = 0; i < line.length() / 4; i++)//Causes a very long read time
             {
-              cellVal += br.read();
-              
+              cellVal += br.read(); // always returns "-1"
+              //System.out.print(cellVal); // use with caution! i created a txt file with numbers from 0-20
               if(br.read() == ' ')//Check the latest char added to see if it is a space
               {
                 cellVal.trim();//Trim the whitespace off cellVal
