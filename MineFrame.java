@@ -233,7 +233,7 @@ public class MineFrame
             if (beginnerItem.isSelected())
             {
                 Board.difficulty = 0;
-                setNoOfMines(0);
+                setNoOfMines(20);
                 setNoOfRows(15);
                 setNoOfCols(15);
                 width = 250;
