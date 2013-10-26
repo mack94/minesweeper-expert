@@ -5,14 +5,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
@@ -324,8 +330,12 @@ public class MineFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
+        System.out.println(Board.undoRedoIndex);
         Board.undoRedoIndex--;
-        
+        System.out.println(Board.undoRedoIndex);
+        System.out.println(Board.field);
+        System.out.println(Board.undoRedoArray);
+
         try
         {
           Board.field = Board.undoRedoArray.get(Board.undoRedoIndex);
@@ -338,6 +348,86 @@ public class MineFrame
         }
       }
     }
+    
+    public class LoadListener implements ActionListener
+    {
+        private JFileChooser fileChooser = new JFileChooser();    
+
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            //Create new Panel
+            class FileChooserPanel extends JPanel
+            {
+                public FileChooserPanel()
+                {
+                }
+            }
+            FileChooserPanel fileChooserPanel = new FileChooserPanel();//Create a new FileChooserPanel
+            int returnVal = fileChooser.showOpenDialog(fileChooserPanel);//Handle open button action
+            
+            
+            if (returnVal == JFileChooser.APPROVE_OPTION)//Run the following code if the user opens a file
+            {
+              File file = fileChooser.getSelectedFile();//Set the file to the one selected by the user
+              System.out.println("Opening: " + file.getName());//Check the program gets to here
+              
+            // initialise scanner
+            Scanner scan = null;
+            try
+            {
+                scan = new Scanner(file);
+            }
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+            
+            // get length of array
+            int n=0;
+            while (scan.hasNext())
+            {
+            n +=1;
+            scan.next();
+            }
+            scan.close();
+            
+            // fill array
+            try
+            {
+                scan = new Scanner(file);
+            }
+            catch (FileNotFoundException ex)
+            {
+                ex.printStackTrace();
+            }
+              int[] arr = new int[n];
+              try
+              {
+                  for(int i = 0; i < arr.length; i++)
+                  {
+                  
+                      arr[i] = scan.nextInt();
+                  }
+              }
+              catch(InputMismatchException ex)
+              {
+                  JOptionPane.showMessageDialog(null, "This file is not supported!");
+                  ex.printStackTrace();
+              }
+              scan.close();
+              scan=null;
+              Board.field=arr;
+              frame.repaint();
+
+            }
+            else
+            {
+                System.out.println("Open command cancelled by user.");
+            }
+        }
+    }
+
 
     //Method to handle pausing the game and the timer
     public static class TimerListener implements ActionListener
