@@ -28,21 +28,21 @@ public class MineFrame
     private static int noOfRows = 24;
     private static int noOfCols = 24;
     private static Timer timer;//Declare a Timer object
-    private final static int DELAY = 20;//Delay on the timer
+    private final static int DELAY = 20;//Delcare and set the delay on the timer
     public static boolean playingGame;//Static boolean to be accessed across all classes
 
-    private static int height = 440;//Default width and height for the frame
+    //Default width and height for the frame
+    private static int height = 440;
     private static int width = 377;
 
-    private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
+    //Declare the menu bar and its items
     private JMenuBar menuBar = new JMenuBar();
-    private JMenuItem saveItem, loadItem, exitItem, newGameItem;
+    private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
     private static JMenuItem pauseItem;
-    private JMenuItem resolveItem;
-    private JMenuItem undoItem, redoItem;
-    private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
-            customItem;
+    private JMenuItem saveItem, loadItem, exitItem, newGameItem, resolveItem, undoItem, redoItem;
+    private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem, customItem;
 
+    //Constructor of the MineFrame
     public MineFrame()
     {
         frame = new JFrame();//Create the frame for the GUI
@@ -110,10 +110,10 @@ public class MineFrame
         editMenu.setMnemonic('d');
         undoItem = new JMenuItem("Undo");
         undoItem.setMnemonic('Z');
-        undoItem.addActionListener(new undoListener());
+        undoItem.addActionListener(new UndoListener());
         redoItem = new JMenuItem("Redo");
         redoItem.setMnemonic('Y');
-        redoItem.addActionListener(new redoListener());
+        redoItem.addActionListener(new RedoListener());
 
         //Add items to the editMenu
         editMenu.add(undoItem);
@@ -186,6 +186,7 @@ public class MineFrame
         return menuBar;
     }
 
+    //Accessors and mutators for the number of mines, rows and columns
     public static int getNoOfMines()
     {
         return noOfMines;
@@ -216,6 +217,7 @@ public class MineFrame
         MineFrame.noOfRows = noOfRows;
     }
 
+    //Method to handle the game difficulty changes
     private class DifficultyListener implements ActionListener
     {
         @Override
@@ -256,6 +258,7 @@ public class MineFrame
         }
     }
 
+    //Method to call the startNewGame method when the user selects the new game menu option
     private class GameListener implements ActionListener
     {
         @Override
@@ -279,6 +282,7 @@ public class MineFrame
         {
             for(int cRow = 0; cRow < MineFrame.getNoOfRows(); cRow++)
             {
+              //Checks that the square hasn't already been uncovered by the user
               if(Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] >= 10 && Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] != 20)
               {
                 Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] -= Board.COVER_FOR_CELL;//Remove the covers for all cells
@@ -290,11 +294,52 @@ public class MineFrame
               }
             }
         }
+        Board.inGame = false;
+        frame.repaint();//Repaint the frame to show the resolved board
+      }
+    }
+    
+    private class RedoListener implements ActionListener
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        Board.undoRedoIndex++;
+        
+        try
+        {
+          Board.field = Board.undoRedoArray.get(Board.undoRedoIndex);
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            System.out.println("ArrayIndexOutOfBoundsException");
+        }
+        System.out.println("Board repainted");//Test if the program reaches this point
         frame.repaint();
       }
     }
-
     
+    private class UndoListener implements ActionListener
+    {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        Board.undoRedoIndex--;
+        
+        try
+        {
+          Board.field = Board.undoRedoArray.get(Board.undoRedoIndex);
+          System.out.println("Board repainted");//Test if the program reaches this point
+          frame.repaint();
+        }
+        catch (ArrayIndexOutOfBoundsException ex)
+        {
+            System.out.println("ArrayIndexOutOfBoundsException");
+        }
+      }
+    }
+
+    //Method to handle pausing the game and the timer
     public static class TimerListener implements ActionListener
     {
         @Override
@@ -302,13 +347,13 @@ public class MineFrame
         {
             if (!pauseItem.isSelected())
             {
-                playingGame = false;
-                timer.stop();
+                playingGame = false;//Stop the user making actions
+                timer.stop();//Stop the timer
             }
             if (pauseItem.isSelected())
             {
-                playingGame = true;
-                timer.start();
+                playingGame = true;//Allow the user to continue the game
+                timer.start();//Start the timer counting again
             }
         }
     }

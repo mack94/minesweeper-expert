@@ -1,3 +1,10 @@
 Jared:Expert:50
 John Smith:Beginner:100
 Max:intermediate:300
+:Beginner:0
+:Beginner:0
+:Beginner:0
+:Beginner:0
+:Beginner:0
+:Beginner:0
+:Beginner:0
