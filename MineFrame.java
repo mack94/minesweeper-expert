@@ -241,7 +241,6 @@ public class MineFrame
     {
         long endTime = System.currentTimeMillis();
         long tDelta = endTime - startTime;
-        //startTime = 0;
         return tDelta / 1000.0;
     }
 

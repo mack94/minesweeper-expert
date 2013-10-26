@@ -89,7 +89,6 @@ public class Board extends JPanel
 
         MineFrame.undoStack.push(fieldSave);//Push the array 'field' into the undoStack
 
-        System.out.println("pushed to stack");
         // reset the array
         fieldSave = null;
     }
@@ -374,7 +373,7 @@ public class Board extends JPanel
             statusbar.setText("Game won");
             new SaveUser(difficulty);
         }
-        else if (uncover == 0 && !inGame && solved)
+        else if (uncover == -1 && !inGame && solved)
         {
             statusbar.setText("Solved");
         }
