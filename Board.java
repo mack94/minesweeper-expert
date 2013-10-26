@@ -366,7 +366,9 @@ public class Board extends JPanel
 //Click event when user clicked a field
 class MinesAdapter extends MouseAdapter
  {
-  @Override
+  private int [] fieldSave;
+
+@Override
   public void mousePressed(MouseEvent e)
   {
    int x = e.getX();
@@ -385,7 +387,6 @@ class MinesAdapter extends MouseAdapter
 
    if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
    {
-     MineFrame.undoStack.push(field);//Push the array 'field' into the undoStack
      
     //Rightmouse button - set flag and update statusbar
     if (e.getButton() == MouseEvent.BUTTON3)
@@ -444,6 +445,13 @@ class MinesAdapter extends MouseAdapter
     if (rep)
     {
      repaint();
+     fieldSave = new int [Board.getField().length];
+     //Cycle through the field cells
+     for(int i = 0; i < Board.getField().length; i++)
+     {
+         fieldSave[i] = field[i];
+     }
+     MineFrame.undoStack.push(fieldSave);//Push the array 'field' into the undoStack
     }
    }
   }
