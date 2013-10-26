@@ -3,6 +3,7 @@ package mines;
 import java.util.Stack;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.Arrays;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -93,6 +93,9 @@ public class MineFrame
         timer.start();//Start the timer
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
+        new SaveToDisk();//Save the generated board to disk
+        Arrays.fill(Board.field, 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
+        new LoadFromDisk();//Load the board from disk
         frame.setPreferredSize(new Dimension(width, height));
 
         frame.validate();
