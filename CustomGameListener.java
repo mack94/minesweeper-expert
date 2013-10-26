@@ -150,34 +150,37 @@ public class CustomGameListener implements ActionListener
             CustomGameFrame.dispose();
         }
     }
+
     class createCustomGameListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
 
-            if(minesCount==0)
+            if (minesCount == 0)
             {
                 minesCount = MineFrame.getNoOfMines();
             }
-            if(width==0)
+            if (width == 0)
             {
                 width = MineFrame.getNoOfCols();
             }
-            if(height==0)
+            if (height == 0)
             {
                 height = MineFrame.getNoOfRows();
             }
 
-            if(minesCount>width*height){
+            if (minesCount > width * height)
+            {
                 JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");
             }
-            else{
-            MineFrame.setNoOfMines(minesCount);
-            MineFrame.setNoOfCols(width);
-            MineFrame.setNoOfRows(height);
-            MineFrame.startNewGame();
-            CustomGameFrame.dispose();
+            else
+            {
+                MineFrame.setNoOfMines(minesCount);
+                MineFrame.setNoOfCols(width);
+                MineFrame.setNoOfRows(height);
+                MineFrame.startNewGame();
+                CustomGameFrame.dispose();
             }
         }
     }
