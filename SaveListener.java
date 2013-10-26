@@ -49,17 +49,12 @@ public class SaveListener implements ActionListener
                 ex.printStackTrace();
             }
 
-            int [] filed = Board.getField();
-            //Cycle through the field cells
-            for(int i = 0; i < filed.length; i++)
-            {
-              for(int j = 0; j < filed.length; j++)
-              {
-                printer.print(filed[j] + " ");//Print cell number to the file with a space to help for reading
-              }
-            }
             int [] field = Board.getField();
-            for(int i = 0; i < field.length;i++)
+            //Cycle through the field cells
+            for(int i = 0; i < field.length; i++)
+            {
+              printer.print(field[i] + " ");//Print cell number to the file with a space to help for reading
+            }
             
             printer.close();//Close the PrintWriter
         }

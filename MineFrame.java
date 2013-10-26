@@ -1,14 +1,18 @@
 package mines;
 
+import java.util.Stack;
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -29,6 +33,10 @@ public class MineFrame
     private static JPanel gamePanel;
 
     private static JLabel statusbar;
+    
+    //Generic int[] stacks
+    public static Stack <int[]> undoStack = new Stack<int[]>();
+    public static Stack <int[]> redoStack = new Stack<int[]>();
 
     private static int noOfMines = 40;
     private static int noOfRows = 24;
@@ -300,6 +308,7 @@ public class MineFrame
               }
             }
         }
+        Board.solved = true;
         Board.inGame = false;
         frame.repaint();//Repaint the frame to show the resolved board
       }
@@ -310,18 +319,13 @@ public class MineFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        Board.undoRedoIndex++;
-        
-        try
+        if(!redoStack.empty())
         {
-          Board.field = Board.undoRedoArray.get(Board.undoRedoIndex);
+          undoStack.push(redoStack.peek());//Return the item to the undo stack
+          Board.field = redoStack.pop();//Make the field equal to the item and remove it from the stack
+          gamePanel.repaint();//Repaint the frame
+          System.out.println("Repainted the frame (redo)");
         }
-        catch (ArrayIndexOutOfBoundsException ex)
-        {
-            System.out.println("ArrayIndexOutOfBoundsException");
-        }
-        System.out.println("Board repainted");//Test if the program reaches this point
-        frame.repaint();
       }
     }
     
@@ -330,21 +334,12 @@ public class MineFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        System.out.println(Board.undoRedoIndex);
-        Board.undoRedoIndex--;
-        System.out.println(Board.undoRedoIndex);
-        System.out.println(Board.field);
-        System.out.println(Board.undoRedoArray);
-
-        try
+        if(!undoStack.empty())//Check if the undoStack is empty
         {
-          Board.field = Board.undoRedoArray.get(Board.undoRedoIndex);
-          System.out.println("Board repainted");//Test if the program reaches this point
-          frame.repaint();
-        }
-        catch (ArrayIndexOutOfBoundsException ex)
-        {
-            System.out.println("ArrayIndexOutOfBoundsException");
+          redoStack.push(undoStack.peek());//Push the first element of undoStack to redoStack
+          Board.field = undoStack.pop();//Make the board equal to the first element in undoStack
+          gamePanel.repaint();//Repaint the frame
+          System.out.println("Repainted the frame (undo)");//Testing the program got here
         }
       }
     }

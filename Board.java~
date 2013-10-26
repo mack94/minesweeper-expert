@@ -2,6 +2,7 @@ package mines;
 
 import java.util.Random;
 import java.util.ArrayList;
+
 import java.awt.Image;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -29,7 +30,7 @@ public class Board extends JPanel
     private final int DRAW_WRONG_MARK = 12;
 
     public static int[] field;
-    private boolean inGame;
+    public static boolean inGame;
     private int mines_left;
     private Image[] img;
     private int mines;
@@ -41,16 +42,20 @@ public class Board extends JPanel
     public static int difficulty;
     private String mineStr = "Mines left: ";
 
-    private static ArrayList<int[]> undoRedoArray = new ArrayList<int[]>();
-    private static int undoRedoIndex = 0;
+    //Static array list that is shared across all classses
+    public static ArrayList<int[]> undoRedoArray = new ArrayList<int[]>();
+    public static int undoRedoIndex;
     
     //Constructor
     public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
     {
+        //Set the values of the member variables as determined by the MineFrame class
         this.statusbar = statusbar;
         mines = noOfMines;
         rows = noOfRows;
         cols = noOfCols;
+        
+        undoRedoIndex = 0;//Set the undo/redo index back to 0
 
         //Declare image array
         img = new Image[NUM_IMAGES];
@@ -72,40 +77,6 @@ public class Board extends JPanel
     public static int[] getField()
     {
         return field;
-    }
-    
-    public 
-
-    
-    
-    // TO DO implement redo/undo
-    public static void undo()
-    {
-        undoRedoIndex--;
-        try
-        {
-        field = undoRedoArray.get(undoRedoIndex);
-        }
-        catch (ArrayIndexOutOfBoundsException ex)
-        {
-            System.out.println("ArrayIndexOutOfBoundsException");
-
-        }
-        //repaint();
-    }
-    
-    public static void redo()
-    {
-        undoRedoIndex++;
-        try
-        {
-        field = undoRedoArray.get(undoRedoIndex);
-        }
-        catch (ArrayIndexOutOfBoundsException ex)
-        {
-            System.out.println("ArrayIndexOutOfBoundsException");
-        }
-        //repaint();
     }
     
     public void newGame()
@@ -342,7 +313,7 @@ public class Board extends JPanel
                     inGame = false;
                 }
 
-                // paint mines corresponding to the images
+                //Paint mines corresponding to the images
                 if (!inGame)
                 {
                     if (cell == COVERED_MINE_CELL)
@@ -386,13 +357,17 @@ public class Board extends JPanel
             statusbar.setText("Game won");
             new SaveUser(difficulty);
         }
+        else if (uncover == -1 && !inGame)
+        {
+            statusbar.setText("Solved");
+        }
         else if (!inGame)
         {
             statusbar.setText("Game lost");
         }
     }
 
-// click event when user clicked a field
+//Click event when user clicked a field
 class MinesAdapter extends MouseAdapter
  {
   @Override
@@ -414,11 +389,11 @@ class MinesAdapter extends MouseAdapter
 
    if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
    {
-     // add to undoRedo array list
+     //Add to undoRedo array list
      undoRedoArray.add(field);
      undoRedoIndex++;
      
-     //rightmouse button - set flag and update statusbar
+    //Rightmouse button - set flag and update statusbar
     if (e.getButton() == MouseEvent.BUTTON3)
     {
 
@@ -441,7 +416,6 @@ class MinesAdapter extends MouseAdapter
       }
       else
       {
-
        field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
        mines_left++;
        statusbar.setText(mineStr + Integer.toString(mines_left));
@@ -451,7 +425,7 @@ class MinesAdapter extends MouseAdapter
     }
     else
     {
-// nothing happens when we click on a marked cell
+     //Nothing happens when we click on a marked cell
      if (field[(cRow * cols) + cCol] > COVERED_MINE_CELL)
       return;
 
