@@ -58,28 +58,25 @@ public class CustomGameListener implements ActionListener
             //set slider properties
             noOfMines.setMaximum(500);
             noOfMines.setMinimum(10);
-            noOfMines.setValue(20); // need to pass in an int
+            noOfMines.setValue(MineFrame.getNoOfMines());
             noOfMines.setMajorTickSpacing(100);
             noOfMines.setMinorTickSpacing(10);
-            //noOfMines.setSnapToTicks(true);
             noOfMines.setPaintLabels(true);
             noOfMines.setPaintTicks(true);
 
             boardWidth.setMaximum(100);
             boardWidth.setMinimum(10);
-            boardWidth.setValue(20); // need to pass in an int
+            boardWidth.setValue(MineFrame.getNoOfCols());
             boardWidth.setMajorTickSpacing(20);
             boardWidth.setMinorTickSpacing(5);
-            //boardWidth.setSnapToTicks(true);
             boardWidth.setPaintLabels(true);
             boardWidth.setPaintTicks(true);
 
             boardHeight.setMaximum(60);
             boardHeight.setMinimum(10);
-            boardHeight.setValue(20); // need to pass in an int
+            boardHeight.setValue(MineFrame.getNoOfRows());
             boardHeight.setMajorTickSpacing(10);
             boardHeight.setMinorTickSpacing(5);
-            //boardHeight.setSnapToTicks(true);
             boardHeight.setPaintLabels(true);
             boardHeight.setPaintTicks(true);
 
@@ -115,7 +112,6 @@ public class CustomGameListener implements ActionListener
             if (!source.getValueIsAdjusting())
             {
                 minesCount = source.getValue();
-                System.out.println(minesCount);
             }
         }
     }
@@ -129,7 +125,6 @@ public class CustomGameListener implements ActionListener
             if (!source.getValueIsAdjusting())
             {
                 width = source.getValue();
-                System.out.println(width);
             }
         }
     }
@@ -143,7 +138,6 @@ public class CustomGameListener implements ActionListener
             if (!source.getValueIsAdjusting())
             {
                 height = source.getValue();
-                System.out.println(height);
             }
         }
     }
@@ -161,6 +155,20 @@ public class CustomGameListener implements ActionListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
+
+            if(minesCount==0)
+            {
+                minesCount = MineFrame.getNoOfMines();
+            }
+            if(width==0)
+            {
+                width = MineFrame.getNoOfCols();
+            }
+            if(height==0)
+            {
+                height = MineFrame.getNoOfRows();
+            }
+
             if(minesCount>width*height){
                 JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");
             }
