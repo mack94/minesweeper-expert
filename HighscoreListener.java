@@ -83,7 +83,6 @@ public class HighscoreListener implements MenuListener
             catch (FileNotFoundException e)
             {
                 JOptionPane.showMessageDialog(null, "The highscore.txt file could not be found!");
-                e.printStackTrace();
             }
 
             String nameValue = name.getText();

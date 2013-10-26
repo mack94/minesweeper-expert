@@ -413,7 +413,6 @@ public class MineFrame
               catch(InputMismatchException ex)
               {
                   JOptionPane.showMessageDialog(null, "This file is not supported!");
-                  ex.printStackTrace();
               }
               scan.close();
               scan=null;
