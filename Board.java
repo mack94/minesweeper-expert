@@ -441,18 +441,12 @@ public class Board extends JPanel
                 if (rep)
                 {
                     repaint();
-                    // create a temp array
                     fieldSave = new int[Board.getField().length];
-                    
-                    // Cycle through the field cells
+                    //Cycle through the field cells
                     for (int i = 0; i < Board.getField().length; i++)
                     {
                         fieldSave[i] = field[i];
                     }
-                    
-                    // reset temp array
-                    fieldSave = null;
-                    
                     MineFrame.undoStack.push(fieldSave);//Push the array 'field' into the undoStack
                 }
             }
