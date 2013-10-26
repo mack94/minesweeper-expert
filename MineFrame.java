@@ -42,6 +42,7 @@ public class MineFrame
     private static Timer timer;//Declare a Timer object
     private final static int DELAY = 20;//Delcare and set the delay on the timer
     public static boolean playingGame;//Static boolean to be accessed across all classes
+    private static long startTime; // time game started
 
     //Default width and height for the frame
     private static int height = 440;
@@ -91,6 +92,7 @@ public class MineFrame
         playingGame = true;//Set to true so the user may make actions
         timer = new Timer(DELAY, new TimerListener());//Initialise a timer object
         timer.start();//Start the timer
+        startTime = System.currentTimeMillis(); //save the time the game started
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
         new SaveToDisk();//Save the generated board to disk
@@ -232,6 +234,15 @@ public class MineFrame
     public static void setNoOfRows(int noOfRows)
     {
         MineFrame.noOfRows = noOfRows;
+    }
+
+    // returs the time elapsed
+    public static double getCurrentTime()
+    {
+        long endTime = System.currentTimeMillis();
+        long tDelta = endTime - startTime;
+        //startTime = 0;
+        return tDelta / 1000.0;
     }
 
     //Method to handle the game difficulty changes

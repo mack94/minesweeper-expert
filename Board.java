@@ -66,12 +66,35 @@ public class Board extends JPanel
         newGame();
     }
 
-    //Gets the field and returns it
+    //Gets the field and returns it (getter)
     public static int[] getField()
     {
         return field;
     }
 
+    // Push the array 'field' into the undoStack
+    public void pushFieldToUndoStack()
+    {
+        // get array lenth
+        int arrLength = Board.getField().length;
+
+        // create a temp array
+        int[] fieldSave = new int[arrLength];
+
+        //Cycle through the field cells
+        for (int i = 0; i < arrLength; i++)
+        {
+            fieldSave[i] = field[i];
+        }
+
+        MineFrame.undoStack.push(fieldSave);//Push the array 'field' into the undoStack
+
+        System.out.println("pushed to stack");
+        // reset the array
+        fieldSave = null;
+    }
+
+    // create a new game
     public void newGame()
     {
         Random random;
@@ -183,6 +206,8 @@ public class Board extends JPanel
                 }
             }
         }
+        // save first undo to stack
+        pushFieldToUndoStack();
     }
 
     // search & uncover cell when there isn't a mine around it
@@ -339,7 +364,6 @@ public class Board extends JPanel
                         uncover++;
                     }
                 }
-
                 g.drawImage(img[cell], (j * CELL_SIZE), (i * CELL_SIZE), this);
             }
         }
@@ -363,7 +387,6 @@ public class Board extends JPanel
 //Click event when user clicked a field
     class MinesAdapter extends MouseAdapter
     {
-        private int[] fieldSave;
 
         @Override
         public void mousePressed(MouseEvent e)
@@ -441,13 +464,7 @@ public class Board extends JPanel
                 if (rep)
                 {
                     repaint();
-                    fieldSave = new int[Board.getField().length];
-                    //Cycle through the field cells
-                    for (int i = 0; i < Board.getField().length; i++)
-                    {
-                        fieldSave[i] = field[i];
-                    }
-                    MineFrame.undoStack.push(fieldSave);//Push the array 'field' into the undoStack
+                    pushFieldToUndoStack();
                 }
             }
         }

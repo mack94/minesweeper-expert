@@ -14,7 +14,7 @@ public class SaveUser
 
     public SaveUser(int difficulty)
     {
-        user = JOptionPane.showInputDialog("Enter your name:");
+        user = JOptionPane.showInputDialog("You Won!\nEnter your name:");
 
         //If the JOptionPane returns a string
         if (user != null)
@@ -40,7 +40,7 @@ public class SaveUser
                 ex.printStackTrace();
             }
 
-            printer.println(user + ":" + difficultyString + ":" + 0);//Print to the file
+            printer.println(user + ":" + difficultyString + ":" + MineFrame.getCurrentTime());//Print to the file
             printer.close();//Close the PrintWriter
         }
     }
