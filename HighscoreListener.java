@@ -56,7 +56,7 @@ public class HighscoreListener implements MenuListener
             okBtn = new JButton("OK");
             okBtn.addActionListener(new FrameDispose());
 
-            score = new JTextArea("Score \n \n");
+            score = new JTextArea("Time \n \n");
             score.setEditable(false);
             score.setBackground(Color.decode("#eeeeee"));
             score.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
@@ -83,7 +83,6 @@ public class HighscoreListener implements MenuListener
             catch (FileNotFoundException e)
             {
                 JOptionPane.showMessageDialog(null, "The highscore.txt file could not be found!");
-                e.printStackTrace();
             }
 
             String nameValue = name.getText();

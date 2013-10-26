@@ -35,11 +35,6 @@ public class CustomGameListener implements ActionListener
 
     class CustomGamePanel extends JPanel
     {
-        private int maxMines = 300;
-        private int minMines = 12;
-        private int max = 120;
-        private int min = 12;
-
         private JButton saveBtn, cancelBtn;
         private JLabel noOfMinesLabel, boardWidthLabel, boardHeightLabel;
         private JSlider noOfMines, boardWidth, boardHeight;
@@ -61,30 +56,27 @@ public class CustomGameListener implements ActionListener
             boardHeight = new JSlider();
 
             //set slider properties
-            noOfMines.setMaximum(maxMines);
-            noOfMines.setMinimum(minMines);
-            noOfMines.setValue(20); // need to pass in an int
-            noOfMines.setMajorTickSpacing(50);
-            noOfMines.setMinorTickSpacing(5);
-            noOfMines.setSnapToTicks(true);
+            noOfMines.setMaximum(500);
+            noOfMines.setMinimum(10);
+            noOfMines.setValue(MineFrame.getNoOfMines());
+            noOfMines.setMajorTickSpacing(100);
+            noOfMines.setMinorTickSpacing(10);
             noOfMines.setPaintLabels(true);
             noOfMines.setPaintTicks(true);
 
-            boardWidth.setMaximum(max);
-            boardWidth.setMinimum(min);
-            boardWidth.setValue(20); // need to pass in an int
+            boardWidth.setMaximum(100);
+            boardWidth.setMinimum(10);
+            boardWidth.setValue(MineFrame.getNoOfCols());
             boardWidth.setMajorTickSpacing(20);
             boardWidth.setMinorTickSpacing(5);
-            boardWidth.setSnapToTicks(true);
             boardWidth.setPaintLabels(true);
             boardWidth.setPaintTicks(true);
 
-            boardHeight.setMaximum(max);
-            boardHeight.setMinimum(min);
-            boardHeight.setValue(20); // need to pass in an int
-            boardHeight.setMajorTickSpacing(20);
+            boardHeight.setMaximum(60);
+            boardHeight.setMinimum(10);
+            boardHeight.setValue(MineFrame.getNoOfRows());
+            boardHeight.setMajorTickSpacing(10);
             boardHeight.setMinorTickSpacing(5);
-            boardHeight.setSnapToTicks(true);
             boardHeight.setPaintLabels(true);
             boardHeight.setPaintTicks(true);
 
@@ -120,7 +112,6 @@ public class CustomGameListener implements ActionListener
             if (!source.getValueIsAdjusting())
             {
                 minesCount = source.getValue();
-                System.out.println(minesCount);
             }
         }
     }
@@ -134,7 +125,6 @@ public class CustomGameListener implements ActionListener
             if (!source.getValueIsAdjusting())
             {
                 width = source.getValue();
-                System.out.println(width);
             }
         }
     }
@@ -148,7 +138,6 @@ public class CustomGameListener implements ActionListener
             if (!source.getValueIsAdjusting())
             {
                 height = source.getValue();
-                System.out.println(height);
             }
         }
     }
@@ -161,20 +150,37 @@ public class CustomGameListener implements ActionListener
             CustomGameFrame.dispose();
         }
     }
+
     class createCustomGameListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if(minesCount>width*height){
+
+            if (minesCount == 0)
+            {
+                minesCount = MineFrame.getNoOfMines();
+            }
+            if (width == 0)
+            {
+                width = MineFrame.getNoOfCols();
+            }
+            if (height == 0)
+            {
+                height = MineFrame.getNoOfRows();
+            }
+
+            if (minesCount > width * height)
+            {
                 JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");
             }
-            else{
-            MineFrame.setNoOfMines(minesCount);
-            MineFrame.setNoOfCols(width);
-            MineFrame.setNoOfRows(height);
-            MineFrame.startNewGame();
-            CustomGameFrame.dispose();
+            else
+            {
+                MineFrame.setNoOfMines(minesCount);
+                MineFrame.setNoOfCols(width);
+                MineFrame.setNoOfRows(height);
+                MineFrame.startNewGame();
+                CustomGameFrame.dispose();
             }
         }
     }

@@ -1,0 +1,11 @@
+package mines;
+
+import java.io.*;
+
+public class LoadFromDisk
+{
+  public LoadFromDisk()
+  {
+    
+  }
+}

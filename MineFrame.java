@@ -5,14 +5,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.util.Stack;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.Timer;
@@ -23,30 +31,33 @@ public class MineFrame
     private static JPanel gamePanel;
 
     private static JLabel statusbar;
-    private Board mineBoard;
+
+    //Generic int[] stacks
+    public static Stack<int[]> undoStack = new Stack<int[]>();
+    public static Stack<int[]> redoStack = new Stack<int[]>();
 
     private static int noOfMines = 40;
     private static int noOfRows = 24;
     private static int noOfCols = 24;
     private static Timer timer;//Declare a Timer object
-    private final static int DELAY = 20;//Delay on the timer
+    private final static int DELAY = 20;//Delcare and set the delay on the timer
     public static boolean playingGame;//Static boolean to be accessed across all classes
+    private static long startTime; // time game started
 
-    private static int height = 440;//Default width and height for the frame
+    //Default width and height for the frame
+    private static int height = 440;
     private static int width = 377;
 
-    private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
+    //Declare the menu bar and its items
     private JMenuBar menuBar = new JMenuBar();
-    private JMenuItem saveItem, loadItem, exitItem, newGameItem;
+    private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
     private static JMenuItem pauseItem;
-    private JMenuItem resolveItem;
-    private JMenuItem helpItem;
-    private JMenuItem aboutItem;
-    private JMenuItem undoItem;
-    private JMenuItem redoItem;
+    private JMenuItem saveItem, loadItem, exitItem, newGameItem, resolveItem,
+            undoItem, redoItem;
     private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
             customItem;
 
+    //Constructor of the MineFrame
     public MineFrame()
     {
         frame = new JFrame();//Create the frame for the GUI
@@ -81,8 +92,12 @@ public class MineFrame
         playingGame = true;//Set to true so the user may make actions
         timer = new Timer(DELAY, new TimerListener());//Initialise a timer object
         timer.start();//Start the timer
+        startTime = System.currentTimeMillis(); //save the time the game started
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
+        new SaveToDisk();//Save the generated board to disk
+        Arrays.fill(Board.field, 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
+        new LoadFromDisk();//Load the board from disk
         frame.setPreferredSize(new Dimension(width, height));
 
         frame.validate();
@@ -114,10 +129,10 @@ public class MineFrame
         editMenu.setMnemonic('d');
         undoItem = new JMenuItem("Undo");
         undoItem.setMnemonic('Z');
-        undoItem.addActionListener(new undoListener());
+        undoItem.addActionListener(new UndoListener());
         redoItem = new JMenuItem("Redo");
         redoItem.setMnemonic('Y');
-        redoItem.addActionListener(new redoListener());
+        redoItem.addActionListener(new RedoListener());
 
         //Add items to the editMenu
         editMenu.add(undoItem);
@@ -168,18 +183,13 @@ public class MineFrame
         //Create menu items to add to Help
         helpMenu = new JMenu("Help");
         helpMenu.setMnemonic('H');
+
         resolveItem = new JMenuItem("Solve");
         resolveItem.setMnemonic('c');
-        resolveItem.addActionListener(new resolveListener());
-        helpItem = new JMenuItem("Help");
-        helpItem.setMnemonic('?');
-        aboutItem = new JMenuItem("About");
-        aboutItem.setMnemonic('A');
+        resolveItem.addActionListener(new ResolveListener());
 
-        //Add all items to helpMenu
+        //Add item to helpMenu
         helpMenu.add(resolveItem);
-        helpMenu.add(helpItem);
-        helpMenu.add(aboutItem);
 
         highscore = new JMenu("Highscore");
         highscore.setMnemonic('H');
@@ -195,6 +205,7 @@ public class MineFrame
         return menuBar;
     }
 
+    //Accessors and mutators for the number of mines, rows and columns
     public static int getNoOfMines()
     {
         return noOfMines;
@@ -225,6 +236,15 @@ public class MineFrame
         MineFrame.noOfRows = noOfRows;
     }
 
+    // returs the time elapsed
+    public static double getCurrentTime()
+    {
+        long endTime = System.currentTimeMillis();
+        long tDelta = endTime - startTime;
+        return tDelta / 1000.0;
+    }
+
+    //Method to handle the game difficulty changes
     private class DifficultyListener implements ActionListener
     {
         @Override
@@ -265,6 +285,7 @@ public class MineFrame
         }
     }
 
+    //Method to call the startNewGame method when the user selects the new game menu option
     private class GameListener implements ActionListener
     {
         @Override
@@ -277,6 +298,142 @@ public class MineFrame
         }
     }
 
+    //Method to rotate through all field cells solve the board
+    private class ResolveListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent arg0)
+        {
+            for (int cCol = 0; cCol < MineFrame.getNoOfCols(); cCol++)
+            {
+                for (int cRow = 0; cRow < MineFrame.getNoOfRows(); cRow++)
+                {
+                    //Checks that the square hasn't already been uncovered by the user
+                    if (Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] >= 10 && Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] != 20)
+                    {
+                        Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] -= Board.COVER_FOR_CELL;//Remove the covers for all cells
+
+                        if (Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] == 9)//Check if a cell is a mine
+                        {
+                            Board.getField()[(cRow * MineFrame.getNoOfCols()) + cCol] += 11;//Turn mine cells into a marked mine cell
+                        }
+                    }
+                }
+            }
+            Board.solved = true;
+            Board.inGame = false;
+            frame.repaint();//Repaint the frame to show the resolved board
+        }
+    }
+
+    private class RedoListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if (!redoStack.empty())
+            {
+                undoStack.push(redoStack.peek());//Return the item to the undo stack
+                Board.field = redoStack.pop();//Make the field equal to the item and remove it from the stack
+                gamePanel.repaint();//Repaint the frame
+                System.out.println("Repainted the frame (redo)");
+            }
+        }
+    }
+
+    private class UndoListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            if (!undoStack.empty())//Check if the undoStack is empty
+            {
+                redoStack.push(undoStack.peek());//Push the first element of undoStack to redoStack
+                Board.field = undoStack.pop();//Make the board equal to the first element in undoStack
+                gamePanel.repaint();//Repaint the frame
+                System.out.println("Repainted the frame (undo)");//Testing the program got here
+            }
+        }
+    }
+
+    public class LoadListener implements ActionListener
+    {
+        private JFileChooser fileChooser = new JFileChooser();
+
+        @Override
+        public void actionPerformed(ActionEvent e)
+        {
+            //Create new Panel
+            class FileChooserPanel extends JPanel
+            {
+                public FileChooserPanel()
+                {
+                }
+            }
+            FileChooserPanel fileChooserPanel = new FileChooserPanel();//Create a new FileChooserPanel
+            int returnVal = fileChooser.showOpenDialog(fileChooserPanel);//Handle open button action
+
+            if (returnVal == JFileChooser.APPROVE_OPTION)//Run the following code if the user opens a file
+            {
+                File file = fileChooser.getSelectedFile();//Set the file to the one selected by the user
+                System.out.println("Opening: " + file.getName());//Check the program gets to here
+
+                // initialise scanner
+                Scanner scan = null;
+                try
+                {
+                    scan = new Scanner(file);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    ex.printStackTrace();
+                }
+
+                // get length of array
+                int n = 0;
+                while (scan.hasNext())
+                {
+                    n += 1;
+                    scan.next();
+                }
+                scan.close();
+
+                // fill array
+                try
+                {
+                    scan = new Scanner(file);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    ex.printStackTrace();
+                }
+                int[] arr = new int[n];
+                try
+                {
+                    for (int i = 0; i < arr.length; i++)
+                    {
+
+                        arr[i] = scan.nextInt();
+                    }
+                }
+                catch (InputMismatchException ex)
+                {
+                    JOptionPane.showMessageDialog(null, "This file is not supported!");
+                }
+                scan.close();
+                scan = null;
+                Board.field = arr;
+                frame.repaint();
+
+            }
+            else
+            {
+                System.out.println("Open command cancelled by user.");
+            }
+        }
+    }
+
+    //Method to handle pausing the game and the timer
     public static class TimerListener implements ActionListener
     {
         @Override
@@ -284,13 +441,13 @@ public class MineFrame
         {
             if (!pauseItem.isSelected())
             {
-                playingGame = false;
-                timer.stop();
+                playingGame = false;//Stop the user making actions
+                timer.stop();//Stop the timer
             }
             if (pauseItem.isSelected())
             {
-                playingGame = true;
-                timer.start();
+                playingGame = true;//Allow the user to continue the game
+                timer.start();//Start the timer counting again
             }
         }
     }

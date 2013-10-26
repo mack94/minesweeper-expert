@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -29,9 +28,9 @@ public class SaveListener implements ActionListener
             }
         }
         FileChooserPanel fileChooserPanel = new FileChooserPanel();
-      //Handle save button action.
-      int returnVal = fileChooser.showSaveDialog(fileChooserPanel);
-      
+        //Handle save button action.
+        int returnVal = fileChooser.showSaveDialog(fileChooserPanel);
+
         if (returnVal == JFileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
@@ -49,18 +48,13 @@ public class SaveListener implements ActionListener
                 ex.printStackTrace();
             }
 
-            int [] filed = Board.getField();
+            int[] field = Board.getField();
             //Cycle through the field cells
-            for(int i = 0; i < filed.length; i++)
+            for (int i = 0; i < field.length; i++)
             {
-              for(int j = 0; j < filed.length; j++)
-              {
-                printer.print(filed[j] + " ");//Print cell number to the file with a space to help for reading
-              }
+                printer.print(field[i] + " ");//Print cell number to the file with a space to help for reading
             }
-            int [] field = Board.getField();
-            for(int i = 0; i < field.length;i++)
-            
+
             printer.close();//Close the PrintWriter
         }
         else
