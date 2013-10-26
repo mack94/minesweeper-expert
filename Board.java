@@ -357,7 +357,7 @@ public class Board extends JPanel
             statusbar.setText("Game won");
             new SaveUser(difficulty);
         }
-        else if (uncover == 0 && !inGame)
+        else if (uncover == -1 && !inGame)
         {
             statusbar.setText("Solved");
         }
