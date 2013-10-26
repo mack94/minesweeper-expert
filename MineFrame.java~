@@ -3,6 +3,7 @@ package mines;
 import java.util.Stack;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.util.Arrays;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,7 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -41,8 +41,8 @@ public class MineFrame
     private static int noOfMines = 40;
     private static int noOfRows = 24;
     private static int noOfCols = 24;
-    private static Timer timer;//Declare a Timer object
-    private final static int DELAY = 20;//Delcare and set the delay on the timer
+    private Timer timer;//Declare a Timer object
+    private final int DELAY = 20;//Delcare and set the delay on the timer
     public static boolean playingGame;//Static boolean to be accessed across all classes
 
     //Default width and height for the frame
@@ -52,7 +52,7 @@ public class MineFrame
     //Declare the menu bar and its items
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
-    private static JMenuItem pauseItem;
+    private JMenuItem pauseItem;
     private JMenuItem saveItem, loadItem, exitItem, newGameItem, resolveItem, undoItem, redoItem;
     private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem, customItem;
 
@@ -93,6 +93,9 @@ public class MineFrame
         timer.start();//Start the timer
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
+        new SaveToDisk();//Save the generated board to disk
+        Arrays.fill(Board.field, 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
+        new LoadFromDisk();//Load the board from disk
         frame.setPreferredSize(new Dimension(width, height));
 
         frame.validate();
@@ -424,7 +427,7 @@ public class MineFrame
 
 
     //Method to handle pausing the game and the timer
-    public static class TimerListener implements ActionListener
+    public class TimerListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
