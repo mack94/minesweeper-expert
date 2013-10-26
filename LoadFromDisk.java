@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class LoadFromDisk
 {
     public LoadFromDisk()
@@ -17,6 +19,8 @@ public class LoadFromDisk
         catch (FileNotFoundException ex)
         {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "newgame.txt is missing!");
+            return; // exit out of method
         }
 
         //Get length of array

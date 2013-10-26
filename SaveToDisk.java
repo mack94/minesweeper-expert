@@ -21,20 +21,22 @@ public class SaveToDisk
         catch (FileNotFoundException ex)//Catch the exceptions
         {
             ex.printStackTrace();
+            return; // exit out of method
         }
         catch (IOException ex)
         {
             ex.printStackTrace();
+            return; // exit out of method
         }
-
+        
         //Create an int array and have it the same as Board.field[]
         int[] a = Board.field;
+
         //Cycle through the field cells
         for (int i = 0; i < a.length; i++)
         {
             printer.print(a[i] + " ");//Print cell number to the file with a space to help for reading
         }
-
         printer.close();//Close the PrintWriter
     }
 }
