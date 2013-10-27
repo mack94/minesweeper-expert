@@ -29,7 +29,7 @@ public class HighscoreListener implements MenuListener
         HighscoreFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         HighscoreFrame.getContentPane().add(new HighscoreFrame());
         HighscoreFrame.pack();
-        HighscoreFrame.setLocationRelativeTo(null); // centers the frame
+        HighscoreFrame.setLocationRelativeTo(null); //Centers the frame
         HighscoreFrame.setResizable(false);
         HighscoreFrame.setVisible(true);
     }
@@ -42,7 +42,6 @@ public class HighscoreListener implements MenuListener
 
         public HighscoreFrame()
         {
-            setLayout(new BorderLayout());
 
             //Create Name column
             name = new JTextArea("Name \n \n");
@@ -69,11 +68,11 @@ public class HighscoreListener implements MenuListener
             loadHighscoreFile();//call the method to load the highscore.txt file;
 
             //Add objects to board
-            add(diff, BorderLayout.CENTER);
-            add(name, BorderLayout.WEST);
-            add(score, BorderLayout.EAST);
-            add(okBtn, BorderLayout.SOUTH);
-            setPreferredSize(new Dimension(330, 220));
+            add(name);
+            add(diff);
+            add(score);
+            add(okBtn);
+            setPreferredSize(new Dimension(330, 600));
 
         }
 
