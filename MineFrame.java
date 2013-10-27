@@ -23,7 +23,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.Timer;
 
 public class MineFrame
 {
@@ -40,12 +39,6 @@ public class MineFrame
     private static int noOfMines = 40;
     private static int noOfRows = 24;
     private static int noOfCols = 24;
-
-    //Declare a Timer object
-    private static Timer timer;
-
-    //Declare and set the delay on the timer
-    private final static int DELAY = 20;
 
     //Static boolean to be accessed across all classes
     public static boolean playingGame;
@@ -99,8 +92,6 @@ public class MineFrame
         gamePanel.add(statusbar, BorderLayout.SOUTH);
 
         playingGame = true;//Set to true so the user may make actions
-        timer = new Timer(DELAY, new TimerListener());//Initialise a timer object
-        timer.start();//Start the timer
         startTime = System.currentTimeMillis(); //save the time the game started
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
@@ -154,7 +145,7 @@ public class MineFrame
         viewMenu.setMnemonic('G');
         pauseItem = new JCheckBoxMenuItem("Pause");
         pauseItem.setMnemonic('P');
-        pauseItem.addActionListener(new TimerListener());
+        pauseItem.addActionListener(new PauseListener());
         newGameItem = new JMenuItem("New Game");
         newGameItem.setMnemonic('N');
         newGameItem.addActionListener(new newGameListener());
@@ -438,21 +429,19 @@ public class MineFrame
         }
     }
 
-    //Method to handle pausing the game and the timer
-    public static class TimerListener implements ActionListener
+    //Method to handle pausing the game
+    public static class PauseListener implements ActionListener
     {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if (!pauseItem.isSelected())
-            {
-                playingGame = false;//Stop the user making actions
-                timer.stop();//Stop the timer
-            }
             if (pauseItem.isSelected())
             {
+                playingGame = false;//Stop the user making actions
+            }
+            if (!pauseItem.isSelected())
+            {
                 playingGame = true;//Allow the user to continue the game
-                timer.start();//Start the timer counting again
             }
         }
     }
