@@ -18,9 +18,10 @@ public class CustomGameListener implements ActionListener
 {
     private JFrame CustomGameFrame = new JFrame("Custom...");
 
-    private int minesCount;
-    private int width;
-    private int height;
+    //Initialise variables and set them to the current ones on the field
+    private int minesCount = MineFrame.getNoOfMines();
+    private int width = MineFrame.getNoOfCols();
+    private int height = MineFrame.getNoOfRows();
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -28,7 +29,7 @@ public class CustomGameListener implements ActionListener
         CustomGameFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         CustomGameFrame.getContentPane().add(new CustomGamePanel());
         CustomGameFrame.pack();
-        CustomGameFrame.setLocationRelativeTo(null); // centers the frame
+        CustomGameFrame.setLocationRelativeTo(null); //Center the frame
         CustomGameFrame.setResizable(false);
         CustomGameFrame.setVisible(true);
     }
@@ -39,26 +40,27 @@ public class CustomGameListener implements ActionListener
         private JLabel noOfMinesLabel, boardWidthLabel, boardHeightLabel;
         private JSlider noOfMines, boardWidth, boardHeight;
 
+        //Create the GUI
         public CustomGamePanel()
         {
-            // Buttons
+            //Create Buttons
             saveBtn = new JButton("Save");
             cancelBtn = new JButton("Cancel");
 
-            // Labels
+            //Create Labels
             noOfMinesLabel = new JLabel("Number of Mines:");
             boardWidthLabel = new JLabel("Board Width:");
             boardHeightLabel = new JLabel("Board Height:");
 
-            // Sliders
+            //Create Sliders
             noOfMines = new JSlider();
             boardWidth = new JSlider();
             boardHeight = new JSlider();
 
-            //set slider properties
+            //Set slider properties
             noOfMines.setMaximum(500);
             noOfMines.setMinimum(10);
-            noOfMines.setValue(MineFrame.getNoOfMines());
+            noOfMines.setValue(minesCount);
             noOfMines.setMajorTickSpacing(100);
             noOfMines.setMinorTickSpacing(10);
             noOfMines.setPaintLabels(true);
@@ -66,7 +68,7 @@ public class CustomGameListener implements ActionListener
 
             boardWidth.setMaximum(100);
             boardWidth.setMinimum(10);
-            boardWidth.setValue(MineFrame.getNoOfCols());
+            boardWidth.setValue(width);
             boardWidth.setMajorTickSpacing(20);
             boardWidth.setMinorTickSpacing(5);
             boardWidth.setPaintLabels(true);
@@ -74,13 +76,13 @@ public class CustomGameListener implements ActionListener
 
             boardHeight.setMaximum(60);
             boardHeight.setMinimum(10);
-            boardHeight.setValue(MineFrame.getNoOfRows());
+            boardHeight.setValue(height);
             boardHeight.setMajorTickSpacing(10);
             boardHeight.setMinorTickSpacing(5);
             boardHeight.setPaintLabels(true);
             boardHeight.setPaintTicks(true);
 
-            // add to panel
+            //Add sliders, buttons and labels to panel
             add(boardWidthLabel);
             add(boardWidth);
             add(boardHeightLabel);
@@ -90,9 +92,10 @@ public class CustomGameListener implements ActionListener
             add(saveBtn);
             add(cancelBtn);
 
+            //Set size of the panel
             setPreferredSize(new Dimension(330, 220));
 
-            // initialising actions
+            //Associate actionListeners
             noOfMines.addChangeListener(new noOfMinesListener());
             boardWidth.addChangeListener(new boardWidthListener());
             boardHeight.addChangeListener(new boardHeightListener());
@@ -102,16 +105,16 @@ public class CustomGameListener implements ActionListener
         }
     }
 
-    // Change Listener Classes
+    //Change Listeners
     class noOfMinesListener implements ChangeListener
     {
         @Override
         public void stateChanged(ChangeEvent e)
         {
             JSlider source = (JSlider) e.getSource();
-            if (!source.getValueIsAdjusting())
+            if (!source.getValueIsAdjusting())//check that the user has finished moving the slider
             {
-                minesCount = source.getValue();
+                minesCount = source.getValue();//set the value from the slider to minesCount
             }
         }
     }
@@ -122,9 +125,9 @@ public class CustomGameListener implements ActionListener
         public void stateChanged(ChangeEvent e)
         {
             JSlider source = (JSlider) e.getSource();
-            if (!source.getValueIsAdjusting())
+            if (!source.getValueIsAdjusting())//check that the user has finished moving the slider
             {
-                width = source.getValue();
+                width = source.getValue();//set the value from the slider to width
             }
         }
     }
@@ -135,19 +138,21 @@ public class CustomGameListener implements ActionListener
         public void stateChanged(ChangeEvent e)
         {
             JSlider source = (JSlider) e.getSource();
-            if (!source.getValueIsAdjusting())
+            if (!source.getValueIsAdjusting())//check that the user has finished moving the slider
             {
-                height = source.getValue();
+                height = source.getValue();//set the value from the slider to height
             }
         }
     }
 
+    //Action Listeners
     class FrameDispose implements ActionListener
     {
         @Override
+        //Cancel and Save Button
         public void actionPerformed(ActionEvent e)
         {
-            CustomGameFrame.dispose();
+            CustomGameFrame.dispose();//Dispose of the frame
         }
     }
 
@@ -156,31 +161,17 @@ public class CustomGameListener implements ActionListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
-
-            if (minesCount == 0)
-            {
-                minesCount = MineFrame.getNoOfMines();
-            }
-            if (width == 0)
-            {
-                width = MineFrame.getNoOfCols();
-            }
-            if (height == 0)
-            {
-                height = MineFrame.getNoOfRows();
-            }
-
             if (minesCount > width * height)
             {
-                JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");
+                JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");//Show a message if the user has chosen more mines that can fit on the board
             }
             else
             {
-                MineFrame.setNoOfMines(minesCount);
-                MineFrame.setNoOfCols(width);
-                MineFrame.setNoOfRows(height);
-                MineFrame.startNewGame();
-                CustomGameFrame.dispose();
+                MineFrame.setNoOfMines(minesCount);//Set the value of mineCount to the frame
+                MineFrame.setNoOfCols(width);//Set the value of width to the frame
+                MineFrame.setNoOfRows(height);//Set the value of height to the frame
+                MineFrame.startNewGame();//call the newGame method
+                CustomGameFrame.dispose();//call the dispose method to close the frame
             }
         }
     }

@@ -9,6 +9,7 @@ public class newGameListener implements ActionListener
 {
 
     @Override
+    //Create a newGame after user agrees
     public void actionPerformed(ActionEvent e)
     {
         int ask = JOptionPane.showConfirmDialog(null, "Are you sure?");

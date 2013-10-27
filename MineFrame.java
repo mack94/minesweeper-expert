@@ -27,28 +27,37 @@ import javax.swing.Timer;
 
 public class MineFrame
 {
+    //Declare GUI objects
     private static JFrame frame;
     private static JPanel gamePanel;
-
     private static JLabel statusbar;
 
     //Generic int[] stacks
     public static Stack<int[]> undoStack = new Stack<int[]>();
     public static Stack<int[]> redoStack = new Stack<int[]>();
 
+    //Declare static integers so that they can be accessed from static getters and setters.
     private static int noOfMines = 40;
     private static int noOfRows = 24;
     private static int noOfCols = 24;
-    private static Timer timer;//Declare a Timer object
-    private final static int DELAY = 20;//Delcare and set the delay on the timer
-    public static boolean playingGame;//Static boolean to be accessed across all classes
-    private static long startTime; // time game started
+
+    //Declare a Timer object
+    private static Timer timer;
+
+    //Declare and set the delay on the timer
+    private final static int DELAY = 20;
+
+    //Static boolean to be accessed across all classes
+    public static boolean playingGame;
+
+    //Static long which will contain the time a game has started in milliseconds
+    private static long startTime;
 
     //Default width and height for the frame
     private static int height = 440;
     private static int width = 377;
 
-    //Declare the menu bar and its items
+    //Declare the menu bar and its items (GUI elements)
     private JMenuBar menuBar = new JMenuBar();
     private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
     private static JMenuItem pauseItem;
@@ -67,7 +76,7 @@ public class MineFrame
         frame.setLocationRelativeTo(null);//Centre the frame
         frame.setTitle("Minesweeper");//Title of the frame
 
-        statusbar = new JLabel("");//Set the passed in status bar
+        statusbar = new JLabel("");//Set the passed-in status bar
 
         gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
 
@@ -76,14 +85,14 @@ public class MineFrame
         frame.add(gamePanel);//Add gamePanel to the frame
         startNewGame();
 
-        frame.setBackground(new Color(0xB3B3B3)); //Set Background colour
+        frame.setBackground(new Color(0xB3B3B3));//Set Background colour
         frame.pack();//Resize the frame to occupy the smallest amount of space
-        frame.setLocationRelativeTo(null); //Centres the frame
-        frame.setResizable(true);//Have the frame re-sizable (useful for troubleshooting)
+        frame.setLocationRelativeTo(null);//Centres the frame
+        frame.setResizable(true);//Have the frame re-sizable useful for custom games
         frame.setVisible(true);//Show all components on the window
     }
 
-    //Function to start/restart the game
+    //Method to start/restart the game when a game has been lost, restarted or loaded
     public static void startNewGame()
     {
         gamePanel.removeAll();
@@ -105,8 +114,10 @@ public class MineFrame
         frame.pack();
     }
 
+    //Method to create the MenuBar, its properties and associate ActionListners
     public JMenuBar buildMenuBar()
     {
+        //Create the fileMenu and it's items
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
         saveItem = new JMenuItem("Save");
@@ -119,12 +130,12 @@ public class MineFrame
         exitItem.setMnemonic('X');
         exitItem.addActionListener(new ExitListener());
 
-        //Add items to the fileMenu
+        //Add file items to the fileMenu
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
         fileMenu.add(exitItem);
 
-        //Create items to add to Edit
+        //Create the editMenu and it's items
         editMenu = new JMenu("Edit");
         editMenu.setMnemonic('d');
         undoItem = new JMenuItem("Undo");
@@ -134,11 +145,11 @@ public class MineFrame
         redoItem.setMnemonic('Y');
         redoItem.addActionListener(new RedoListener());
 
-        //Add items to the editMenu
+        //Add edit items to the editMenu
         editMenu.add(undoItem);
         editMenu.add(redoItem);
 
-        //Create menu items to add to View
+        //Create the viewMenu and it's items
         viewMenu = new JMenu("Game");
         viewMenu.setMnemonic('G');
         pauseItem = new JCheckBoxMenuItem("Pause");
@@ -148,7 +159,7 @@ public class MineFrame
         newGameItem.setMnemonic('N');
         newGameItem.addActionListener(new newGameListener());
 
-        //Difficulty radio buttons
+        //Create difficulty radio buttons
         beginnerItem = new JRadioButtonMenuItem("Beginner");
         beginnerItem.setMnemonic('B');
         beginnerItem.addActionListener(new DifficultyListener());
@@ -172,7 +183,7 @@ public class MineFrame
         difficultyGroup.add(expertItem);
         difficultyGroup.add(customItem);
 
-        //Add all items to viewMenu
+        //Add difficulty and view items to viewMenu
         viewMenu.add(newGameItem);
         viewMenu.add(pauseItem);
         viewMenu.add(beginnerItem);
@@ -180,7 +191,7 @@ public class MineFrame
         viewMenu.add(expertItem);
         viewMenu.add(customItem);
 
-        //Create menu items to add to Help
+        //Create the helpMenu and it's item
         helpMenu = new JMenu("Help");
         helpMenu.setMnemonic('H');
 
@@ -188,55 +199,63 @@ public class MineFrame
         resolveItem.setMnemonic('c');
         resolveItem.addActionListener(new ResolveListener());
 
-        //Add item to helpMenu
+        //Add help item to helpMenu
         helpMenu.add(resolveItem);
 
         highscore = new JMenu("Highscore");
         highscore.setMnemonic('H');
         highscore.addMenuListener(new HighscoreListener());
 
-        //Add File, View and Help to the JMenuBar
+        //Add File, View and Help Menus to the JMenuBar
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(viewMenu);
         menuBar.add(highscore);
         menuBar.add(helpMenu);
 
+        // return the menuBar
         return menuBar;
     }
 
-    //Accessors and mutators for the number of mines, rows and columns
+    //Accessors and mutators
+
+    //Accessor for the number of mines
     public static int getNoOfMines()
     {
         return noOfMines;
     }
 
+    //Mutator for the number of mines
     public static void setNoOfMines(int noOfMines)
     {
         MineFrame.noOfMines = noOfMines;
     }
 
+    //Accessor for the number of columns
     public static int getNoOfCols()
     {
         return noOfCols;
     }
 
+    //Mutator for the number of columns
     public static void setNoOfCols(int noOfCols)
     {
         MineFrame.noOfCols = noOfCols;
     }
 
+    //Accessor for the number of rows
     public static int getNoOfRows()
     {
         return noOfRows;
     }
 
+    //Mutator for the number of rows
     public static void setNoOfRows(int noOfRows)
     {
         MineFrame.noOfRows = noOfRows;
     }
 
-    // returs the time elapsed
+    //Method that returns the time elapsed from the time a game was started
     public static double getCurrentTime()
     {
         long endTime = System.currentTimeMillis();
@@ -244,10 +263,11 @@ public class MineFrame
         return tDelta / 1000.0;
     }
 
-    //Method to handle the game difficulty changes
+    //Class to handle the game difficulty changes
     private class DifficultyListener implements ActionListener
     {
         @Override
+        //Beginner Difficulty
         public void actionPerformed(ActionEvent e)
         {
             if (beginnerItem.isSelected())
@@ -261,6 +281,7 @@ public class MineFrame
                 startNewGame();
             }
 
+            //Intermediate Difficulty
             else if (intermediateItem.isSelected())
             {
                 Board.difficulty = 1;
@@ -272,6 +293,7 @@ public class MineFrame
                 startNewGame();
             }
 
+            //Expert Difficulty
             else if (expertItem.isSelected())
             {
                 Board.difficulty = 2;
@@ -298,7 +320,7 @@ public class MineFrame
         }
     }
 
-    //Method to rotate through all field cells solve the board
+    //Method to rotate through all field cells to solve the board
     private class ResolveListener implements ActionListener
     {
         @Override
@@ -329,9 +351,10 @@ public class MineFrame
     private class RedoListener implements ActionListener
     {
         @Override
+        //Method that pushes the current redo to the undoStack and pops the redoStack to the (mine-) field
         public void actionPerformed(ActionEvent e)
         {
-            if (!redoStack.empty())
+            if (!redoStack.empty())//Check if the undoStack is empty
             {
                 undoStack.push(redoStack.peek());//Return the item to the undo stack
                 Board.field = redoStack.pop();//Make the field equal to the item and remove it from the stack
@@ -343,6 +366,7 @@ public class MineFrame
     private class UndoListener implements ActionListener
     {
         @Override
+        //Method that pushes the current undo to the redoStack and pops the undoStack to the (mine-) field
         public void actionPerformed(ActionEvent e)
         {
             if (!undoStack.empty())//Check if the undoStack is empty
@@ -356,12 +380,14 @@ public class MineFrame
 
     public class LoadListener implements ActionListener
     {
+        //Initialise fileChooser
         private JFileChooser fileChooser = new JFileChooser();
 
         @Override
+        //Open a FileChooser, read the selected file into an array, override the (mine-) field with the array and repaint
         public void actionPerformed(ActionEvent e)
         {
-            //Create new Panel
+            //Initialise new Panel for the File chooser
             class FileChooserPanel extends JPanel
             {
                 public FileChooserPanel()
@@ -375,52 +401,51 @@ public class MineFrame
             {
                 File file = fileChooser.getSelectedFile();//Set the file to the one selected by the user
 
-                // initialise scanner
+                //Initialise scanner
                 Scanner scan = null;
                 try
                 {
                     scan = new Scanner(file);
                 }
-                catch (FileNotFoundException ex)
+                catch (FileNotFoundException ex)//Handle file not found exception
                 {
                     ex.printStackTrace();
                 }
 
-                // get length of array
-                int n = 0;
+                int n = 0;//Initialise n
                 while (scan.hasNext())
                 {
-                    n += 1;
+                    n += 1;//Get the length of the array/file
                     scan.next();
                 }
-                scan.close();
+                scan.close();//Close scanner
 
-                // fill array
                 try
                 {
-                    scan = new Scanner(file);
+                    scan = new Scanner(file);//Reopen Scanner
                 }
-                catch (FileNotFoundException ex)
+                catch (FileNotFoundException ex)//Handle file not found exception
                 {
                     ex.printStackTrace();
                 }
-                int[] arr = new int[n];
+                int[] arr = new int[n];//Initialise array
                 try
                 {
+                    //Fill the array with the data from the file
                     for (int i = 0; i < arr.length; i++)
                     {
 
                         arr[i] = scan.nextInt();
                     }
                 }
-                catch (InputMismatchException ex)
+                catch (InputMismatchException ex)//Exception handling
                 {
-                    JOptionPane.showMessageDialog(null, "This file is not supported!");
+                    JOptionPane.showMessageDialog(null, "This file is not supported!");//Give user notification of exception
                 }
-                scan.close();
-                scan = null;
-                Board.field = arr;
-                frame.repaint();
+                scan.close();//Close Scanner
+                scan = null;//Garbage collection
+                Board.field = arr;//Set arr to field
+                frame.repaint();//Repaint
 
             }
         }

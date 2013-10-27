@@ -20,7 +20,7 @@ public class SaveListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        // create new Panel
+        //Create new Panel
         class FileChooserPanel extends JPanel
         {
             public FileChooserPanel()
