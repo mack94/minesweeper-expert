@@ -29,48 +29,54 @@ public class HighscoreListener implements MenuListener
         HighscoreFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         HighscoreFrame.getContentPane().add(new HighscoreFrame());
         HighscoreFrame.pack();
-        HighscoreFrame.setLocationRelativeTo(null); // centers the frame
+        HighscoreFrame.setLocationRelativeTo(null); //Centers the frame
         HighscoreFrame.setResizable(false);
         HighscoreFrame.setVisible(true);
     }
 
     class HighscoreFrame extends JPanel
     {
+        //Initialise GUI
         private JButton okBtn;
         private JTextArea name, score, diff;
 
         public HighscoreFrame()
         {
-            setLayout(new BorderLayout());
 
+            //Create Name column
             name = new JTextArea("Name \n \n");
             name.setEditable(false);
             name.setBackground(Color.decode("#eeeeee"));
             name.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
 
+            //Create difficulty column
             diff = new JTextArea("Difficulity \n \n");
             diff.setEditable(false);
             diff.setBackground(Color.decode("#eeeeee"));
             diff.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
 
-            okBtn = new JButton("OK");
-            okBtn.addActionListener(new FrameDispose());
-
+            //Create Time column
             score = new JTextArea("Time \n \n");
             score.setEditable(false);
             score.setBackground(Color.decode("#eeeeee"));
             score.setBorder(new LineBorder(Color.decode("#eeeeee"), 10));
 
-            loadHighscoreFile();
+            //Create OK Button
+            okBtn = new JButton("OK");
+            okBtn.addActionListener(new FrameDispose());
 
-            add(diff, BorderLayout.CENTER);
-            add(name, BorderLayout.WEST);
-            add(score, BorderLayout.EAST);
-            add(okBtn, BorderLayout.SOUTH);
-            setPreferredSize(new Dimension(330, 220));
+            loadHighscoreFile();//call the method to load the highscore.txt file;
+
+            //Add objects to board
+            add(name);
+            add(diff);
+            add(score);
+            add(okBtn);
+            setPreferredSize(new Dimension(330, 600));
 
         }
 
+        //Method to load the highscore.txt and add the text to the respective textArea
         public void loadHighscoreFile()
         {
             String path = "mines/highscore.txt";;
@@ -80,14 +86,17 @@ public class HighscoreListener implements MenuListener
             {
                 diskf = new Scanner(file);
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException e)//Exception handeling
             {
                 JOptionPane.showMessageDialog(null, "The highscore.txt file could not be found!");
             }
 
+            //Get the initial values from the TextAreas
             String nameValue = name.getText();
             String scoreValue = score.getText();
             String difficulyValue = diff.getText();
+            
+            //Initialise 2 index values
             int index = 0;
             int index2 = 0;
 
@@ -97,24 +106,24 @@ public class HighscoreListener implements MenuListener
 
                 try
                 {
-                    index = line.indexOf(':');
-                    index2 = line.indexOf(':', index + 1);
-                    nameValue += line.substring(0, index) + "\n";
-                    difficulyValue += line.substring(index + 1, index2) + "\n";
-                    scoreValue += line.substring(index2 + 1, line.length()) + "\n";
+                    index = line.indexOf(':');//Search through the line for ":" and return the index
+                    index2 = line.indexOf(':', index + 1);//Search through the line for the 2nd ":" and return the index
+                    nameValue += line.substring(0, index) + "\n";//Grab the before first ":" and add it to nameValue
+                    difficulyValue += line.substring(index + 1, index2) + "\n";//Grab the string between the ":"s and add it to difficulyValue
+                    scoreValue += line.substring(index2 + 1, line.length()) + "\n";//Grab the String after the 2nd ":" and add it to scoreValue
                 }
-                catch (IndexOutOfBoundsException e)
+                catch (IndexOutOfBoundsException e)//Exception handeling
                 {
                     JOptionPane.showMessageDialog(null, "The highscore.txt file is currupt");
-                    e.printStackTrace();
                 }
             }
 
-            name.setText(nameValue);
-            diff.setText(difficulyValue);
-            score.setText(scoreValue);
+            name.setText(nameValue);//Set to the new values
+            diff.setText(difficulyValue);//Set to the new values
+            score.setText(scoreValue);//Set to the new values
 
-            diskf.reset();
+            //close Scanner
+            diskf.close();
         }
     }
 
@@ -123,21 +132,20 @@ public class HighscoreListener implements MenuListener
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            HighscoreFrame.dispose();
+            HighscoreFrame.dispose();//Dispose of frame
         }
     }
 
+    //The methods below are needed to compile
     @Override
     public void menuCanceled(MenuEvent e)
     {
-        // TODO Auto-generated method stub
-
+        
     }
 
     @Override
     public void menuDeselected(MenuEvent e)
     {
-        // TODO Auto-generated method stub
 
     }
 }

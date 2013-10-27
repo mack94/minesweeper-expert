@@ -404,7 +404,7 @@ public class Board extends JPanel
                 repaint();
             }
 
-            if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && !MineFrame.playingGame)
+            if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && MineFrame.playingGame)
             {
 
                 //Rightmouse button - set flag and update statusbar

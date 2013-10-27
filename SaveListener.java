@@ -20,7 +20,7 @@ public class SaveListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
-        // create new Panel
+        //Create new Panel
         class FileChooserPanel extends JPanel
         {
             public FileChooserPanel()
@@ -57,10 +57,5 @@ public class SaveListener implements ActionListener
 
             printer.close();//Close the PrintWriter
         }
-        else
-        {
-            System.out.println("Open command cancelled by user.");
-        }
     }
-
 }

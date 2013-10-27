@@ -18,7 +18,6 @@ public class LoadFromDisk
         }
         catch (FileNotFoundException ex)
         {
-            ex.printStackTrace();
             JOptionPane.showMessageDialog(null, "newgame.txt is missing!");
             return; // exit out of method
         }
