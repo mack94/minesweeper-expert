@@ -307,19 +307,6 @@ public class MineFrame
         }
     }
 
-    //Method to call the startNewGame method when the user selects the new game menu option
-    private class GameListener implements ActionListener
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            if (e.getSource() == newGameItem)
-            {
-                startNewGame();
-            }
-        }
-    }
-
     //Method to rotate through all field cells to solve the board
     private class ResolveListener implements ActionListener
     {
