@@ -336,7 +336,6 @@ public class MineFrame
                 undoStack.push(redoStack.peek());//Return the item to the undo stack
                 Board.field = redoStack.pop();//Make the field equal to the item and remove it from the stack
                 gamePanel.repaint();//Repaint the frame
-                System.out.println("Repainted the frame (redo)");
             }
         }
     }
@@ -351,7 +350,6 @@ public class MineFrame
                 redoStack.push(undoStack.peek());//Push the first element of undoStack to redoStack
                 Board.field = undoStack.pop();//Make the board equal to the first element in undoStack
                 gamePanel.repaint();//Repaint the frame
-                System.out.println("Repainted the frame (undo)");//Testing the program got here
             }
         }
     }
@@ -376,7 +374,6 @@ public class MineFrame
             if (returnVal == JFileChooser.APPROVE_OPTION)//Run the following code if the user opens a file
             {
                 File file = fileChooser.getSelectedFile();//Set the file to the one selected by the user
-                System.out.println("Opening: " + file.getName());//Check the program gets to here
 
                 // initialise scanner
                 Scanner scan = null;
@@ -425,10 +422,6 @@ public class MineFrame
                 Board.field = arr;
                 frame.repaint();
 
-            }
-            else
-            {
-                System.out.println("Open command cancelled by user.");
             }
         }
     }

@@ -106,7 +106,6 @@ public class HighscoreListener implements MenuListener
                 catch (IndexOutOfBoundsException e)
                 {
                     JOptionPane.showMessageDialog(null, "The highscore.txt file is currupt");
-                    e.printStackTrace();
                 }
             }
 
