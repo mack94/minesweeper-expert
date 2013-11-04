@@ -88,6 +88,7 @@ public class HighscoreListener implements MenuListener
             catch (FileNotFoundException e)//Exception handeling
             {
                 JOptionPane.showMessageDialog(null, "The highscore.txt file could not be found!");
+                return;
             }
 
             //Get the initial values from the TextAreas
@@ -98,6 +99,7 @@ public class HighscoreListener implements MenuListener
             //Initialise 2 index values
             int index = 0;
             int index2 = 0;
+            int lineNo = 1;
 
             while (diskf.hasNextLine())
             {
@@ -113,8 +115,10 @@ public class HighscoreListener implements MenuListener
                 }
                 catch (IndexOutOfBoundsException e)//Exception handeling
                 {
-                    JOptionPane.showMessageDialog(null, "The highscore.txt file is currupt");
+                    JOptionPane.showMessageDialog(null, "line " + lineNo + " in highscore.txt is currupt");
                 }
+
+                lineNo++;
             }
 
             name.setText(nameValue);//Set to the new values
