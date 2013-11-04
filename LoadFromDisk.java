@@ -8,46 +8,40 @@ import javax.swing.JOptionPane;
 
 public class LoadFromDisk
 {
+    private String filename = "mines/newgame.txt";
+    private int n = 0;//length of array
+    private int[] arr = null;//initialise an array
+
     public LoadFromDisk()
     {
-        File file = new File("mines/newgame.txt");
-        Scanner scan = null;
         try
         {
-            scan = new Scanner(file);
+            Scanner inFile = new Scanner(new File(filename));
+
+            //Get length of array
+            while (inFile.hasNext())
+            {
+                n += 1;
+                inFile.nextInt();
+            }
+            inFile.close();
+
+            //Fill array
+            inFile = new Scanner(new File(filename));//reopen file
+
+            arr = new int[n];//Create a temporary array
+            for (int i = 0; i < arr.length; i++)
+            {
+                arr[i] = inFile.nextInt();
+            }
+            inFile.close();//Close the scanner
+
+            Board.setField(arr);//Have Board.field[] overwritten by arr
         }
         catch (FileNotFoundException ex)
         {
             JOptionPane.showMessageDialog(null, "newgame.txt is missing!");
-            return; // exit out of method
         }
 
-        //Get length of array
-        int n = 0;
-        while (scan.hasNext())
-        {
-            n += 1;
-            scan.next();
-        }
-        scan.close();
-
-        //Fill array
-        try
-        {
-            scan = new Scanner(file);
-        }
-        catch (FileNotFoundException ex)//Handle exception
-        {
-            ex.printStackTrace();
-        }
-
-        int[] arr = new int[n];//Create a temporary array
-        for (int i = 0; i < arr.length; i++)
-        {
-            arr[i] = scan.nextInt();
-        }
-        scan.close();//Close the scanner
-        scan = null;//Nullify the scanner
-        Board.field = arr;//Have Board.field[] be emptied
     }
 }

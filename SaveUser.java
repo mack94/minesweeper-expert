@@ -11,6 +11,7 @@ public class SaveUser
 {
     private PrintWriter printer = null;//Create a PrintWriter but set to null for assigning later
     private String difficultyString, file = "mines/highscore.txt", user = "";
+    private double score = MineFrame.getScore();//get score immediately after the game is won
 
     public SaveUser(int difficulty)
     {
@@ -40,7 +41,7 @@ public class SaveUser
                 ex.printStackTrace();
             }
 
-            printer.println(user + ":" + difficultyString + ":" + MineFrame.getCurrentTime());//Print to the file
+            printer.println(user + ":" + difficultyString + ":" + score);//Print to the file
             printer.close();//Close the PrintWriter
         }
     }

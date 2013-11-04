@@ -27,8 +27,8 @@ public class Board extends JPanel
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
 
-    public static int[] field;
-    public static boolean inGame;
+    private static int[] field;
+    private static boolean inGame;
     private int mines_left;
     private Image[] img;
     private int mines;
@@ -39,8 +39,8 @@ public class Board extends JPanel
 
     private String mineStr = "Mines left: ";
 
-    public static int difficulty;
-    public static boolean solved = false;
+    private static int difficulty;
+    private static boolean solved = false;
 
     //Constructor
     public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
@@ -66,10 +66,34 @@ public class Board extends JPanel
         newGame();
     }
 
+    // set solved (mutator/setter)
+    public static void setSolved(boolean newState)
+    {
+        solved = newState;
+    }
+
+    // set inGame (mutator/setter)
+    public static void setInGame(boolean newState)
+    {
+        inGame = newState;
+    }
+
+    //set difficulty (mutator/setter)
+    public static void setDifficulty(int newdifficulty)
+    {
+        difficulty = newdifficulty;
+    }
+
     //Gets the field and returns it (getter)
     public static int[] getField()
     {
         return field;
+    }
+
+    //Sets the field with a new array (mutator/setter)
+    public static void setField(int[] arr)
+    {
+        field = arr;
     }
 
     // Push the array 'field' into the undoStack

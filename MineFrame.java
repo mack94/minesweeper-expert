@@ -26,6 +26,10 @@ import javax.swing.JRadioButtonMenuItem;
 
 public class MineFrame
 {
+    //time the game was paused for
+    private static double pauseTime = 0.0;
+    private static double startPauseTime = 0;
+
     //Declare GUI objects
     private static JFrame frame;
     private static JPanel gamePanel;
@@ -96,7 +100,7 @@ public class MineFrame
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
         new SaveToDisk();//Save the generated board to disk
-        Arrays.fill(Board.field, 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
+        Arrays.fill(Board.getField(), 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
         new LoadFromDisk();//Load the board from disk
         frame.setPreferredSize(new Dimension(width, height));
 
@@ -249,9 +253,28 @@ public class MineFrame
     //Method that returns the time elapsed from the time a game was started
     public static double getCurrentTime()
     {
-        long endTime = System.currentTimeMillis();
-        long tDelta = endTime - startTime;
-        return tDelta / 1000.0;
+        double endTime = System.currentTimeMillis();
+        return (endTime - startTime) / 1000.0;
+    }
+
+    public static void timePause()
+    {
+        if (playingGame)
+        {
+            startPauseTime = System.currentTimeMillis();
+        }
+
+        if (!playingGame)
+        {
+            double endPauseTime = System.currentTimeMillis();
+            pauseTime += (endPauseTime - startPauseTime) / 1000.0;
+        }
+    }
+
+    //Method that returns the score (total time - paused time)
+    public static double getScore()
+    {
+        return getCurrentTime() - pauseTime;
     }
 
     //Class to handle the game difficulty changes
@@ -263,7 +286,7 @@ public class MineFrame
         {
             if (beginnerItem.isSelected())
             {
-                Board.difficulty = 0;
+                Board.setDifficulty(0);
                 setNoOfMines(20);
                 setNoOfRows(15);
                 setNoOfCols(15);
@@ -275,7 +298,7 @@ public class MineFrame
             //Intermediate Difficulty
             else if (intermediateItem.isSelected())
             {
-                Board.difficulty = 1;
+                Board.setDifficulty(1);
                 setNoOfMines(80);
                 setNoOfRows(24);
                 setNoOfCols(24);
@@ -287,7 +310,7 @@ public class MineFrame
             //Expert Difficulty
             else if (expertItem.isSelected())
             {
-                Board.difficulty = 2;
+                Board.setDifficulty(2);
                 setNoOfMines(200);
                 setNoOfRows(30);
                 setNoOfCols(30);
@@ -320,8 +343,8 @@ public class MineFrame
                     }
                 }
             }
-            Board.solved = true;
-            Board.inGame = false;
+            Board.setSolved(true);
+            Board.setInGame(false);
             frame.repaint();//Repaint the frame to show the resolved board
         }
     }
@@ -335,7 +358,7 @@ public class MineFrame
             if (!redoStack.empty())//Check if the undoStack is empty
             {
                 undoStack.push(redoStack.peek());//Return the item to the undo stack
-                Board.field = redoStack.pop();//Make the field equal to the item and remove it from the stack
+                Board.setField(redoStack.pop());//Make the field equal to the item and remove it from the stack
                 gamePanel.repaint();//Repaint the frame
             }
         }
@@ -350,7 +373,7 @@ public class MineFrame
             if (!undoStack.empty())//Check if the undoStack is empty
             {
                 redoStack.push(undoStack.peek());//Push the first element of undoStack to redoStack
-                Board.field = undoStack.pop();//Make the board equal to the first element in undoStack
+                Board.setField(undoStack.pop());//Make the board equal to the first element in undoStack
                 gamePanel.repaint();//Repaint the frame
             }
         }
@@ -422,7 +445,7 @@ public class MineFrame
                 }
                 scan.close();//Close Scanner
                 scan = null;//Garbage collection
-                Board.field = arr;//Set arr to field
+                Board.setField(arr);//Set arr to field
                 frame.repaint();//Repaint
 
             }
@@ -437,10 +460,12 @@ public class MineFrame
         {
             if (pauseItem.isSelected())
             {
+                timePause();//save current time
                 playingGame = false;//Stop the user making actions
             }
             if (!pauseItem.isSelected())
             {
+                timePause();//calculate time the game was paused for
                 playingGame = true;//Allow the user to continue the game
             }
         }

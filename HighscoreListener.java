@@ -1,6 +1,5 @@
 package mines;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -95,7 +94,7 @@ public class HighscoreListener implements MenuListener
             String nameValue = name.getText();
             String scoreValue = score.getText();
             String difficulyValue = diff.getText();
-            
+
             //Initialise 2 index values
             int index = 0;
             int index2 = 0;
@@ -140,7 +139,7 @@ public class HighscoreListener implements MenuListener
     @Override
     public void menuCanceled(MenuEvent e)
     {
-        
+
     }
 
     @Override
