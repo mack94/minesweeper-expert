@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Stack;
@@ -100,7 +100,7 @@ public class MineFrame
 
         gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
         new SaveToDisk();//Save the generated board to disk
-        Arrays.fill(Board.getField(), 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
+        //Arrays.fill(Board.getField(), 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
         new LoadFromDisk();//Load the board from disk
         frame.setPreferredSize(new Dimension(width, height));
 
