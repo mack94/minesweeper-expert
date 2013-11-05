@@ -42,10 +42,12 @@ public class SaveListener implements ActionListener
             catch (FileNotFoundException ex)//Catch the exceptions
             {
                 ex.printStackTrace();
+                return;//break out of method
             }
             catch (IOException ex)
             {
                 ex.printStackTrace();
+                return;//break out of method
             }
 
             int[] field = Board.getField();

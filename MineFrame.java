@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-//import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Stack;
@@ -402,51 +402,43 @@ public class MineFrame
             {
                 File file = fileChooser.getSelectedFile();//Set the file to the one selected by the user
 
-                //Initialise scanner
-                Scanner scan = null;
                 try
                 {
-                    scan = new Scanner(file);
-                }
-                catch (FileNotFoundException ex)//Handle file not found exception
-                {
-                    ex.printStackTrace();
-                }
+                    Scanner scan = new Scanner(file);
 
-                int n = 0;//Initialise n
-                while (scan.hasNext())
-                {
-                    n += 1;//Get the length of the array/file
-                    scan.next();
-                }
-                scan.close();//Close scanner
-
-                try
-                {
-                    scan = new Scanner(file);//Reopen Scanner
-                }
-                catch (FileNotFoundException ex)//Handle file not found exception
-                {
-                    ex.printStackTrace();
-                }
-                int[] arr = new int[n];//Initialise array
-                try
-                {
-                    //Fill the array with the data from the file
-                    for (int i = 0; i < arr.length; i++)
+                    int n = 0;//Initialise n
+                    while (scan.hasNext())
                     {
-
-                        arr[i] = scan.nextInt();
+                        n += 1;//Get the length of the array/file
+                        scan.next();
                     }
+                    scan.close();//Close scanner
+
+                    scan = new Scanner(file);//Reopen Scanner
+
+                    int[] arr = new int[n];//Initialise array
+                    try
+                    {
+                        //Fill the array with the data from the file
+                        for (int i = 0; i < arr.length; i++)
+                        {
+
+                            arr[i] = scan.nextInt();
+                        }
+                    }
+                    catch (InputMismatchException ex)//Exception handling
+                    {
+                        JOptionPane.showMessageDialog(null, "This file is not supported!");//Give user notification of exception
+                    }
+                    scan.close();//Close Scanner
+                    scan = null;//Garbage collection
+                    Board.setField(arr);//Set arr to field
+                    frame.repaint();//Repaint
                 }
-                catch (InputMismatchException ex)//Exception handling
+                catch (FileNotFoundException ex)//Handle file not found exception
                 {
-                    JOptionPane.showMessageDialog(null, "This file is not supported!");//Give user notification of exception
+                    ex.printStackTrace();
                 }
-                scan.close();//Close Scanner
-                scan = null;//Garbage collection
-                Board.setField(arr);//Set arr to field
-                frame.repaint();//Repaint
 
             }
         }
