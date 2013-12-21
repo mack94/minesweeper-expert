@@ -26,6 +26,7 @@ public class CustomGameListener implements ActionListener
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        Board.setDifficulty(3);
         CustomGameFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         CustomGameFrame.getContentPane().add(new CustomGamePanel());
         CustomGameFrame.pack();

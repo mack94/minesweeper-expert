@@ -31,6 +31,9 @@ public class SaveUser
                 case 2:
                     difficultyString = "Expert";
                     break;
+                case 3:
+                    difficultyString = "Custom";
+                    break;
             }
             try
             {
