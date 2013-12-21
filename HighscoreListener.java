@@ -15,15 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
-public class HighscoreListener implements MenuListener
+public class HighscoreListener implements ActionListener
 {
     private JFrame HighscoreFrame = new JFrame("Highscore");
 
     @Override
-    public void menuSelected(MenuEvent e)
+    public void actionPerformed(ActionEvent e)
     {
         HighscoreFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         HighscoreFrame.getContentPane().add(new HighscoreFrame());
@@ -137,18 +135,5 @@ public class HighscoreListener implements MenuListener
         {
             HighscoreFrame.dispose();//Dispose of frame
         }
-    }
-
-    //The methods below are needed to compile
-    @Override
-    public void menuCanceled(MenuEvent e)
-    {
-
-    }
-
-    @Override
-    public void menuDeselected(MenuEvent e)
-    {
-
     }
 }

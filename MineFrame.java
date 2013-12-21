@@ -56,10 +56,10 @@ public class MineFrame
 
     //Declare the menu bar and its items (GUI elements)
     private JMenuBar menuBar = new JMenuBar();
-    private JMenu fileMenu, editMenu, viewMenu, helpMenu, highscore;
+    private JMenu fileMenu, editMenu, viewMenu, helpMenu;
     private static JMenuItem pauseItem;
     private JMenuItem saveItem, loadItem, exitItem, newGameItem, resolveItem,
-            undoItem, redoItem;
+            undoItem, redoItem, highscore;
     private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
             customItem;
 
@@ -121,6 +121,9 @@ public class MineFrame
         loadItem = new JMenuItem("Load");
         loadItem.setMnemonic('L');
         loadItem.addActionListener(new LoadListener());
+        highscore = new JMenuItem("Highscore");
+        highscore.setMnemonic('H');
+        highscore.addActionListener(new HighscoreListener());
         exitItem = new JMenuItem("Exit");
         exitItem.setMnemonic('X');
         exitItem.addActionListener(new ExitListener());
@@ -128,6 +131,7 @@ public class MineFrame
         //Add file items to the fileMenu
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
+        fileMenu.add(highscore);
         fileMenu.add(exitItem);
 
         //Create the editMenu and it's items
@@ -190,22 +194,17 @@ public class MineFrame
         helpMenu = new JMenu("Help");
         helpMenu.setMnemonic('H');
 
-        resolveItem = new JMenuItem("Solve");
+        resolveItem = new JMenuItem("Solve Game");
         resolveItem.setMnemonic('c');
         resolveItem.addActionListener(new ResolveListener());
 
         //Add help item to helpMenu
         helpMenu.add(resolveItem);
 
-        highscore = new JMenu("Highscore");
-        highscore.setMnemonic('H');
-        highscore.addMenuListener(new HighscoreListener());
-
         //Add File, View and Help Menus to the JMenuBar
         menuBar.add(fileMenu);
         menuBar.add(editMenu);
         menuBar.add(viewMenu);
-        menuBar.add(highscore);
         menuBar.add(helpMenu);
 
         // return the menuBar
