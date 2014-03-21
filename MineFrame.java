@@ -3,6 +3,8 @@ package mines;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -62,6 +64,7 @@ public class MineFrame
             undoItem, redoItem, highscore;
     private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
             customItem;
+    private static Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint(); //center point of screen
 
     //Constructor of the MineFrame
     public MineFrame()
@@ -84,7 +87,6 @@ public class MineFrame
 
         frame.setBackground(new Color(0xB3B3B3));//Set Background colour
         frame.pack();//Resize the frame to occupy the smallest amount of space
-        frame.setLocationRelativeTo(null);//Centres the frame
         frame.setResizable(true);//Have the frame re-sizable useful for custom games
         frame.setVisible(true);//Show all components on the window
     }
@@ -103,7 +105,7 @@ public class MineFrame
         //Arrays.fill(Board.getField(), 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
         new LoadFromDisk();//Load the board from disk
         frame.setPreferredSize(new Dimension(width, height));
-
+        frame.setBounds(center.x - width / 2, center.y - height / 2, width,height); //calculate the center point of window and set it
         frame.validate();
         frame.repaint();
         frame.pack();
@@ -247,6 +249,17 @@ public class MineFrame
     public static void setNoOfRows(int noOfRows)
     {
         MineFrame.noOfRows = noOfRows;
+    }
+    
+    //Setter for width and height
+    public static void setWidth(int width)
+    {
+        MineFrame.width = width;
+    }
+    
+    public static void setHeight(int height)
+    {
+        MineFrame.height = height;
     }
 
     //Method that returns the time elapsed from the time a game was started

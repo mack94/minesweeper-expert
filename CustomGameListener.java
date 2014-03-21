@@ -59,7 +59,7 @@ public class CustomGameListener implements ActionListener
             boardHeight = new JSlider();
 
             //Set slider properties
-            noOfMines.setMaximum(500);
+            noOfMines.setMaximum(600);
             noOfMines.setMinimum(10);
             noOfMines.setValue(minesCount);
             noOfMines.setMajorTickSpacing(100);
@@ -164,13 +164,15 @@ public class CustomGameListener implements ActionListener
         {
             if (minesCount > width * height)
             {
-                JOptionPane.showMessageDialog(null, "You selected more mines that can fit on the board!");//Show a message if the user has chosen more mines that can fit on the board
+                JOptionPane.showMessageDialog(null, "You selected more Mines that can fit on the Board!");//Show a message if the user has chosen more mines that can fit on the board
             }
             else
             {
                 MineFrame.setNoOfMines(minesCount);//Set the value of mineCount to the frame
-                MineFrame.setNoOfCols(width);//Set the value of width to the frame
-                MineFrame.setNoOfRows(height);//Set the value of height to the frame
+                MineFrame.setNoOfCols(width);//Set the columns to the panel
+                MineFrame.setNoOfRows(height);//Set the Rows to the panel
+                MineFrame.setWidth(width*15); //set frame width
+                MineFrame.setHeight(height*15+60); //set frame height
                 MineFrame.startNewGame();//call the newGame method
                 CustomGameFrame.dispose();//call the dispose method to close the frame
             }
