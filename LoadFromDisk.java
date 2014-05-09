@@ -1,5 +1,3 @@
-package mines;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -8,15 +6,16 @@ import javax.swing.JOptionPane;
 
 public class LoadFromDisk
 {
-    private String filename = "mines/newgame.txt";
+    private String filename = "newgame.txt";
     private int n = 0;//length of array
     private int[] arr = null;//initialise an array
 
     public LoadFromDisk()
     {
+        File file = new File(filename);
         try
-        {
-            Scanner inFile = new Scanner(new File(filename));
+        {   
+            Scanner inFile = new Scanner(file);
 
             //Get length of array
             while (inFile.hasNext())
@@ -40,7 +39,7 @@ public class LoadFromDisk
         }
         catch (FileNotFoundException ex)
         {
-            JOptionPane.showMessageDialog(null, "newgame.txt is missing!");
+            JOptionPane.showMessageDialog(null, "The '" + file.getAbsolutePath() + "' file could not be found!");
         }
 
     }

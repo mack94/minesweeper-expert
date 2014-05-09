@@ -1,5 +1,3 @@
-package mines;
-
 import javax.swing.JFrame;
 
 public class Mines extends JFrame

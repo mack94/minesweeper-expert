@@ -1,5 +1,3 @@
-package mines;
-
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +21,6 @@ public class CustomGameListener implements ActionListener
     private int width = MineFrame.getNoOfCols();
     private int height = MineFrame.getNoOfRows();
 
-    @Override
     public void actionPerformed(ActionEvent e)
     {
         Board.setDifficulty(3);
@@ -109,7 +106,6 @@ public class CustomGameListener implements ActionListener
     //Change Listeners
     class noOfMinesListener implements ChangeListener
     {
-        @Override
         public void stateChanged(ChangeEvent e)
         {
             JSlider source = (JSlider) e.getSource();
@@ -122,7 +118,6 @@ public class CustomGameListener implements ActionListener
 
     class boardWidthListener implements ChangeListener
     {
-        @Override
         public void stateChanged(ChangeEvent e)
         {
             JSlider source = (JSlider) e.getSource();
@@ -135,7 +130,6 @@ public class CustomGameListener implements ActionListener
 
     class boardHeightListener implements ChangeListener
     {
-        @Override
         public void stateChanged(ChangeEvent e)
         {
             JSlider source = (JSlider) e.getSource();
@@ -149,7 +143,7 @@ public class CustomGameListener implements ActionListener
     //Action Listeners
     class FrameDispose implements ActionListener
     {
-        @Override
+        
         //Cancel and Save Button
         public void actionPerformed(ActionEvent e)
         {
@@ -159,7 +153,6 @@ public class CustomGameListener implements ActionListener
 
     class createCustomGameListener implements ActionListener
     {
-        @Override
         public void actionPerformed(ActionEvent e)
         {
             if (minesCount > width * height)

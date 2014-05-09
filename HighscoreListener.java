@@ -1,5 +1,3 @@
-package mines;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -20,7 +18,6 @@ public class HighscoreListener implements ActionListener
 {
     private JFrame HighscoreFrame = new JFrame("Highscore");
 
-    @Override
     public void actionPerformed(ActionEvent e)
     {
         HighscoreFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -76,7 +73,7 @@ public class HighscoreListener implements ActionListener
         //Method to load the highscore.txt and add the text to the respective textArea
         public void loadHighscoreFile()
         {
-            String path = "mines/highscore.txt";;
+            String path = "highscore.txt";;
             File file = new File(path);
             Scanner diskf = null;
             try
@@ -85,7 +82,7 @@ public class HighscoreListener implements ActionListener
             }
             catch (FileNotFoundException e)//Exception handeling
             {
-                JOptionPane.showMessageDialog(null, "The highscore.txt file could not be found!");
+                JOptionPane.showMessageDialog(null, "The '" + file.getAbsolutePath() + "' file could not be found!");
                 return;
             }
 
@@ -130,7 +127,6 @@ public class HighscoreListener implements ActionListener
 
     class FrameDispose implements ActionListener
     {
-        @Override
         public void actionPerformed(ActionEvent e)
         {
             HighscoreFrame.dispose();//Dispose of frame

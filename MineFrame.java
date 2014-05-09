@@ -1,5 +1,3 @@
-package mines;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -292,7 +290,7 @@ public class MineFrame
     //Class to handle the game difficulty changes
     private class DifficultyListener implements ActionListener
     {
-        @Override
+        
         //Beginner Difficulty
         public void actionPerformed(ActionEvent e)
         {
@@ -336,7 +334,6 @@ public class MineFrame
     //Method to rotate through all field cells to solve the board
     private class ResolveListener implements ActionListener
     {
-        @Override
         public void actionPerformed(ActionEvent arg0)
         {
             for (int cCol = 0; cCol < MineFrame.getNoOfCols(); cCol++)
@@ -363,7 +360,7 @@ public class MineFrame
 
     private class RedoListener implements ActionListener
     {
-        @Override
+        
         //Method that pushes the current redo to the undoStack and pops the redoStack to the (mine-) field
         public void actionPerformed(ActionEvent e)
         {
@@ -378,7 +375,7 @@ public class MineFrame
 
     private class UndoListener implements ActionListener
     {
-        @Override
+        
         //Method that pushes the current undo to the redoStack and pops the undoStack to the (mine-) field
         public void actionPerformed(ActionEvent e)
         {
@@ -396,7 +393,7 @@ public class MineFrame
         //Initialise fileChooser
         private JFileChooser fileChooser = new JFileChooser();
 
-        @Override
+        
         //Open a FileChooser, read the selected file into an array, override the (mine-) field with the array and repaint
         public void actionPerformed(ActionEvent e)
         {
@@ -459,7 +456,6 @@ public class MineFrame
     //Method to handle pausing the game
     public static class PauseListener implements ActionListener
     {
-        @Override
         public void actionPerformed(ActionEvent e)
         {
             if (pauseItem.isSelected())
