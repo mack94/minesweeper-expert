@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 
 public class SaveToDisk
 {
-    private String filename = "mines/newgame.txt";//store the filename
+    private String filename = "newgame.txt";//store the filename
     private PrintWriter outFile = null;//Create a PrintWriter but set to null for assigning later
     private int[] arr = Board.getField();//Create an int array and have it the same as Board.field[]
 

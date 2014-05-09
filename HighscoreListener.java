@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -75,53 +76,57 @@ public class HighscoreListener implements ActionListener
         {
             String path = "highscore.txt";;
             File file = new File(path);
-            Scanner diskf = null;
             try
             {
-                diskf = new Scanner(file);
+                file.createNewFile();
+                Scanner diskf = new Scanner(file);
+                
+                //Get the initial values from the TextAreas
+                String nameValue = name.getText();
+                String scoreValue = score.getText();
+                String difficulyValue = diff.getText();
+
+                //Initialise 2 index values
+                int index = 0;
+                int index2 = 0;
+                int lineNo = 1;
+
+                while (diskf.hasNextLine())
+                {
+                    String line = diskf.nextLine();
+
+                    try
+                    {
+                        index = line.indexOf(':');//Search through the line for ":" and return the index
+                        index2 = line.indexOf(':', index + 1);//Search through the line for the 2nd ":" and return the index
+                        nameValue += line.substring(0, index) + "\n";//Grab the before first ":" and add it to nameValue
+                        difficulyValue += line.substring(index + 1, index2) + "\n";//Grab the string between the ":"s and add it to difficulyValue
+                        scoreValue += line.substring(index2 + 1, line.length()) + "\n";//Grab the String after the 2nd ":" and add it to scoreValue
+                    }
+                    catch (IndexOutOfBoundsException e)//Exception handeling
+                    {
+                        JOptionPane.showMessageDialog(null, "line " + lineNo + " in highscore.txt is currupt");
+                    }
+
+                    lineNo++;
+                }
+
+                name.setText(nameValue);//Set to the new values
+                diff.setText(difficulyValue);//Set to the new values
+                score.setText(scoreValue);//Set to the new values
+
+                //close scanner
+                diskf.close();
+
             }
-            catch (FileNotFoundException e)//Exception handeling
+            catch (FileNotFoundException e)//Exception handling
             {
                 JOptionPane.showMessageDialog(null, "The '" + file.getAbsolutePath() + "' file could not be found!");
-                return;
             }
-
-            //Get the initial values from the TextAreas
-            String nameValue = name.getText();
-            String scoreValue = score.getText();
-            String difficulyValue = diff.getText();
-
-            //Initialise 2 index values
-            int index = 0;
-            int index2 = 0;
-            int lineNo = 1;
-
-            while (diskf.hasNextLine())
+            catch (IOException e)
             {
-                String line = diskf.nextLine();
-
-                try
-                {
-                    index = line.indexOf(':');//Search through the line for ":" and return the index
-                    index2 = line.indexOf(':', index + 1);//Search through the line for the 2nd ":" and return the index
-                    nameValue += line.substring(0, index) + "\n";//Grab the before first ":" and add it to nameValue
-                    difficulyValue += line.substring(index + 1, index2) + "\n";//Grab the string between the ":"s and add it to difficulyValue
-                    scoreValue += line.substring(index2 + 1, line.length()) + "\n";//Grab the String after the 2nd ":" and add it to scoreValue
-                }
-                catch (IndexOutOfBoundsException e)//Exception handeling
-                {
-                    JOptionPane.showMessageDialog(null, "line " + lineNo + " in highscore.txt is currupt");
-                }
-
-                lineNo++;
+                JOptionPane.showMessageDialog(null, "The '" + file.getAbsolutePath() + "' file could not be Created!");
             }
-
-            name.setText(nameValue);//Set to the new values
-            diff.setText(difficulyValue);//Set to the new values
-            score.setText(scoreValue);//Set to the new values
-
-            //close Scanner
-            diskf.close();
         }
     }
 

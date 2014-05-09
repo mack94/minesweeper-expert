@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -15,6 +16,7 @@ public class LoadFromDisk
         File file = new File(filename);
         try
         {   
+            file.createNewFile();
             Scanner inFile = new Scanner(file);
 
             //Get length of array
@@ -40,6 +42,10 @@ public class LoadFromDisk
         catch (FileNotFoundException ex)
         {
             JOptionPane.showMessageDialog(null, "The '" + file.getAbsolutePath() + "' file could not be found!");
+        }
+        catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(null, "The '" + file.getAbsolutePath() + "' file could not be Created!");
         }
 
     }

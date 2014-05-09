@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class SaveUser
 {
     private PrintWriter printer = null;//Create a PrintWriter but set to null for assigning later
-    private String difficultyString, file = "mines/highscore.txt", user = "";
+    private String difficultyString, file = "highscore.txt", user = "";
     private double score = MineFrame.getScore();//get score immediately after the game is won
 
     public SaveUser(int difficulty)
