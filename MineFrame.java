@@ -131,6 +131,7 @@ public class MineFrame
         //Add file items to the fileMenu
         fileMenu.add(saveItem);
         fileMenu.add(loadItem);
+        fileMenu.addSeparator();
         fileMenu.add(highscore);
         fileMenu.add(exitItem);
 
@@ -185,6 +186,7 @@ public class MineFrame
         //Add difficulty and view items to viewMenu
         viewMenu.add(newGameItem);
         viewMenu.add(pauseItem);
+        viewMenu.addSeparator();
         viewMenu.add(beginnerItem);
         viewMenu.add(intermediateItem);
         viewMenu.add(expertItem);
