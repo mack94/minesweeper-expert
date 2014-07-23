@@ -164,8 +164,7 @@ public class CustomGameListener implements ActionListener
                 MineFrame.setNoOfMines(minesCount);//Set the value of mineCount to the frame
                 MineFrame.setNoOfCols(width);//Set the columns to the panel
                 MineFrame.setNoOfRows(height);//Set the Rows to the panel
-                MineFrame.setWidth(width*15); //set frame width
-                MineFrame.setHeight(height*15+60); //set frame height
+                MineFrame.calcDimentions(); //set frame width and height
                 MineFrame.startNewGame();//call the newGame method
                 CustomGameFrame.dispose();//call the dispose method to close the frame
             }

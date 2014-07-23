@@ -77,9 +77,9 @@ public class Board extends JPanel
     }
 
     //set difficulty (mutator/setter)
-    public static void setDifficulty(int newdifficulty)
+    public static void setDifficulty(int newDifficulty)
     {
-        difficulty = newdifficulty;
+        difficulty = newDifficulty;
     }
 
     //Gets the field and returns it (getter)
@@ -95,24 +95,10 @@ public class Board extends JPanel
     }
 
     // Push the array 'field' into the undoStack
-    public void pushFieldToUndoStack()
+    public static void pushFieldToUndoStack()
     {
-        // get array lenth
-        int arrLength = Board.getField().length;
-
-        // create a temp array
-        int[] fieldSave = new int[arrLength];
-
-        //Cycle through the field cells
-        for (int i = 0; i < arrLength; i++)
-        {
-            fieldSave[i] = field[i];
-        }
-
-        MineFrame.undoStack.push(fieldSave);//Push the array 'field' into the undoStack
-
-        // reset the array
-        fieldSave = null;
+        //Push the array 'field' into the undoStack
+        MineFrame.undoStack.push(field.clone());
     }
 
     // create a new game
@@ -408,8 +394,6 @@ public class Board extends JPanel
 //Click event when user clicked a field
     class MinesAdapter extends MouseAdapter
     {
-
-        @Override
         public void mousePressed(MouseEvent e)
         {
             int x = e.getX();

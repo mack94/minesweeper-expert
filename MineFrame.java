@@ -50,9 +50,9 @@ public class MineFrame
     //Static long which will contain the time a game has started in milliseconds
     private static long startTime;
 
-    //Default width and height for the frame
-    private static int height = 440;
-    private static int width = 377;
+    //Init width and height for the gamePanel
+    private static int height;
+    private static int width;
 
     //Declare the menu bar and its items (GUI elements)
     private JMenuBar menuBar = new JMenuBar();
@@ -70,22 +70,16 @@ public class MineFrame
         frame = new JFrame();//Create the frame for the GUI
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Have the application exit when closed
-        frame.setPreferredSize(new Dimension(width, height));//Set the preferred frame size
         frame.setLocationRelativeTo(null);//Centre the frame
         frame.setTitle("Minesweeper");//Title of the frame
-
-        statusbar = new JLabel("");//Set the passed-in status bar
-
-        gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
-
+        frame.setBackground(new Color(0xB3B3B3));//Set Background colour
+        frame.setResizable(true);//Have the frame re-sizable useful for custom games
         frame.setJMenuBar(buildMenuBar());//Build the menu bar and set it as the JMenuBar
-
+        
+        statusbar = new JLabel("");//Set the passed-in status bar
+        gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
         frame.add(gamePanel);//Add gamePanel to the frame
         startNewGame();
-
-        frame.setBackground(new Color(0xB3B3B3));//Set Background colour
-        frame.pack();//Resize the frame to occupy the smallest amount of space
-        frame.setResizable(true);//Have the frame re-sizable useful for custom games
         frame.setVisible(true);//Show all components on the window
     }
 
@@ -93,24 +87,26 @@ public class MineFrame
     public static void startNewGame()
     {
         gamePanel.removeAll();
+//        gamePanel.invalidate();
         gamePanel.add(statusbar, BorderLayout.SOUTH);
+        gamePanel.add(new Board(statusbar, noOfMines, noOfRows, noOfCols), BorderLayout.CENTER);
 
         playingGame = true;//Set to true so the user may make actions
         startTime = System.currentTimeMillis(); //save the time the game started
 
-        gamePanel.add(new Board(statusbar, getNoOfMines(), getNoOfRows(), getNoOfCols()));
-        new SaveToDisk();//Save the generated board to disk
+        //new SaveToDisk();//Save the generated board to disk 
         //Arrays.fill(Board.getField(), 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
-        new LoadFromDisk();//Load the board from disk
-        frame.setPreferredSize(new Dimension(width, height));
-        frame.setBounds(center.x - width / 2, center.y - height / 2, width,height); //calculate the center point of window and set it
-        frame.validate();
-        frame.repaint();
+        //new LoadFromDisk();//Load the board from disk
+        calcDimentions();
+        gamePanel.setPreferredSize(new Dimension(width, height));
+        frame.setBounds(center.x - width / 2, center.y - height / 2, width, height); //calculate the center point of window and set it
+        gamePanel.validate();
+        gamePanel.repaint();
         frame.pack();
     }
 
     //Method to create the MenuBar, its properties and associate ActionListners
-    public JMenuBar buildMenuBar()
+    private JMenuBar buildMenuBar()
     {
         //Create the fileMenu and it's items
         fileMenu = new JMenu("File");
@@ -288,6 +284,11 @@ public class MineFrame
     {
         return getCurrentTime() - pauseTime;
     }
+    
+    public static void calcDimentions(){
+    	width = noOfCols*15;
+    	height = noOfRows*15+20;
+    }
 
     //Class to handle the game difficulty changes
     private class DifficultyListener implements ActionListener
@@ -302,8 +303,7 @@ public class MineFrame
                 setNoOfMines(20);
                 setNoOfRows(15);
                 setNoOfCols(15);
-                width = 250;
-                height = 300;
+                calcDimentions();
                 startNewGame();
             }
 
@@ -314,8 +314,7 @@ public class MineFrame
                 setNoOfMines(80);
                 setNoOfRows(24);
                 setNoOfCols(24);
-                height = 440;
-                width = 377;
+                calcDimentions();
                 startNewGame();
             }
 
@@ -326,8 +325,7 @@ public class MineFrame
                 setNoOfMines(200);
                 setNoOfRows(30);
                 setNoOfCols(30);
-                height = 529;
-                width = 466;
+                calcDimentions();
                 startNewGame();
             }
         }
@@ -384,7 +382,9 @@ public class MineFrame
             if (!undoStack.empty())//Check if the undoStack is empty
             {
                 redoStack.push(undoStack.peek());//Push the first element of undoStack to redoStack
-                Board.setField(undoStack.pop());//Make the board equal to the first element in undoStack
+                undoStack.pop();//skip current frame
+                Board.setField(undoStack.pop());//Make the board equal to the Second element in undoStack
+                Board.pushFieldToUndoStack();//Push the new current frame into stack
                 gamePanel.repaint();//Repaint the frame
             }
         }
@@ -433,7 +433,6 @@ public class MineFrame
                         //Fill the array with the data from the file
                         for (int i = 0; i < arr.length; i++)
                         {
-
                             arr[i] = scan.nextInt();
                         }
                     }
