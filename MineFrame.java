@@ -1,5 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -326,6 +325,19 @@ public class MineFrame
             }
         }
     }
+    
+    public class newGameListener implements ActionListener
+    {
+        //Create a newGame after user agrees
+        public void actionPerformed(ActionEvent e)
+        {
+            int ask = JOptionPane.showConfirmDialog(null, "Are you sure?");
+            if (ask == 0)
+            {
+                MineFrame.startNewGame();
+            }
+        }
+    }
 
     //Method to rotate through all field cells to solve the board
     private class ResolveListener implements ActionListener
@@ -472,5 +484,12 @@ public class MineFrame
                 playingGame = true;//Allow the user to continue the game
             }
         }
+    }
+    public class ExitListener implements ActionListener {
+
+    	public void actionPerformed(ActionEvent e) {
+    		//Quit the program
+    		System.exit(0);
+    	}
     }
 }
