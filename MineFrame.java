@@ -1,13 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-// import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Stack;
@@ -62,7 +59,6 @@ public class MineFrame
             undoItem, redoItem, highscore;
     private JRadioButtonMenuItem beginnerItem, intermediateItem, expertItem,
             customItem;
-    private static Point center = GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint(); //center point of screen
 
     //Constructor of the MineFrame
     public MineFrame()
@@ -70,16 +66,15 @@ public class MineFrame
         frame = new JFrame();//Create the frame for the GUI
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Have the application exit when closed
-        frame.setLocationRelativeTo(null);//Centre the frame
         frame.setTitle("Minesweeper");//Title of the frame
-        frame.setBackground(new Color(0xB3B3B3));//Set Background colour
-        frame.setResizable(true);//Have the frame re-sizable useful for custom games
+        frame.setResizable(false);//Have the frame re-sizable useful for custom games
         frame.setJMenuBar(buildMenuBar());//Build the menu bar and set it as the JMenuBar
         
         statusbar = new JLabel("");//Set the passed-in status bar
         gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
         frame.add(gamePanel);//Add gamePanel to the frame
         startNewGame();
+        frame.setLocationRelativeTo(null);//Centre the frame
         frame.setVisible(true);//Show all components on the window
     }
 
@@ -87,7 +82,8 @@ public class MineFrame
     public static void startNewGame()
     {
         gamePanel.removeAll();
-//        gamePanel.invalidate();
+        undoStack.removeAllElements();
+        redoStack.removeAllElements();
         gamePanel.add(statusbar, BorderLayout.SOUTH);
         gamePanel.add(new Board(statusbar, noOfMines, noOfRows, noOfCols), BorderLayout.CENTER);
 
@@ -97,9 +93,9 @@ public class MineFrame
         //new SaveToDisk();//Save the generated board to disk 
         //Arrays.fill(Board.getField(), 0);//Set all entries in the field to 0 to prove that LoadFromDisk does work
         //new LoadFromDisk();//Load the board from disk
+        
         calcDimentions();
         gamePanel.setPreferredSize(new Dimension(width, height));
-        frame.setBounds(center.x - width / 2, center.y - height / 2, width, height); //calculate the center point of window and set it
         gamePanel.validate();
         gamePanel.repaint();
         frame.pack();
@@ -381,11 +377,17 @@ public class MineFrame
         {
             if (!undoStack.empty())//Check if the undoStack is empty
             {
-                redoStack.push(undoStack.peek());//Push the first element of undoStack to redoStack
-                undoStack.pop();//skip current frame
-                Board.setField(undoStack.pop());//Make the board equal to the Second element in undoStack
-                Board.pushFieldToUndoStack();//Push the new current frame into stack
-                gamePanel.repaint();//Repaint the frame
+                redoStack.push(undoStack.pop());//Push the first element of undoStack to redoStack and remove current field
+                if (!undoStack.empty())
+                {
+                	Board.setField(undoStack.pop());//Make the board equal to the next element in undoStack
+                	Board.pushFieldToUndoStack();//Push the new current frame into stack
+                	gamePanel.repaint();//Repaint the frame
+                }
+                else if(!redoStack.empty())
+                {
+                	undoStack.push(redoStack.pop());//Return the item to the undo stack
+                }
             }
         }
     }

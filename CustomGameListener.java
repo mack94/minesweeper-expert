@@ -17,18 +17,22 @@ public class CustomGameListener implements ActionListener
     private JFrame CustomGameFrame = new JFrame("Custom...");
 
     //Initialise variables and set them to the current ones on the field
-    private int minesCount = MineFrame.getNoOfMines();
-    private int width = MineFrame.getNoOfCols();
-    private int height = MineFrame.getNoOfRows();
+    private int minesCount;
+    private int width;
+    private int height;
 
     public void actionPerformed(ActionEvent e)
     {
-        Board.setDifficulty(3);
+    	minesCount = MineFrame.getNoOfMines();
+    	width = MineFrame.getNoOfCols();
+    	height = MineFrame.getNoOfRows();
+    	
         CustomGameFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        CustomGameFrame.setTitle("Custom Game");//Title of the frame
         CustomGameFrame.getContentPane().add(new CustomGamePanel());
+        CustomGameFrame.setResizable(false);
         CustomGameFrame.pack();
         CustomGameFrame.setLocationRelativeTo(null); //Center the frame
-        CustomGameFrame.setResizable(false);
         CustomGameFrame.setVisible(true);
     }
 
@@ -58,6 +62,7 @@ public class CustomGameListener implements ActionListener
             //Set slider properties
             noOfMines.setMaximum(600);
             noOfMines.setMinimum(10);
+            noOfMines.setFocusable(false);// fixes bug were a value can't be set while slider is in focus - tab keying is therefore disabled
             noOfMines.setValue(minesCount);
             noOfMines.setMajorTickSpacing(100);
             noOfMines.setMinorTickSpacing(10);
@@ -66,6 +71,7 @@ public class CustomGameListener implements ActionListener
 
             boardWidth.setMaximum(100);
             boardWidth.setMinimum(10);
+            boardWidth.setFocusable(false);// fixes bug were a value can't be set while slider is in focus - tab keying is therefore disabled
             boardWidth.setValue(width);
             boardWidth.setMajorTickSpacing(20);
             boardWidth.setMinorTickSpacing(5);
@@ -74,6 +80,7 @@ public class CustomGameListener implements ActionListener
 
             boardHeight.setMaximum(60);
             boardHeight.setMinimum(10);
+            boardHeight.setFocusable(false);// fixes bug were a value can't be set while slider is in focus - tab keying is therefore disabled
             boardHeight.setValue(height);
             boardHeight.setMajorTickSpacing(10);
             boardHeight.setMinorTickSpacing(5);
@@ -144,7 +151,7 @@ public class CustomGameListener implements ActionListener
     class FrameDispose implements ActionListener
     {
         
-        //Cancel and Save Button
+        //Cancel Button
         public void actionPerformed(ActionEvent e)
         {
             CustomGameFrame.dispose();//Dispose of the frame
@@ -161,6 +168,7 @@ public class CustomGameListener implements ActionListener
             }
             else
             {
+            	Board.setDifficulty(3);
                 MineFrame.setNoOfMines(minesCount);//Set the value of mineCount to the frame
                 MineFrame.setNoOfCols(width);//Set the columns to the panel
                 MineFrame.setNoOfRows(height);//Set the Rows to the panel
