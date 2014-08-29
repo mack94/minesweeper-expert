@@ -23,9 +23,9 @@ public class HighscoreListener implements ActionListener
     {
         HighscoreFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         HighscoreFrame.getContentPane().add(new HighscoreFrame());
-        HighscoreFrame.pack();
-        HighscoreFrame.setLocationRelativeTo(null); //Centers the frame
         HighscoreFrame.setResizable(false);
+        HighscoreFrame.setLocationRelativeTo(null); //Centers the frame
+        HighscoreFrame.pack();
         HighscoreFrame.setVisible(true);
     }
 

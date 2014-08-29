@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -72,8 +73,8 @@ public class MineFrame
         statusbar = new JLabel("");//Set the passed-in status bar
         gamePanel = new JPanel(new BorderLayout());//New panel that contains the board
         frame.add(gamePanel);//Add gamePanel to the frame
+        //frame.setLocationRelativeTo(null);//Centre the frame
         startNewGame();
-        frame.setLocationRelativeTo(null);//Centre the frame
         frame.setVisible(true);//Show all components on the window
     }
 
@@ -97,6 +98,10 @@ public class MineFrame
         gamePanel.setPreferredSize(new Dimension(width, height));
         gamePanel.validate();
         gamePanel.repaint();
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - width) / 2);
+        int y = (int) ((dimension.getHeight() - height - 100) / 2);
+        frame.setLocation(x, y);
         frame.pack();
     }
 
