@@ -31,8 +31,8 @@ public class CustomGameListener implements ActionListener
         CustomGameFrame.setTitle("Custom Game");//Title of the frame
         CustomGameFrame.getContentPane().add(new CustomGamePanel());
         CustomGameFrame.setResizable(false);
-        CustomGameFrame.setLocationRelativeTo(null); //Center the frame
         CustomGameFrame.pack();
+        CustomGameFrame.setLocationRelativeTo(null); //Center the frame
         CustomGameFrame.setVisible(true);
     }
 
