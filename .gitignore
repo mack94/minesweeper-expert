@@ -6,3 +6,5 @@ tmp
 
 newgame.txt
 highscore.txt
+
+*.java~
