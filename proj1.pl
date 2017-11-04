@@ -26,6 +26,7 @@ five.
 six.
 seven.
 eight.
+sure_mine.
 
 %% -------------------------- Helpful rules 
 
@@ -37,10 +38,26 @@ is_empty_list([X|Y]) :- virgin_field(X), is_empty_list(Y).
 %check's if the whole board is uncovered/not clicked
 is_empty([]).
 is_empty([BH|BT]) :- is_empty_list(BH), is_empty(BT).
+%return field value
+%element_value(X, 1, X).
+element_value([X|_], 1, X) :- !.
+element_value([_|T], N0, V) :- N0 > 1, N1 is N0-1, element_value(T, N1, V).
+%return whole column
+get_column([BH|_], 1, BH) :- !.
+get_column([_|BT], N0, Col) :- N0 > 1, N1 is N0-1, get_column(BT, N1, Col).
+%return field (x,y) value
+field_value(B, Bx, By, V) :- get_column(B, Bx, Col), element_value(Col, By, V).
 
 %% -------------------------- Game rules application
 %
 % first case : newly started game
 % case result: all movements are proper 
 all_moves_available(B) :- is_empty(B).
+
+% other case: 
+% 
+
+% determines, whether this movement is secure, is ok
+% conditions: it is virgin field (still uncovered), ...
+is_ok(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
 
