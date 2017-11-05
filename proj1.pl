@@ -31,7 +31,8 @@ sure_mine.
 %% -------------------------- Helpful rules 
 
 % check's if this field was already uncovered/not clicked 
-virgin_field(X) :- X is 0.
+virgin_field(-1).
+
 %check's if the whole list (row or column) is uncovered/not clicked
 is_empty_list([]).
 is_empty_list([X|Y]) :- virgin_field(X), is_empty_list(Y).
@@ -48,16 +49,19 @@ get_column([_|BT], N0, Col) :- N0 > 1, N1 is N0-1, get_column(BT, N1, Col).
 %return field (x,y) value
 field_value(B, Bx, By, V) :- get_column(B, Bx, Col), element_value(Col, By, V).
 
+%init result matrix, all fields start as mines
+build_matrix(RowSize, ColSize, Mat) :- length(C, ColSize), length(Mat, RowSize), maplist(=(-1), C), maplist(copy_term(C), Mat).
+
 %% -------------------------- Game rules application
 %
 % first case : newly started game
-% case result: all movements are proper 
+% case result: all movements are proper
 all_moves_available(B) :- is_empty(B).
 
-% other case: 
-% 
+% other case:
+%
 
-% determines, whether this movement is secure, is ok
+% determines, whether this movement is virgin
 % conditions: it is virgin field (still uncovered), ...
-is_ok(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
+is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
 
