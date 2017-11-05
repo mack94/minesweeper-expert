@@ -65,3 +65,6 @@ all_moves_available(B) :- is_empty(B).
 % conditions: it is virgin field (still uncovered), ...
 is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
 
+
+
+
