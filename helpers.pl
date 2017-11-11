@@ -1,4 +1,4 @@
-:- module(basic_patterns, []).
+:- module(helpers, []).
 
 % Expert system responsible for predicting proper movement to win the minesweeper game. 
 % System written as a project for Expert Systems classes on IET department of AGH University of Science and Technology 
