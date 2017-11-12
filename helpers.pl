@@ -69,7 +69,8 @@ is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
 
 %cutting neighbourhood 3x3 region from area, given center of 3x3
 %here: TODO:
-% cut3x3(Board, Cx, Cy) :- 
+get_adj_coords(C, V) :- succ(CLow, C), succ(C, CHigh), between(CLow, CHigh, V).
+cut3x3(Board, Cx, Cy, Result) :- findall(Res,(get_adj_coords(Cx, CoordX), get_adj_coords(Cy, CoordY), field_value(Board, CoordX, CoordY, Res)),Result).
 
 
 

@@ -21,6 +21,6 @@ check_basic_pattern(B33) :-
 
 %check if any of the surronding fields with number fulfill basic_pattern with given virgin field
 get_basic_virgin_mark([], helpers:sure_mine). %TODO: mark sure mine with some number?
-% get_basic_virgin_mark(B55, FieldMark) :- 
+%is_mine_basic_pattern(B55, FieldMark) :-
     
     
