@@ -1,3 +1,5 @@
+:- module(helpers, []).
+
 % Expert system responsible for predicting proper movement to win the minesweeper game. 
 % System written as a project for Expert Systems classes on IET department of AGH University of Science and Technology 
 % 
@@ -33,6 +35,9 @@ sure_mine.
 % check's if this field was already uncovered/not clicked 
 virgin_field(-1).
 
+% check's if field is number
+number_field(X) :- X > 0.
+
 %check's if the whole list (row or column) is uncovered/not clicked
 is_empty_list([]).
 is_empty_list([X|Y]) :- virgin_field(X), is_empty_list(Y).
@@ -64,4 +69,12 @@ all_moves_available(B) :- is_empty(B).
 % determines, whether this movement is virgin
 % conditions: it is virgin field (still uncovered), ...
 is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
+
+%cutting neighbourhood 3x3 region from area, given center of 3x3
+%here: TODO:
+get_adj_coords(C, V) :- succ(CLow, C), succ(C, CHigh), between(CLow, CHigh, V).
+cut3x3(Board, Cx, Cy, Result) :- findall(POM,findnsols(3,Res,(get_adj_coords(Cx, CoordX), get_adj_coords(Cy, CoordY), field_value(Board, CoordX, CoordY, Res)),POM),Result).
+
+
+
 
