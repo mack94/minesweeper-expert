@@ -1,4 +1,3 @@
-:- module(basic_patterns, [count_virgins_2D/2, check_basic_pattern/1]).
 :- use_module('../helpers').
 
 % IMPORTANT! 
