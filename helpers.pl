@@ -53,6 +53,9 @@ get_column([BH|_], 1, BH) :- !.
 get_column([_|BT], N0, Col) :- N0 > 1, N1 is N0-1, get_column(BT, N1, Col).
 %return field (x,y) value
 field_value(B, Bx, By, V) :- get_column(B, Bx, Col), element_value(Col, By, V).
+% check whether two numbers are equal to each other
+value_eq(V1, V2) :- (V1 =:= V2).
+
 
 %init result matrix, all fields start as mines
 build_matrix(RowSize, ColSize, Mat) :- length(C, ColSize), length(Mat, RowSize), maplist(=(-1), C), maplist(copy_term(C), Mat).
@@ -74,7 +77,5 @@ is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
 %here: TODO:
 get_adj_coords(C, V) :- succ(CLow, C), succ(C, CHigh), between(CLow, CHigh, V).
 cut3x3(Board, Cx, Cy, Result) :- findall(POM,findnsols(3,Res,(get_adj_coords(Cx, CoordX), get_adj_coords(Cy, CoordY), field_value(Board, CoordX, CoordY, Res)),POM),Result).
-
-
 
 
