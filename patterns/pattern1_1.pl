@@ -4,6 +4,9 @@
 % at the beggining, a reduction should be made
 % add reduction to helpers, because it is reusable 
 
+% Already clicked field but empty or reduced to 0 during reduction, it establish the new edge_function
+zero_field(0).
+
 % The agreement that -10 means the end of the game board (all borders).
 out_of_board(-10).
 
@@ -11,7 +14,7 @@ out_of_board(-10).
 % Bx, By - coordinates of the checked field
 % Bx + SideX means the need to confirm vertical edge (-1 left, +1 right) function existence, SideY = 0 then,
 % By + SideY means that we want to confirm the existence of horizontal edge (-1 above, +1 below). SideX = 0 then,
-board_edge(Board, Bx, By, SideX, SideY) :- helpers:field_value(Board, Bx + SideX, By + SideY, FieldValue), out_of_board(FieldValue).
+board_edge(Board, Bx, By, SideX, SideY) :- helpers:field_value(Board, Bx + SideX, By + SideY, FieldValue), (out_of_board(FieldValue); zero_field(FieldValue)).
 
 % to each case, need to add Sx, Sy (Safe X, Safe Y - coordinated of field to mark "safe") - deprecated
 
