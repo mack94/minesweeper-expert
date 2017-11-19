@@ -74,7 +74,6 @@ all_moves_available(B) :- is_empty(B).
 is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
 
 %cutting neighbourhood 3x3 region from area, given center of 3x3
-%here: TODO:
 get_adj_coords(C, V) :- succ(CLow, C), succ(C, CHigh), between(CLow, CHigh, V).
 cut3x3(Board, Cx, Cy, Result) :- findall(POM,findnsols(3,Res,(get_adj_coords(Cx, CoordX), get_adj_coords(Cy, CoordY), field_value(Board, CoordX, CoordY, Res)),POM),Result).
 
