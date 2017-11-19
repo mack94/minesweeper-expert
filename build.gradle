@@ -1,0 +1,11 @@
+apply plugin: 'idea'
+//and standard one
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'jpl', name: 'jpl', version: '7.4.0'
+}

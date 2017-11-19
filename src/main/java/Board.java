@@ -1,7 +1,11 @@
-import java.awt.Graphics;
-import java.awt.Image;
+import prolog.Solver;
+import prolog.model.FieldState;
+import prolog.model.Input;
+
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -40,6 +44,8 @@ public class Board extends JPanel
     private static int difficulty;
     private static boolean solved = false;
 
+    private Solver solver;
+
     //Constructor
     public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
     {
@@ -48,6 +54,7 @@ public class Board extends JPanel
         mines = noOfMines;
         rows = noOfRows;
         cols = noOfCols;
+        solver = new Solver(cols, rows);
 
         //Declare image array
         img = new Image[NUM_IMAGES];
@@ -371,7 +378,21 @@ public class Board extends JPanel
                         uncover++;
                     }
                 }
-                g.drawImage(img[cell], (j * CELL_SIZE), (i * CELL_SIZE), this);
+                Image displayed_image = img[cell];
+                if(cell == DRAW_COVER) {
+                    FieldState fieldState = solver.setInputFromArray(field, j, i);
+                    if(fieldState.equals(FieldState.MINE)) {
+                        BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
+                        Graphics2D graphics = b_img.createGraphics();
+
+                        graphics.setPaint ( new Color ( 191, 0, 0 ) );
+                        graphics.fillRect ( 0, 0, b_img.getWidth(), b_img.getHeight() );
+                        displayed_image = b_img;
+                    }
+                }
+
+                g.drawImage(displayed_image, (j * CELL_SIZE), (i * CELL_SIZE), this);
+                //System.out.println(String.format("Field: %d %d Value: %s", j, i, cell));
             }
         }
 
@@ -469,6 +490,7 @@ public class Board extends JPanel
                 {
                     repaint();
                     pushFieldToUndoStack();
+
                 }
             }
         }

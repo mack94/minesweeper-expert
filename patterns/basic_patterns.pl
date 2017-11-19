@@ -1,4 +1,4 @@
-:- module(basic_patterns, [count_virgins_2D/2, check_basic_pattern/1]).
+:- module(basic_patterns, [count_virgins_2D/2, check_basic_pattern/1, is_virgin_mine_basic_pattern/1]).
 :- use_module('../helpers').
 
 %counts virgins in 2D part of board, useful for basic strategies
