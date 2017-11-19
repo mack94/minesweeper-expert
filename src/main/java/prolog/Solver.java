@@ -3,8 +3,13 @@ package prolog;
 import org.jpl7.*;
 import prolog.model.FieldState;
 import prolog.model.Input;
+import prolog.model.Solution;
 
 import java.lang.Integer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Solver {
 
@@ -42,18 +47,23 @@ public class Solver {
         System.out.println( String.format("consult %s ", fileName) + (q1.hasSolution() ? "succeeded" : "failed"));
     }
 
-    public FieldState setInputFromArray(int[] array, int x, int y) {
+    public List<Solution> setInputFromArray(int[] array, int x, int y) {
         System.out.println(String.format("X: %d, Y: %d", x, y));
         solverInput.setInputFromArray(array, x, y);
         return callProlog();
     }
 
-    private FieldState callProlog() {
+    private List<Solution> callProlog() {
         if(solverInput.containsNumberField()) {
-            if(isMine(solverInput.toString())) return FieldState.MINE;
+            List<Solution> solutions = new ArrayList<>();
+            if(isMine(solverInput.toString())) {
+                solutions.add(new Solution(3, 3, FieldState.MINE));
+            }
+            solutions.addAll(call11Pattern(solverInput.toString()));
+            return solutions;
         }
 
-        return FieldState.UNKNOWN;
+        return null;
     }
 
     private boolean isMine(String B55) {
@@ -66,6 +76,11 @@ public class Solver {
         if(call12Pattern(B55)) {
             return true;
         }
+        return false;
+    }
+
+    private boolean isSafe(String B55) {
+        call11Pattern(B55);
         return false;
     }
 
@@ -83,5 +98,23 @@ public class Solver {
                         String.format("is_12_pattern(%s)", B55)
                 );
         return q.hasSolution();
+    }
+
+    private List<Solution> call11Pattern(String B55) {
+        Query q =
+                new Query(
+                        String.format("is_11_pattern(%s, _, _, X, Y)", B55)
+                );
+        List<Solution> toRet = new ArrayList<>();
+        if(q.hasSolution()){
+            Map<String, Term> solution;
+            for(Iterator<Map<String, Term>> solutionIterator = q.iterator(); solutionIterator.hasNext();) {
+                solution = solutionIterator.next();
+                for(Iterator<Map.Entry<String, Term>> iter = solution.entrySet().iterator(); iter.hasNext();) {
+                    toRet.add(new Solution(iter.next().getValue().intValue(),iter.next().getValue().intValue(), FieldState.SAFE));
+                }
+            }
+        }
+        return toRet;
     }
 }

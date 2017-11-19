@@ -1,11 +1,14 @@
 import prolog.Solver;
 import prolog.model.FieldState;
 import prolog.model.Input;
+import prolog.model.Solution;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.swing.ImageIcon;
@@ -45,6 +48,7 @@ public class Board extends JPanel
     private static boolean solved = false;
 
     private Solver solver;
+    private FieldState[] display_solved_fields;
 
     //Constructor
     public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
@@ -127,6 +131,7 @@ public class Board extends JPanel
 
         //Assign 'field' the size of all_cells
         field = new int[all_cells];
+        display_solved_fields = new FieldState[all_cells];
 
         //Assign cover cell image to all cells on the board
         for (i = 0; i < all_cells; i++)
@@ -330,8 +335,35 @@ public class Board extends JPanel
     public void paint(Graphics g)
     {
 
+        FieldState fieldStateSolver;
         int cell = 0;
         int uncover = 0;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                display_solved_fields[(i * cols) + j] = FieldState.UNKNOWN;
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+
+                cell = field[(i * cols) + j];
+                fieldStateSolver = display_solved_fields[(i * cols) + j];
+
+                if(fieldStateSolver.equals(FieldState.UNKNOWN)) {
+                    int currentX = i;
+                    int currentY = j;
+                    java.util.List<Solution> solutionList = solver.setInputFromArray(field, i, j);
+                    if(solutionList != null) {
+                        solutionList.forEach(solution -> {
+                            display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] = solution.getFieldState();
+                        });
+                    }
+
+                }
+            }
+        }
 
         for (int i = 0; i < rows; i++)
         {
@@ -379,16 +411,21 @@ public class Board extends JPanel
                     }
                 }
                 Image displayed_image = img[cell];
-                if(cell == DRAW_COVER) {
-                    FieldState fieldState = solver.setInputFromArray(field, i, j);
-                    if(fieldState.equals(FieldState.MINE)) {
-                        BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
-                        Graphics2D graphics = b_img.createGraphics();
+                if(display_solved_fields[(i * cols) + j].equals(FieldState.MINE)) {
+                    BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
+                    Graphics2D graphics = b_img.createGraphics();
 
-                        graphics.setPaint ( new Color ( 191, 0, 0 ) );
-                        graphics.fillRect ( 0, 0, b_img.getWidth(), b_img.getHeight() );
-                        displayed_image = b_img;
-                    }
+                    graphics.setPaint ( new Color ( 191, 0, 0 ) );
+                    graphics.fillRect ( 0, 0, b_img.getWidth(), b_img.getHeight() );
+                    displayed_image = b_img;
+                }
+                if(display_solved_fields[(i * cols) + j].equals(FieldState.SAFE)) {
+                    BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
+                    Graphics2D graphics = b_img.createGraphics();
+
+                    graphics.setPaint ( new Color ( 8, 144, 0 ) );
+                    graphics.fillRect ( 0, 0, b_img.getWidth(), b_img.getHeight() );
+                    displayed_image = b_img;
                 }
 
                 g.drawImage(displayed_image, (j * CELL_SIZE), (i * CELL_SIZE), this);

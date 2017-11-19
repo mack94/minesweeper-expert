@@ -23,6 +23,7 @@ check_basic_pattern(B33) :-
 %get_basic_virgin_mark([], helpers:sure_mine). %TODO: mark sure mine with some number?
 %is_mine_basic_pattern(B55, FieldMark) :-
 is_virgin_mine_basic_pattern(B55) :-
+    helpers:is_virgin(B55, 3, 3),
     helpers:get_adj_coords(3, CoordX),
     helpers:get_adj_coords(3, CoordY),
     helpers:field_value(B55, CoordX, CoordY, Value),
