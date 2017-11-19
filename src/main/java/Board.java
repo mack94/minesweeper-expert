@@ -380,7 +380,7 @@ public class Board extends JPanel
                 }
                 Image displayed_image = img[cell];
                 if(cell == DRAW_COVER) {
-                    FieldState fieldState = solver.setInputFromArray(field, j, i);
+                    FieldState fieldState = solver.setInputFromArray(field, i, j);
                     if(fieldState.equals(FieldState.MINE)) {
                         BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
                         Graphics2D graphics = b_img.createGraphics();
