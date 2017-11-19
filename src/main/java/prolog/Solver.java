@@ -58,9 +58,12 @@ public class Solver {
 
     private boolean isMine(String B55) {
         if(callBasicPattern(B55)) {
-            System.out.println(solverInput);
-            System.out.println("-----------------------------------------------------------------------");
-            System.out.println("-----------------------------------------------------------------------");
+//            System.out.println(solverInput);
+//            System.out.println("-----------------------------------------------------------------------");
+//            System.out.println("-----------------------------------------------------------------------");
+            return true;
+        }
+        if(call12Pattern(B55)) {
             return true;
         }
         return false;
@@ -70,6 +73,14 @@ public class Solver {
         Query q =
                 new Query(
                         String.format("is_virgin_mine_basic_pattern(%s)", B55)
+                );
+        return q.hasSolution();
+    }
+
+    private boolean call12Pattern(String B55) {
+        Query q =
+                new Query(
+                        String.format("is_12_pattern(%s)", B55)
                 );
         return q.hasSolution();
     }
