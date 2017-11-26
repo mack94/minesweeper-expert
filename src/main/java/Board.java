@@ -354,7 +354,9 @@ public class Board extends JPanel
                 if(fieldStateSolver.equals(FieldState.UNKNOWN)) {
                     int currentX = i;
                     int currentY = j;
-                    java.util.List<Solution> solutionList = solver.setInputFromArray(field, i, j);
+                    //TODO: reduce field here
+                    int [] reduced = reduceField(field, currentX, currentY);
+                    java.util.List<Solution> solutionList = solver.setInputFromArray(reduced, i, j);
                     if(solutionList != null) {
                         solutionList.forEach(solution -> {
                             display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] = solution.getFieldState();
@@ -449,7 +451,17 @@ public class Board extends JPanel
         }
     }
 
-//Click event when user clicked a field
+    private int[] reduceField(int[] field, int currentX, int currentY) {
+        for(int x = currentX - 1; x < currentX + 1; x++){
+            for(int y = currentY - 1; y < currentY + 1; y++){
+                if(field[x * cols + y] == MINE_CELL) field[currentX * cols + currentY] -= 1;
+            }
+        }
+
+        return field;
+    }
+
+    //Click event when user clicked a field
     class MinesAdapter extends MouseAdapter
     {
         public void mousePressed(MouseEvent e)
