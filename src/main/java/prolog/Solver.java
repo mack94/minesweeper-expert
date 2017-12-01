@@ -48,7 +48,7 @@ public class Solver {
     }
 
     public List<Solution> setInputFromArray(int[] array, int x, int y) {
-        System.out.println(String.format("X: %d, Y: %d", x, y));
+//        System.out.println(String.format("X: %d, Y: %d", x, y));
         solverInput.setInputFromArray(array, x, y);
         return callProlog();
     }

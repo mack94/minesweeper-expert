@@ -7,9 +7,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -31,6 +30,11 @@ public class Board extends JPanel
     private final int DRAW_COVER = 10;
     private final int DRAW_MARK = 11;
     private final int DRAW_WRONG_MARK = 12;
+    private final int SOLVED_MINE = 99;
+
+    private Set<Integer> special_field_values =
+            new HashSet<>(Arrays.asList(COVER_FOR_CELL, MARK_FOR_CELL, EMPTY_CELL, MINE_CELL,
+                    COVERED_MINE_CELL, MARKED_MINE_CELL, DRAW_MINE, DRAW_COVER, DRAW_MARK, DRAW_WRONG_MARK, SOLVED_MINE));
 
     private static int[] field;
     private static boolean inGame;
@@ -49,6 +53,7 @@ public class Board extends JPanel
 
     private Solver solver;
     private FieldState[] display_solved_fields;
+
 
     //Constructor
     public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
@@ -345,6 +350,8 @@ public class Board extends JPanel
             }
         }
 
+        int [] reduced = new int[field.length];
+        System.arraycopy(field, 0, reduced, 0, field.length);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
 
@@ -354,8 +361,8 @@ public class Board extends JPanel
                 if(fieldStateSolver.equals(FieldState.UNKNOWN)) {
                     int currentX = i;
                     int currentY = j;
-                    //TODO: reduce field here
-                    int [] reduced = reduceField(field, currentX, currentY);
+
+                    reduced = reduceField(reduced, i, j);
                     java.util.List<Solution> solutionList = solver.setInputFromArray(reduced, i, j);
                     if(solutionList != null) {
                         solutionList.forEach(solution -> {
@@ -366,6 +373,7 @@ public class Board extends JPanel
                 }
             }
         }
+        System.out.println("================================================================");
 
         for (int i = 0; i < rows; i++)
         {
@@ -414,6 +422,7 @@ public class Board extends JPanel
                 }
                 Image displayed_image = img[cell];
                 if(display_solved_fields[(i * cols) + j].equals(FieldState.MINE)) {
+                    field[(i * cols) + j] = SOLVED_MINE;
                     BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
                     Graphics2D graphics = b_img.createGraphics();
 
@@ -452,12 +461,22 @@ public class Board extends JPanel
     }
 
     private int[] reduceField(int[] field, int currentX, int currentY) {
-        for(int x = currentX - 1; x < currentX + 1; x++){
-            for(int y = currentY - 1; y < currentY + 1; y++){
-                if(field[x * cols + y] == MINE_CELL) field[currentX * cols + currentY] -= 1;
+//        check if checked cell contains number of surrounding mines
+        if(special_field_values.contains(field[currentX * cols + currentY])) return field;
+
+        List<Integer> roi_region = new ArrayList<>();
+        for(int x = Math.max(currentX - 1, 0); x <= Math.min(currentX + 1, rows - 1 ); x++){
+            for(int y = Math.max(currentY - 1, 0); y <= Math.min(currentY + 1, cols - 1); y++){
+               roi_region.add(field[x * cols + y]);
             }
         }
 
+//        int near_mines = Collections.frequency(roi_region, MARKED_MINE_CELL);
+        long near_mines = roi_region.stream().filter(e -> e.equals(SOLVED_MINE)).count();
+
+        System.out.println("ROI: " + Arrays.toString(roi_region.toArray()) + "Num before: " +  field[currentX * cols + currentY] );
+        field[currentX * cols + currentY] -= near_mines;
+        System.out.println("Num after: " + field[currentX * cols + currentY]);
         return field;
     }
 
