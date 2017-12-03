@@ -1,0 +1,4 @@
+Specification-Title: Mines
+Application-Name: Mines
+Main-Class: Mines
+Sealed: true

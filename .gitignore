@@ -1,0 +1,11 @@
+tmp
+._*
+.DS_Store
+*.class
+*.java~
+
+newgame.txt
+highscore.txt
+
+target/
+

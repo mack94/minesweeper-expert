@@ -35,6 +35,9 @@ sure_mine.
 % check's if this field was already uncovered/not clicked 
 virgin_field(-1).
 
+% Already clicked field but empty or reduced to 0 during reduction, it establish the new edge_function
+zero_field(0).
+
 % check's if field is number
 number_field(X) :- X > 0.
 
@@ -72,6 +75,7 @@ all_moves_available(B) :- is_empty(B).
 % determines, whether this movement is virgin
 % conditions: it is virgin field (still uncovered), ...
 is_virgin(B, Bx, By) :- field_value(B, Bx, By, V), virgin_field(V).
+is_zero(B, Bx, By) :- field_value(B, Bx, By, V), zero_field(V).
 
 %cutting neighbourhood 3x3 region from area, given center of 3x3
 get_adj_coords(C, V) :- succ(CLow, C), succ(C, CHigh), between(CLow, CHigh, V).
