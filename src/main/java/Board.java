@@ -14,8 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class Board extends JPanel
-{
+public class Board extends JPanel {
     private final int NUM_IMAGES = 13;
     private final int CELL_SIZE = 15;
 
@@ -46,8 +45,6 @@ public class Board extends JPanel
     private int all_cells;
     private JLabel statusbar;
 
-    private String mineStr = "Mines left: ";
-
     private static int difficulty;
     private static boolean solved = false;
 
@@ -56,8 +53,7 @@ public class Board extends JPanel
 
 
     //Constructor
-    public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols)
-    {
+    public Board(JLabel statusbar, int noOfMines, int noOfRows, int noOfCols) {
         //Set the values of the member variables as determined by the MineFrame class
         this.statusbar = statusbar;
         mines = noOfMines;
@@ -69,8 +65,7 @@ public class Board extends JPanel
         img = new Image[NUM_IMAGES];
 
         //Load images into img
-        for (int i = 0; i < NUM_IMAGES; i++)
-        {
+        for (int i = 0; i < NUM_IMAGES; i++) {
             img[i] = (new ImageIcon(this.getClass().getResource((i) + ".png"))).getImage();
         }
 
@@ -81,45 +76,38 @@ public class Board extends JPanel
     }
 
     // set solved (mutator/setter)
-    public static void setSolved(boolean newState)
-    {
+    public static void setSolved(boolean newState) {
         solved = newState;
     }
 
     // set inGame (mutator/setter)
-    public static void setInGame(boolean newState)
-    {
+    public static void setInGame(boolean newState) {
         inGame = newState;
     }
 
     //set difficulty (mutator/setter)
-    public static void setDifficulty(int newDifficulty)
-    {
+    public static void setDifficulty(int newDifficulty) {
         difficulty = newDifficulty;
     }
 
     //Gets the field and returns it (getter)
-    public static int[] getField()
-    {
+    public static int[] getField() {
         return field;
     }
 
     //Sets the field with a new array (mutator/setter)
-    public static void setField(int[] arr)
-    {
+    public static void setField(int[] arr) {
         field = arr;
     }
 
     // Push the array 'field' into the undoStack
-    public static void pushFieldToUndoStack()
-    {
+    public static void pushFieldToUndoStack() {
         //Push the array 'field' into the undoStack
         MineFrame.undoStack.push(field.clone());
     }
 
     // create a new game
-    public void newGame()
-    {
+    public void newGame() {
         Random random;
         int current_col;
 
@@ -140,92 +128,76 @@ public class Board extends JPanel
 
 
         //Assign cover cell image to all cells on the board
-        for (i = 0; i < all_cells; i++)
-        {
+        for (i = 0; i < all_cells; i++) {
             field[i] = COVER_FOR_CELL;
         }
 
-        //Set the text for the status bar
-        statusbar.setText(mineStr + Integer.toString(mines_left));
-
         //Reset i to 0
         i = 0;
-        while (i < mines)
-        {
+        while (i < mines) {
             //Select a random cell on the board and place a mine in it
             position = (int) (all_cells * random.nextDouble());
 
-            if ((position < all_cells) && (field[position] != COVERED_MINE_CELL))
-            {
+            if ((position < all_cells) && (field[position] != COVERED_MINE_CELL)) {
 
                 current_col = position % cols;
                 field[position] = COVERED_MINE_CELL;
                 i++;
 
-                if (current_col > 0)
-                {
+                if (current_col > 0) {
                     cell = position - 1 - cols;
                     if (cell >= 0)
-                        if (field[cell] != COVERED_MINE_CELL)
-                        {
+                        if (field[cell] != COVERED_MINE_CELL) {
                             field[cell] += 1;
                         }
 
                     cell = position - 1;
 
                     if (cell >= 0)
-                        if (field[cell] != COVERED_MINE_CELL)
-                        {
+                        if (field[cell] != COVERED_MINE_CELL) {
                             field[cell] += 1;
                         }
 
                     cell = position + cols - 1;
 
                     if (cell < all_cells)
-                        if (field[cell] != COVERED_MINE_CELL)
-                        {
+                        if (field[cell] != COVERED_MINE_CELL) {
                             field[cell] += 1;
                         }
                 }
 
                 cell = position - cols;
                 if (cell >= 0)
-                    if (field[cell] != COVERED_MINE_CELL)
-                    {
+                    if (field[cell] != COVERED_MINE_CELL) {
                         field[cell] += 1;
                     }
 
                 cell = position + cols;
 
                 if (cell < all_cells)
-                    if (field[cell] != COVERED_MINE_CELL)
-                    {
+                    if (field[cell] != COVERED_MINE_CELL) {
                         field[cell] += 1;
                     }
 
-                if (current_col < (cols - 1))
-                {
+                if (current_col < (cols - 1)) {
                     cell = position - cols + 1;
 
                     if (cell >= 0)
-                        if (field[cell] != COVERED_MINE_CELL)
-                        {
+                        if (field[cell] != COVERED_MINE_CELL) {
                             field[cell] += 1;
                         }
 
                     cell = position + cols + 1;
 
                     if (cell < all_cells)
-                        if (field[cell] != COVERED_MINE_CELL)
-                        {
+                        if (field[cell] != COVERED_MINE_CELL) {
                             field[cell] += 1;
                         }
 
                     cell = position + 1;
 
                     if (cell < all_cells)
-                        if (field[cell] != COVERED_MINE_CELL)
-                        {
+                        if (field[cell] != COVERED_MINE_CELL) {
                             field[cell] += 1;
                         }
                 }
@@ -236,43 +208,35 @@ public class Board extends JPanel
     }
 
     // search & uncover cell when there isn't a mine around it
-    public void find_empty_cells(int j)
-    {
+    public void find_empty_cells(int j) {
 
         int current_col = j % cols;
         int cell;
 
-        if (current_col > 0)
-        {
+        if (current_col > 0) {
             cell = j - cols - 1;
             if (cell >= 0)
-                if (field[cell] > MINE_CELL)
-                {
+                if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                    {
+                    if (field[cell] == EMPTY_CELL) {
                         find_empty_cells(cell);
                     }
                 }
 
             cell = j - 1;
             if (cell >= 0)
-                if (field[cell] > MINE_CELL)
-                {
+                if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                    {
+                    if (field[cell] == EMPTY_CELL) {
                         find_empty_cells(cell);
                     }
                 }
 
             cell = j + cols - 1;
             if (cell < all_cells)
-                if (field[cell] > MINE_CELL)
-                {
+                if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                    {
+                    if (field[cell] == EMPTY_CELL) {
                         find_empty_cells(cell);
                     }
                 }
@@ -280,57 +244,46 @@ public class Board extends JPanel
 
         cell = j - cols;
         if (cell >= 0)
-            if (field[cell] > MINE_CELL)
-            {
+            if (field[cell] > MINE_CELL) {
                 field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL)
-                {
+                if (field[cell] == EMPTY_CELL) {
                     find_empty_cells(cell);
                 }
             }
 
         cell = j + cols;
         if (cell < all_cells)
-            if (field[cell] > MINE_CELL)
-            {
+            if (field[cell] > MINE_CELL) {
                 field[cell] -= COVER_FOR_CELL;
-                if (field[cell] == EMPTY_CELL)
-                {
+                if (field[cell] == EMPTY_CELL) {
                     find_empty_cells(cell);
                 }
             }
 
-        if (current_col < (cols - 1))
-        {
+        if (current_col < (cols - 1)) {
             cell = j - cols + 1;
             if (cell >= 0)
-                if (field[cell] > MINE_CELL)
-                {
+                if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                    {
+                    if (field[cell] == EMPTY_CELL) {
                         find_empty_cells(cell);
                     }
                 }
 
             cell = j + cols + 1;
             if (cell < all_cells)
-                if (field[cell] > MINE_CELL)
-                {
+                if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                    {
+                    if (field[cell] == EMPTY_CELL) {
                         find_empty_cells(cell);
                     }
                 }
 
             cell = j + 1;
             if (cell < all_cells)
-                if (field[cell] > MINE_CELL)
-                {
+                if (field[cell] > MINE_CELL) {
                     field[cell] -= COVER_FOR_CELL;
-                    if (field[cell] == EMPTY_CELL)
-                    {
+                    if (field[cell] == EMPTY_CELL) {
                         find_empty_cells(cell);
                     }
                 }
@@ -338,8 +291,7 @@ public class Board extends JPanel
     }
 
     @Override
-    public void paint(Graphics g)
-    {
+    public void paint(Graphics g) {
 
         FieldState fieldStateSolver;
         int cell = 0;
@@ -351,7 +303,7 @@ public class Board extends JPanel
             }
         }
 
-        int [] reduced = new int[field.length];
+        int[] reduced = new int[field.length];
         System.arraycopy(field, 0, reduced, 0, field.length);
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -359,29 +311,27 @@ public class Board extends JPanel
                 cell = field[(i * cols) + j];
                 fieldStateSolver = display_solved_fields[(i * cols) + j];
 
-                if(fieldStateSolver.equals(FieldState.UNKNOWN)) {
+                if (fieldStateSolver.equals(FieldState.UNKNOWN)) {
                     int currentX = i;
                     int currentY = j;
 
                     java.util.List<Solution> solutionList = solver.setInputFromArray(field, currentX, currentY);
-                    if(solutionList != null) {
+                    if (solutionList != null) {
                         solutionList.forEach(solution -> {
-                            display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] = solution.getFieldState();
+                            display_solved_fields[((currentX + solution.getX() - 3) * cols) + (currentY + solution.getY() - 3)] = solution.getFieldState();
                         });
                     }
                     reduced = reduceField(reduced, i, j);
                     solutionList = solver.setInputFromArray(reduced, currentX, currentY);
-                    if(solutionList != null) {
+                    if (solutionList != null) {
                         solutionList.forEach(solution -> {
                             {
-                                if(display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] == FieldState.UNKNOWN) {
-                                    display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] = solution.getFieldState();
+                                if (display_solved_fields[((currentX + solution.getX() - 3) * cols) + (currentY + solution.getY() - 3)] == FieldState.UNKNOWN) {
+                                    display_solved_fields[((currentX + solution.getX() - 3) * cols) + (currentY + solution.getY() - 3)] = solution.getFieldState();
                                 }
                             }
                         });
                     }
-
-
 
 
                 }
@@ -389,67 +339,52 @@ public class Board extends JPanel
         }
         System.out.println("================================================================");
 
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
 
                 cell = field[(i * cols) + j];
 
-                if (inGame && cell == MINE_CELL)
-                {
+                if (inGame && cell == MINE_CELL) {
                     inGame = false;
                 }
 
                 //Paint mines corresponding to the images
-                if (!inGame)
-                {
-                    if (cell == COVERED_MINE_CELL)
-                    {
+                if (!inGame) {
+                    if (cell == COVERED_MINE_CELL) {
                         cell = DRAW_MINE;
-                    }
-                    else if (cell == MARKED_MINE_CELL)
-                    {
+                    } else if (cell == MARKED_MINE_CELL) {
                         cell = DRAW_MARK;
-                    }
-                    else if (cell > COVERED_MINE_CELL)
-                    {
+                    } else if (cell > COVERED_MINE_CELL) {
                         cell = DRAW_WRONG_MARK;
-                    }
-                    else if (cell > MINE_CELL)
-                    {
+                    } else if (cell > MINE_CELL) {
                         cell = DRAW_COVER;
                     }
 
-                }
-                else
-                {
-                    if (cell > COVERED_MINE_CELL)
-                    {
+                } else {
+                    if (cell > COVERED_MINE_CELL) {
                         cell = DRAW_MARK;
-                    }
-                    else if (cell > MINE_CELL)
-                    {
+                    } else if (cell > MINE_CELL) {
                         cell = DRAW_COVER;
                         uncover++;
                     }
                 }
                 Image displayed_image = img[cell];
-                if(display_solved_fields[(i * cols) + j].equals(FieldState.MINE)) {
+                if (display_solved_fields[(i * cols) + j].equals(FieldState.MINE)) {
                     field[(i * cols) + j] = SOLVED_MINE;
                     BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
                     Graphics2D graphics = b_img.createGraphics();
 
-                    graphics.setPaint ( new Color ( 191, 0, 0 ) );
-                    graphics.fillRect ( 0, 0, b_img.getWidth(), b_img.getHeight() );
+                    graphics.setPaint(new Color(191, 0, 0));
+                    graphics.fillRect(0, 0, b_img.getWidth(), b_img.getHeight());
                     displayed_image = b_img;
+//                    update_left_mines(-1);
                 }
-                if(display_solved_fields[(i * cols) + j].equals(FieldState.SAFE)) {
+                if (display_solved_fields[(i * cols) + j].equals(FieldState.SAFE)) {
                     BufferedImage b_img = new BufferedImage(CELL_SIZE, CELL_SIZE, BufferedImage.TYPE_INT_RGB);
                     Graphics2D graphics = b_img.createGraphics();
 
-                    graphics.setPaint ( new Color ( 8, 144, 0 ) );
-                    graphics.fillRect ( 0, 0, b_img.getWidth(), b_img.getHeight() );
+                    graphics.setPaint(new Color(8, 144, 0));
+                    graphics.fillRect(0, 0, b_img.getWidth(), b_img.getHeight());
                     displayed_image = b_img;
                 }
 
@@ -458,50 +393,46 @@ public class Board extends JPanel
             }
         }
 
-        if (uncover == 0 && inGame && !solved)
-        {
+        if (uncover == 0 && inGame && !solved) {
             inGame = false;
             statusbar.setText("Game won");
             new SaveUser(difficulty);
-        }
-        else if (uncover == -1 && !inGame && solved)
-        {
+        } else if (uncover == -1 && !inGame && solved) {
             statusbar.setText("Solved");
-        }
-        else if (!inGame)
-        {
+        } else if (!inGame) {
             statusbar.setText("Game lost");
         }
+    }
+
+    private void update_left_mines(int di) {
+        mines_left = mines_left + di;
     }
 
     private int[] reduceField(int[] field, int currentX, int currentY) {
 //        check if checked cell contains number of surrounding mines
         int checkedFieldValue = solver.getSolverInput().getValueFromArray(field, currentX, currentY);
-        if(display_solved_fields[currentX * cols + currentY] == FieldState.MINE ||
-                 checkedFieldValue > 8) return field;
+        if (display_solved_fields[currentX * cols + currentY] == FieldState.MINE ||
+                checkedFieldValue > 8) return field;
 
         List<FieldState> roi_region = new ArrayList<>();
-        for(int x = Math.max(currentX - 1, 0); x <= Math.min(currentX + 1, cols-1); x++){
-            for(int y = Math.max(currentY - 1, 0); y <= Math.min(currentY + 1, rows-1); y++){
+        for (int x = Math.max(currentX - 1, 0); x <= Math.min(currentX + 1, cols - 1); x++) {
+            for (int y = Math.max(currentY - 1, 0); y <= Math.min(currentY + 1, rows - 1); y++) {
                 roi_region.add(display_solved_fields[x * cols + y]);
             }
         }
 
-//        int near_mines = Collections.frequency(roi_region, MARKED_MINE_CELL);
         long near_mines = roi_region.stream().filter(e -> e.equals(FieldState.MINE)).count();
 
         System.out.println(String.format("Checking: X: %s Y: %s", currentX, currentY));
-        System.out.println("ROI: " + Arrays.toString(roi_region.toArray()) + "Num before: " +  field[currentX * cols + currentY] );
+        System.out.println("ROI: " + Arrays.toString(roi_region.toArray()) + "Num before: " + field[currentX * cols + currentY]);
         field[currentX * cols + currentY] -= near_mines;
         System.out.println("Num after: " + field[currentX * cols + currentY]);
         return field;
     }
 
     //Click event when user clicked a field
-    class MinesAdapter extends MouseAdapter
-    {
-        public void mousePressed(MouseEvent e)
-        {
+    class MinesAdapter extends MouseAdapter {
+        public void mousePressed(MouseEvent e) {
             int x = e.getX();
             int y = e.getY();
 
@@ -510,69 +441,51 @@ public class Board extends JPanel
 
             boolean rep = false;
 
-            if (!inGame)
-            {
-            	MineFrame.startNewGame();
+            if (!inGame) {
+                MineFrame.startNewGame();
             }
 
-            if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && MineFrame.playingGame)
-            {
+            if ((x < cols * CELL_SIZE) && (y < rows * CELL_SIZE) && MineFrame.playingGame) {
 
                 //Rightmouse button - set flag and update statusbar
-                if (e.getButton() == MouseEvent.BUTTON3)
-                {
+                if (e.getButton() == MouseEvent.BUTTON3) {
 
-                    if (field[(cRow * cols) + cCol] > MINE_CELL)
-                    {
+                    if (field[(cRow * cols) + cCol] > MINE_CELL) {
                         rep = true;
 
-                        if (field[(cRow * cols) + cCol] <= COVERED_MINE_CELL)
-                        {
-                            if (mines_left > 0)
-                            {
+                        if (field[(cRow * cols) + cCol] <= COVERED_MINE_CELL) {
+                            if (mines_left > 0) {
                                 field[(cRow * cols) + cCol] += MARK_FOR_CELL;
-                                mines_left--;
-                                statusbar.setText(mineStr + Integer.toString(mines_left));
-                            }
-                            else
-                            {
+                                update_left_mines(-1);
+                            } else {
                                 statusbar.setText("No marks left");
                             }
-                        }
-                        else
-                        {
+                        } else {
                             field[(cRow * cols) + cCol] -= MARK_FOR_CELL;
-                            mines_left++;
-                            statusbar.setText(mineStr + Integer.toString(mines_left));
+                            update_left_mines(+1);
                         }
                     }
 
-                }
-                else
-                {
+                } else {
                     //Nothing happens when we click on a marked cell
                     if (field[(cRow * cols) + cCol] > COVERED_MINE_CELL)
                         return;
 
-                    if ((field[(cRow * cols) + cCol] > MINE_CELL) && (field[(cRow * cols) + cCol] < MARKED_MINE_CELL))
-                    {
+                    if ((field[(cRow * cols) + cCol] > MINE_CELL) && (field[(cRow * cols) + cCol] < MARKED_MINE_CELL)) {
 
                         field[(cRow * cols) + cCol] -= COVER_FOR_CELL;
                         rep = true;
 
-                        if (field[(cRow * cols) + cCol] == MINE_CELL)
-                        {
+                        if (field[(cRow * cols) + cCol] == MINE_CELL) {
                             inGame = false;
                         }
-                        if (field[(cRow * cols) + cCol] == EMPTY_CELL)
-                        {
+                        if (field[(cRow * cols) + cCol] == EMPTY_CELL) {
                             find_empty_cells((cRow * cols) + cCol);
                         }
                     }
                 }
 
-                if (rep)
-                {
+                if (rep) {
                     repaint();
                     pushFieldToUndoStack();
 

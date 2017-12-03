@@ -22,8 +22,19 @@ board_edge(Board, Bx, By, SideX, SideY) :- helpers:field_value(Board, Bx + SideX
 % SideX,Y means where is the edge_function (-1 left, above; 1 right, below)
 % SafeX,Y means the number of fields on the board which are safe
 
+% LEGEND
+% A - any field
+% 0 - corner field or zeroed (reduced to 0) field
+% 1 - field with value 1 (or value reduced to 1)
+% x - field to mark as safe
+
 % ---------------------------- horizontal pattern
 % case 1 :: left edge_function, horizontal pattern 1-1, mark above
+% A | A | A | A | A
+% A | A | A | A | x
+% A | 0 | 1 | 1 | A
+% A | A | A | A | A
+% A | A | A | A | A
 is_11_pattern(B55, -1, 0, 5, 2) :- 
 			board_edge(B55, 3, 3, -1, 0),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -31,7 +42,13 @@ is_11_pattern(B55, -1, 0, 5, 2) :-
 			helpers:value_eq(Value33, 1), helpers:value_eq(Value43, 1),			
 			helpers:field_value(B55, 5, 2, Value52),
 			helpers:virgin_field(Value52).
+
 % case 2 :: right edge_function, horizontal pattern 1-1, mark above
+% A | A | A | A | A
+% x | A | A | A | A
+% A | 1 | 1 | 0 | A
+% A | A | A | A | A
+% A | A | A | A | A
 is_11_pattern(B55, 1, 0, 1, 2) :-
 			board_edge(B55, 3, 3, 1, 0),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -41,6 +58,11 @@ is_11_pattern(B55, 1, 0, 1, 2) :-
 			helpers:virgin_field(Value12).
 
 % case 3 :: left edge_function, horizontal pattern 1-1, mark below
+% A | 0 | A | A | A
+% A | 0 | A | A | A
+% A | 0 | 1 | 1 | A
+% A | 0 | A | A | x
+% A | 0 | A | A | A
 is_11_pattern(B55, -1, 0, 5, 4) :- 
 			board_edge(B55, 3, 3, -1, 0),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -48,7 +70,13 @@ is_11_pattern(B55, -1, 0, 5, 4) :-
 			helpers:value_eq(Value33, 1), helpers:value_eq(Value43, 1),			
 			helpers:field_value(B55, 5, 4, Value54),
 			helpers:virgin_field(Value54).
+
 % case 4 :: right edge_function, horizontal pattern 1-1, mark below
+% A | A | A | A | A
+% A | A | A | A | A
+% A | 1 | 1 | 0 | A
+% x | A | A | A | A
+% A | A | A | A | A
 is_11_pattern(B55, 1, 0, 1, 4) :-
 			board_edge(B55, 3, 3, 1, 0),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -60,6 +88,11 @@ is_11_pattern(B55, 1, 0, 1, 4) :-
 % ---------------------------- vertical pattern
 
 % case 5 :: above edge_function, vertical pattern 1-1, mark left
+% A | A | A | A | A
+% A | A | 0 | A | A
+% A | A | 1 | A | A
+% A | A | 1 | A | A
+% A | x | A | A | A
 is_11_pattern(B55, 0, -1, 2, 5) :-
 			board_edge(B55, 3, 3, 0, -1),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -69,6 +102,11 @@ is_11_pattern(B55, 0, -1, 2, 5) :-
 			helpers:virgin_field(Value25).
 
 % case 6 :: above edge_function, vertical pattern 1-1, mark right
+% A | A | A | A | A
+% A | A | 0 | A | A
+% A | A | 1 | A | A
+% A | A | 1 | A | A
+% A | A | A | x | A
 is_11_pattern(B55, 0, -1, 4, 5) :-
 			board_edge(B55, 3, 3, 0, -1),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -78,6 +116,11 @@ is_11_pattern(B55, 0, -1, 4, 5) :-
 			helpers:virgin_field(Value45).
 			
 % case 7 :: below edge_function, vertical pattern 1-1, mark left
+% A | x | A | A | A
+% A | A | 1 | A | A
+% A | A | 1 | A | A
+% A | A | 0 | A | A
+% A | A | A | A | A
 is_11_pattern(B55, 0, 1, 2, 1) :-
 			board_edge(B55, 3, 3, 0, 1),
 			helpers:field_value(B55, 3, 3, Value33),
@@ -87,6 +130,11 @@ is_11_pattern(B55, 0, 1, 2, 1) :-
 			helpers:virgin_field(Value21).
 
 % case 8 :: below edge_function, vertical pattern 1-1, mark right
+% A | A | A | x | A
+% A | A | 1 | A | A
+% A | A | 1 | A | A
+% A | A | 0 | A | A
+% A | A | A | A | A
 is_11_pattern(B55, 0, 1, 4, 1) :-
 			board_edge(B55, 3, 3, 0, 1),
 			helpers:field_value(B55, 3, 3, Value33),
