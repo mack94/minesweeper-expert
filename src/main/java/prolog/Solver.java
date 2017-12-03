@@ -56,10 +56,14 @@ public class Solver {
     private List<Solution> callProlog() {
         if(solverInput.containsNumberField()) {
             List<Solution> solutions = new ArrayList<>();
-            if(isMine(solverInput.toString())) {
+            String B55 = solverInput.toString();
+            if(isMine(B55)) {
                 solutions.add(new Solution(3, 3, FieldState.MINE));
             }
-            solutions.addAll(call11Pattern(solverInput.toString()));
+            else if(isSafe(B55)){
+                solutions.add(new Solution(3, 3, FieldState.SAFE));
+            }
+            solutions.addAll(call11Pattern(B55));
             return solutions;
         }
 
@@ -80,14 +84,21 @@ public class Solver {
     }
 
     private boolean isSafe(String B55) {
-        call11Pattern(B55);
-        return false;
+        return callBasicReductionPattern(B55);
     }
 
     private boolean callBasicPattern(String B55) {
         Query q =
                 new Query(
                         String.format("is_virgin_mine_basic_pattern(%s)", B55)
+                );
+        return q.hasSolution();
+    }
+
+    private boolean callBasicReductionPattern(String B55) {
+        Query q =
+                new Query(
+                        String.format("is_virgin_safe_basic_reduction(%s)", B55)
                 );
         return q.hasSolution();
     }
@@ -116,5 +127,13 @@ public class Solver {
             }
         }
         return toRet;
+    }
+
+    public Input getSolverInput() {
+        return solverInput;
+    }
+
+    public void setSolverInput(Input solverInput) {
+        this.solverInput = solverInput;
     }
 }

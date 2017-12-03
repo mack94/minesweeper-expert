@@ -35,7 +35,7 @@ public class Input {
         }
     }
 
-    private int getValueFromArray(int[] array, Integer x, Integer y) {
+    public int getValueFromArray(int[] array, Integer x, Integer y) {
         try{
             if(x >= javaColumnSize) return OUT_OF_BOUNDS_VALUE;
             if(y >= javaRowSize) return OUT_OF_BOUNDS_VALUE;

@@ -138,6 +138,7 @@ public class Board extends JPanel
         field = new int[all_cells];
         display_solved_fields = new FieldState[all_cells];
 
+
         //Assign cover cell image to all cells on the board
         for (i = 0; i < all_cells; i++)
         {
@@ -362,13 +363,26 @@ public class Board extends JPanel
                     int currentX = i;
                     int currentY = j;
 
-                    reduced = reduceField(reduced, i, j);
-                    java.util.List<Solution> solutionList = solver.setInputFromArray(reduced, i, j);
+                    java.util.List<Solution> solutionList = solver.setInputFromArray(field, currentX, currentY);
                     if(solutionList != null) {
                         solutionList.forEach(solution -> {
                             display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] = solution.getFieldState();
                         });
                     }
+                    reduced = reduceField(reduced, i, j);
+                    solutionList = solver.setInputFromArray(reduced, currentX, currentY);
+                    if(solutionList != null) {
+                        solutionList.forEach(solution -> {
+                            {
+                                if(display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] == FieldState.UNKNOWN) {
+                                    display_solved_fields[((currentX+solution.getX()-3) * cols) + (currentY+solution.getY()-3)] = solution.getFieldState();
+                                }
+                            }
+                        });
+                    }
+
+
+
 
                 }
             }
@@ -462,18 +476,21 @@ public class Board extends JPanel
 
     private int[] reduceField(int[] field, int currentX, int currentY) {
 //        check if checked cell contains number of surrounding mines
-        if(special_field_values.contains(field[currentX * cols + currentY])) return field;
+        int checkedFieldValue = solver.getSolverInput().getValueFromArray(field, currentX, currentY);
+        if(display_solved_fields[currentX * cols + currentY] == FieldState.MINE ||
+                 checkedFieldValue > 8) return field;
 
-        List<Integer> roi_region = new ArrayList<>();
-        for(int x = Math.max(currentX - 1, 0); x <= Math.min(currentX + 1, rows - 1 ); x++){
-            for(int y = Math.max(currentY - 1, 0); y <= Math.min(currentY + 1, cols - 1); y++){
-               roi_region.add(field[x * cols + y]);
+        List<FieldState> roi_region = new ArrayList<>();
+        for(int x = Math.max(currentX - 1, 0); x <= Math.min(currentX + 1, cols-1); x++){
+            for(int y = Math.max(currentY - 1, 0); y <= Math.min(currentY + 1, rows-1); y++){
+                roi_region.add(display_solved_fields[x * cols + y]);
             }
         }
 
 //        int near_mines = Collections.frequency(roi_region, MARKED_MINE_CELL);
-        long near_mines = roi_region.stream().filter(e -> e.equals(SOLVED_MINE)).count();
+        long near_mines = roi_region.stream().filter(e -> e.equals(FieldState.MINE)).count();
 
+        System.out.println(String.format("Checking: X: %s Y: %s", currentX, currentY));
         System.out.println("ROI: " + Arrays.toString(roi_region.toArray()) + "Num before: " +  field[currentX * cols + currentY] );
         field[currentX * cols + currentY] -= near_mines;
         System.out.println("Num after: " + field[currentX * cols + currentY]);
